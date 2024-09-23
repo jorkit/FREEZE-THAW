@@ -1,0 +1,12 @@
+[gd_scene load_steps=4 format=3 uid="uid://b68hp1u4g5lq6"]
+
+[ext_resource type="Texture2D" uid="uid://cm57d6pgjj4kj" path="res://Static/UI/摇杆2.webp" id="1_7gugj"]
+[ext_resource type="Texture2D" uid="uid://dl7f4lv0k4n05" path="res://Static/UI/摇杆.webp" id="2_2ckt0"]
+[ext_resource type="Script" path="res://Scripts/UI/Joystick.cs" id="2_guig2"]
+
+[node name="Joystick" type="Sprite2D"]
+texture = ExtResource("1_7gugj")
+script = ExtResource("2_guig2")
+
+[node name="Point" type="Sprite2D" parent="."]
+texture = ExtResource("2_2ckt0")

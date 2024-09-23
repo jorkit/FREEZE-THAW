@@ -1,0 +1,62 @@
+[gd_scene load_steps=9 format=3 uid="uid://bku8x2jitqnpb"]
+
+[ext_resource type="Script" path="res://Scripts/Characters/Monsters/Monster.cs" id="1_fxy0h"]
+[ext_resource type="Texture2D" uid="uid://cf0adrmuibiil" path="res://Static/Animates/Adonis_boss.png" id="2_4wceb"]
+[ext_resource type="PackedScene" uid="uid://bpw8qjc7i8avl" path="res://Scenes/Characters/FSM.tscn" id="3_euy1q"]
+[ext_resource type="Script" path="res://Scripts/Characters/RadiusCheck.cs" id="4_s8dk5"]
+[ext_resource type="Texture2D" uid="uid://cm57d6pgjj4kj" path="res://Static/UI/摇杆2.webp" id="8_fc5o2"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_m3hym"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_4wceb")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_sr137"]
+radius = 40.0
+height = 128.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_bgm8x"]
+radius = 136.0
+
+[node name="Monster" type="CharacterBody2D"]
+script = ExtResource("1_fxy0h")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(8, -3.78127)
+scale = Vector2(0.112097, 0.117045)
+sprite_frames = SubResource("SpriteFrames_m3hym")
+autoplay = "default"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_sr137")
+
+[node name="FSM" parent="." instance=ExtResource("3_euy1q")]
+
+[node name="Camera2D" type="Camera2D" parent="."]
+process_callback = 0
+limit_left = -10
+limit_top = -10
+limit_right = 3272
+limit_bottom = 2088
+position_smoothing_enabled = true
+position_smoothing_speed = 2.0
+drag_horizontal_enabled = true
+drag_vertical_enabled = true
+editor_draw_limits = true
+
+[node name="RadiusCheck" type="Area2D" parent="."]
+script = ExtResource("4_s8dk5")
+
+[node name="CollisionPolygon2D" type="CollisionShape2D" parent="RadiusCheck"]
+shape = SubResource("CircleShape2D_bgm8x")
+
+[node name="Sprite2D" type="Sprite2D" parent="RadiusCheck"]
+position = Vector2(0, -6.10352e-05)
+scale = Vector2(1.89643, 1.89643)
+texture = ExtResource("8_fc5o2")

@@ -1,0 +1,8 @@
+[gd_scene load_steps=3 format=3 uid="uid://gcacb65ttmru"]
+
+[ext_resource type="Texture2D" uid="uid://cm57d6pgjj4kj" path="res://Static/UI/摇杆2.webp" id="1_mybtv"]
+[ext_resource type="Script" path="res://Scripts/UI/Buttons/FreezeThawButton.cs" id="2_psph6"]
+
+[node name="FreeThawButton" type="TouchScreenButton"]
+texture_normal = ExtResource("1_mybtv")
+script = ExtResource("2_psph6")

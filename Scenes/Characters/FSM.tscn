@@ -1,0 +1,46 @@
+[gd_scene load_steps=12 format=3 uid="uid://bpw8qjc7i8avl"]
+
+[ext_resource type="Script" path="res://Scripts/FSMs/FSM.cs" id="1_w2vk2"]
+[ext_resource type="Script" path="res://Scripts/FSMs/Idle.cs" id="2_espkp"]
+[ext_resource type="Script" path="res://Scripts/FSMs/Run.cs" id="3_m0hol"]
+[ext_resource type="Script" path="res://Scripts/FSMs/Attack.cs" id="4_kyvux"]
+[ext_resource type="Script" path="res://Scripts/FSMs/Armor.cs" id="5_0sbkm"]
+[ext_resource type="Script" path="res://Scripts/FSMs/Freezing.cs" id="5_8xan6"]
+[ext_resource type="Script" path="res://Scripts/FSMs/Thaw.cs" id="6_ag6hf"]
+[ext_resource type="Script" path="res://Scripts/FSMs/Freezed.cs" id="6_b2eeo"]
+[ext_resource type="Script" path="res://Scripts/FSMs/Seal.cs" id="7_cr8nh"]
+[ext_resource type="Script" path="res://Scripts/FSMs/Hurt.cs" id="8_isv1f"]
+[ext_resource type="Script" path="res://Scripts/FSMs/Free.cs" id="11_xyo6r"]
+
+[node name="FSM" type="Node"]
+script = ExtResource("1_w2vk2")
+
+[node name="Idle" type="Node" parent="."]
+script = ExtResource("2_espkp")
+
+[node name="Run" type="Node" parent="."]
+script = ExtResource("3_m0hol")
+
+[node name="Attack" type="Node" parent="."]
+script = ExtResource("4_kyvux")
+
+[node name="Armor" type="Node" parent="."]
+script = ExtResource("5_0sbkm")
+
+[node name="Hurt" type="Node" parent="."]
+script = ExtResource("8_isv1f")
+
+[node name="Freezing" type="Node" parent="."]
+script = ExtResource("5_8xan6")
+
+[node name="Freezed" type="Node" parent="."]
+script = ExtResource("6_b2eeo")
+
+[node name="Thaw" type="Node" parent="."]
+script = ExtResource("6_ag6hf")
+
+[node name="Seal" type="Node" parent="."]
+script = ExtResource("7_cr8nh")
+
+[node name="Free" type="Node" parent="."]
+script = ExtResource("11_xyo6r")

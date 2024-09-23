@@ -1,0 +1,40 @@
+[gd_scene load_steps=10 format=3 uid="uid://bg86xfrruprg1"]
+
+[ext_resource type="Script" path="res://Scripts/Main.cs" id="1_qbf31"]
+[ext_resource type="PackedScene" uid="uid://bcbregods38kb" path="res://Scenes/Background.tscn" id="1_tmo7g"]
+[ext_resource type="PackedScene" uid="uid://bku8x2jitqnpb" path="res://Scenes/Characters/Monsters/Monster.tscn" id="2_2moyb"]
+[ext_resource type="PackedScene" uid="uid://csvqs6dr8o8bi" path="res://Scenes/Characters/Survivors/Survivor.tscn" id="2_vc7h7"]
+[ext_resource type="PackedScene" uid="uid://ct2cfsqcpvknn" path="res://Scenes/UI/UiContainer.tscn" id="4_boomi"]
+[ext_resource type="PackedScene" uid="uid://b68hp1u4g5lq6" path="res://Scenes/UI/Joystick.tscn" id="5_ct6hy"]
+[ext_resource type="PackedScene" uid="uid://bikpmolu0bnwj" path="res://Scenes/UI/Buttons/AttackButton.tscn" id="7_nw6wc"]
+[ext_resource type="PackedScene" uid="uid://gcacb65ttmru" path="res://Scenes/UI/Buttons/FreezeThawButton.tscn" id="9_lujrp"]
+[ext_resource type="Script" path="res://Scripts/Manager.cs" id="9_lxviw"]
+
+[node name="Main" type="Node2D"]
+script = ExtResource("1_qbf31")
+
+[node name="Manager" type="Node" parent="."]
+script = ExtResource("9_lxviw")
+
+[node name="Background" parent="." instance=ExtResource("1_tmo7g")]
+
+[node name="Survivors" type="Node" parent="."]
+
+[node name="Survivor" parent="Survivors" instance=ExtResource("2_vc7h7")]
+position = Vector2(536, 304)
+
+[node name="Monster" parent="." instance=ExtResource("2_2moyb")]
+position = Vector2(304, 256)
+
+[node name="UiContainer" parent="." instance=ExtResource("4_boomi")]
+
+[node name="Joystick" parent="UiContainer" instance=ExtResource("5_ct6hy")]
+position = Vector2(249, 513)
+scale = Vector2(1.47143, 1.47143)
+
+[node name="AttackButton" parent="UiContainer" instance=ExtResource("7_nw6wc")]
+position = Vector2(736, 384)
+scale = Vector2(1.71429, 1.71429)
+
+[node name="FreezeThawButton" parent="UiContainer" instance=ExtResource("9_lujrp")]
+position = Vector2(960, 240)
