@@ -1,6 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://ct2cfsqcpvknn"]
-
-[ext_resource type="Script" path="res://Scripts/UI/UiContainer.cs" id="1_1sti2"]
-
-[node name="UiContainer" type="CanvasLayer"]
-script = ExtResource("1_1sti2")

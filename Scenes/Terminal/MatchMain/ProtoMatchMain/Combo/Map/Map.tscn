@@ -1,0 +1,18 @@
+[gd_scene load_steps=4 format=3 uid="uid://p2nwib3tqoel"]
+
+[ext_resource type="PackedScene" uid="uid://2xjdcax4j72p" path="res://Scenes/Terminal/MatchMain/ProtoMatchMain/Combo/Map/Unit/StaticImage.tscn" id="1_iubx4"]
+[ext_resource type="PackedScene" uid="uid://bda2noyvrayfn" path="res://Scenes/Terminal/MatchMain/ProtoMatchMain/Combo/Map/Unit/Boundary.tscn" id="2_ysiwk"]
+[ext_resource type="PackedScene" uid="uid://bkwl01fydqh0b" path="res://Scenes/Terminal/MatchMain/ProtoMatchMain/Combo/Map/Unit/Obstacle.tscn" id="3_kfbmn"]
+
+[node name="Map" type="Node2D"]
+
+[node name="StaticImage" parent="." instance=ExtResource("1_iubx4")]
+scale = Vector2(1.2, 1.2)
+
+[node name="Boundary" parent="." instance=ExtResource("2_ysiwk")]
+position = Vector2(-1616, -944)
+scale = Vector2(2.8, 2.8)
+
+[node name="Obstacle" parent="." instance=ExtResource("3_kfbmn")]
+position = Vector2(-360, -48)
+scale = Vector2(3, 3)

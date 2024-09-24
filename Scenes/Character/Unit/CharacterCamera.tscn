@@ -1,0 +1,9 @@
+[gd_scene format=3 uid="uid://2toocttgi3dx"]
+
+[node name="Camera2D" type="Camera2D"]
+process_callback = 0
+position_smoothing_enabled = true
+position_smoothing_speed = 2.0
+drag_horizontal_enabled = true
+drag_vertical_enabled = true
+editor_draw_limits = true

@@ -1,0 +1,49 @@
+[gd_scene load_steps=11 format=3 uid="uid://b7tgl6foff0el"]
+
+[ext_resource type="Texture2D" uid="uid://cf0adrmuibiil" path="res://Static/Animations/Character/Monsters/Sandworm/Adonis_boss.png" id="1_3jexv"]
+[ext_resource type="Script" path="res://Scripts/Character/Monsters/Sandworm/Sandworm.cs" id="1_omcwu"]
+[ext_resource type="PackedScene" uid="uid://deqsnwihsugpv" path="res://Scenes/Character/Unit/RadiusCheck.tscn" id="2_po12i"]
+[ext_resource type="PackedScene" uid="uid://2toocttgi3dx" path="res://Scenes/Character/Unit/CharacterCamera.tscn" id="3_yfbfi"]
+[ext_resource type="PackedScene" uid="uid://8qemlyfupy68" path="res://Scenes/Character/Unit/UIContainer/UIContainer.tscn" id="5_ccx5c"]
+[ext_resource type="PackedScene" uid="uid://b0okuny548l7j" path="res://Scenes/Character/Monsters/Sandworm/FSMStates/SandwormRun.tscn" id="6_37u4t"]
+[ext_resource type="PackedScene" uid="uid://b8bjf4yiby1fb" path="res://Scenes/Character/Unit/FSM.tscn" id="6_bmwxt"]
+[ext_resource type="PackedScene" uid="uid://b1r1cygbd47lk" path="res://Scenes/Character/Monsters/Sandworm/FSMStates/SandwormIdle.tscn" id="7_nq83c"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_6o4j5"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_3jexv")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_pnk0x"]
+radius = 40.0
+height = 128.0
+
+[node name="Sandworm" type="CharacterBody2D"]
+script = ExtResource("1_omcwu")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(8, -3.78127)
+scale = Vector2(0.112097, 0.117045)
+sprite_frames = SubResource("SpriteFrames_6o4j5")
+autoplay = "default"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_pnk0x")
+
+[node name="Camera2D" parent="." instance=ExtResource("3_yfbfi")]
+
+[node name="UIContainer" parent="." instance=ExtResource("5_ccx5c")]
+
+[node name="FSM" parent="." instance=ExtResource("6_bmwxt")]
+
+[node name="SandwormIdle" parent="FSM" instance=ExtResource("7_nq83c")]
+
+[node name="SandwormRun" parent="FSM" instance=ExtResource("6_37u4t")]
+
+[node name="RadiusCheck" parent="." instance=ExtResource("2_po12i")]

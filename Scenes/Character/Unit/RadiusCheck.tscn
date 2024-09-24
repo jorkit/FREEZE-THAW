@@ -1,0 +1,17 @@
+[gd_scene load_steps=4 format=3 uid="uid://deqsnwihsugpv"]
+
+[ext_resource type="Script" path="res://Scripts/Character/Unit/RadiusCheck.cs" id="1_setti"]
+[ext_resource type="Texture2D" uid="uid://cm57d6pgjj4kj" path="res://Static/UI/Joystick/摇杆2.webp" id="2_xr8fe"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_s0tml"]
+radius = 152.0
+
+[node name="RadiusCheck" type="Area2D"]
+script = ExtResource("1_setti")
+
+[node name="CollisionPolygon2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_s0tml")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(2.2, 2.14286)
+texture = ExtResource("2_xr8fe")

@@ -1,0 +1,9 @@
+[gd_scene format=3 uid="uid://bkwl01fydqh0b"]
+
+[node name="Obstacle" type="StaticBody2D"]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+polygon = PackedVector2Array(0, -24, -8, -24, -16, -16, -32, -16, -32, -8, -32, 8, -16, 16, 24, 24, 48, 16, 48, 8, 56, -8, 56, -24, 40, -32, 16, -24, 8, -24)
+
+[node name="Sprite2D" type="Polygon2D" parent="."]
+polygon = PackedVector2Array(0, -24, -8, -24, -16, -16, -32, -16, -32, 8, -16, 16, 24, 24, 48, 16, 48, 8, 56, -8, 56, -24, 40, -32, 16, -24)

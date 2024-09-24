@@ -1,13 +1,14 @@
 ﻿using Godot;
 using System;
+using FreezeThaw.Utils;
 
 public partial class Joystick : Sprite2D
 {
     private static Sprite2D _point;// 声明一个Sprite2D类型的私有变量_point（圆点）
-	private Character _character;
     private byte _maxlen;// 声明一个byte类型的私有变量maxlen并赋值为70
 	private sbyte _index;
     private sbyte _ondraging;// 声明一个sbyte类型的私有变量并赋值为-1
+    private UIContainer _uiContainer;
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
@@ -16,15 +17,15 @@ public partial class Joystick : Sprite2D
 		_maxlen = 70;
 		_index = 0;
 		_ondraging = -1;
+        _uiContainer = GetParentOrNull<UIContainer>();
+        if (_uiContainer == null)
+        {
+            LogTool.DebugLogDump("UIContainer not found!");
+        }
         _point = GetNodeOrNull<Sprite2D>("Point");
         if (_point == null)
         {
-            GD.Print("Point not found!");
-        }
-        _character = Manager.Player;
-        if (_character == null)
-        {
-            GD.Print("Character not found!");
+            LogTool.DebugLogDump("Point not found!");
         }
     }
 
@@ -54,7 +55,6 @@ public partial class Joystick : Sprite2D
 			
 			if (mouseposition <= _maxlen || _index == _ondraging) // 如果距离小于等于最大长度或者索引值相等
 			{
-                FSMState.CharacterStateChange(_character, FSMState.CharacterStateEnum.Run);
                 _ondraging = _index;// 记录点触索引值防止多指影响触控
 				_point.GlobalPosition = mousebutton;// 更新_point（圆点）的全局位置
 				if (_point.Position.Length() > _maxlen)// 如果_point（圆点）的位置长度大于最大长度
@@ -70,7 +70,7 @@ public partial class Joystick : Sprite2D
         if (@event is InputEventScreenTouch && @event.IsPressed() && _ondraging == -1)
         {
             Vector2 tmp_vec = (Vector2)@event.Get("position");
-            if (tmp_vec.X > Manager.windowSize.X/2 || tmp_vec.X < Manager.windowSize.X/15 || tmp_vec.Y < Manager.windowSize.Y/8 || tmp_vec.Y > Manager.windowSize.Y * 9/10)
+            if (tmp_vec.X > BigBro.windowSize.X/2 || tmp_vec.X < BigBro.windowSize.X/15 || tmp_vec.Y < BigBro.windowSize.Y/8 || tmp_vec.Y > BigBro.windowSize.Y * 9/10)
             {
                 return;
             }
@@ -89,7 +89,6 @@ public partial class Joystick : Sprite2D
             Visible = false;
             _ondraging = -1;
             CreateTween().TweenProperty(_point, "position", new Vector2(0, 0), 0.1).SetTrans(Tween.TransitionType.Linear);
-            FSMState.CharacterStateChange(_character, FSMState.CharacterStateEnum.Idle);
         }
     }
 

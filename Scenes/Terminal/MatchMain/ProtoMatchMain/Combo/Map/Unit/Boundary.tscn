@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://bda2noyvrayfn"]
+
+[node name="Boundary" type="Area2D"]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+position = Vector2(-19.2906, -44.4843)
+scale = Vector2(1.03051, 1.18042)
+polygon = PackedVector2Array(0, 0, 1152, 0, 1152, 648, 0, 648, 0, 8, -64, 8, -72, 696, 1216, 704, 1216, -64, 0, -64)

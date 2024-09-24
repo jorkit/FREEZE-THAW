@@ -1,0 +1,13 @@
+[gd_scene load_steps=4 format=3 uid="uid://bgxf73c8v23vx"]
+
+[ext_resource type="PackedScene" uid="uid://bxp6kssa36qj0" path="res://Scenes/Terminal/MatchMain/ProtoMatchMain/Combo/Background/Background.tscn" id="1_7w3cf"]
+[ext_resource type="PackedScene" uid="uid://p2nwib3tqoel" path="res://Scenes/Terminal/MatchMain/ProtoMatchMain/Combo/Map/Map.tscn" id="2_ocdbd"]
+[ext_resource type="PackedScene" uid="uid://b25efbwrx4pqb" path="res://Scenes/Terminal/MatchMain/ProtoMatchMain/Combo/Players/Players.tscn" id="4_rohlh"]
+
+[node name="ProtoMatchMain" type="Node"]
+
+[node name="Background" parent="." instance=ExtResource("1_7w3cf")]
+
+[node name="Map" parent="." instance=ExtResource("2_ocdbd")]
+
+[node name="Players" parent="." instance=ExtResource("4_rohlh")]

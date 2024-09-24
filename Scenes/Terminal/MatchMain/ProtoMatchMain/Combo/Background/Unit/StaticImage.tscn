@@ -1,0 +1,3 @@
+[gd_scene format=3 uid="uid://pwjy622tsiuf"]
+
+[node name="StaticImage" type="Sprite2D"]

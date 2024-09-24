@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://b8bjf4yiby1fb"]
+
+[ext_resource type="Script" path="res://Scripts/Character/Unit/FSM.cs" id="1_57uc3"]
+
+[node name="FSM" type="Node"]
+script = ExtResource("1_57uc3")
