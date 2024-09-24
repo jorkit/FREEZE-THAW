@@ -16,25 +16,36 @@ public partial class SandwormDie : FSMState
 
     public override void Update(double delta)
     {
-
+        /* During Hurt, Monster can Changed state */
+        if (true)
+        {
+            LogTool.DebugLogDump(Name + " Dying play");
+            return;
+        }
+        LogTool.DebugLogDump(Name + " Dead play");
     }
 
     public override bool EnterCondition()
     {
-        return false;
-        LogTool.DebugLogDump("Armor EnterCondition!");
+        if (Fsm.PreState != CharacterStateEnum.Die)
+        {
+            return false;
+        }
+        LogTool.DebugLogDump(Name + " EnterCondition");
+
+        return true;
     }
     public override void OnEnter()
     {
-        LogTool.DebugLogDump("Armor OnEnter!");
+        LogTool.DebugLogDump(Name + " OnEnter!");
     }
     public override bool ExitCondition()
     {
-        LogTool.DebugLogDump("Armor ExitCondition!");
-        return true;
+        /* Die is the last state */
+        return false;
     }
     public override void OnExit()
     {
-        LogTool.DebugLogDump("Armor OnExit!");
+        return;
     }
 }

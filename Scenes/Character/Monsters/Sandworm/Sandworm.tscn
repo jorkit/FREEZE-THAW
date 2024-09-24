@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://b7tgl6foff0el"]
+[gd_scene load_steps=16 format=3 uid="uid://b7tgl6foff0el"]
 
 [ext_resource type="Texture2D" uid="uid://cf0adrmuibiil" path="res://Static/Animations/Character/Monsters/Sandworm/Adonis_boss.png" id="1_3jexv"]
 [ext_resource type="Script" path="res://Scripts/Character/Monsters/Sandworm/Sandworm.cs" id="1_omcwu"]
@@ -8,6 +8,11 @@
 [ext_resource type="PackedScene" uid="uid://b0okuny548l7j" path="res://Scenes/Character/Monsters/Sandworm/FSMStates/SandwormRun.tscn" id="6_37u4t"]
 [ext_resource type="PackedScene" uid="uid://b8bjf4yiby1fb" path="res://Scenes/Character/Unit/FSM.tscn" id="6_bmwxt"]
 [ext_resource type="PackedScene" uid="uid://b1r1cygbd47lk" path="res://Scenes/Character/Monsters/Sandworm/FSMStates/SandwormIdle.tscn" id="7_nq83c"]
+[ext_resource type="PackedScene" uid="uid://b1g37dkjwm7fo" path="res://Scenes/Character/Monsters/Sandworm/FSMStates/SandwormAttack.tscn" id="8_qdsvn"]
+[ext_resource type="PackedScene" uid="uid://daw84g1sduxe4" path="res://Scenes/Character/Monsters/Sandworm/FSMStates/SandwormArmor.tscn" id="9_ffg7y"]
+[ext_resource type="PackedScene" uid="uid://v4slkwr07ibm" path="res://Scenes/Character/Monsters/Sandworm/FSMStates/SandwormHurt.tscn" id="10_tq0es"]
+[ext_resource type="PackedScene" uid="uid://1mye3ht6j4wt" path="res://Scenes/Character/Monsters/Sandworm/FSMStates/SandwormDie.tscn" id="12_1t0w8"]
+[ext_resource type="PackedScene" uid="uid://bdqktn0lkfdw3" path="res://Scenes/Character/Monsters/Sandworm/FSMStates/SandwormSealing.tscn" id="12_qp3rd"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_6o4j5"]
 animations = [{
@@ -45,5 +50,15 @@ shape = SubResource("CapsuleShape2D_pnk0x")
 [node name="SandwormIdle" parent="FSM" instance=ExtResource("7_nq83c")]
 
 [node name="SandwormRun" parent="FSM" instance=ExtResource("6_37u4t")]
+
+[node name="SandwormAttack" parent="FSM" instance=ExtResource("8_qdsvn")]
+
+[node name="SandwormArmor" parent="FSM" instance=ExtResource("9_ffg7y")]
+
+[node name="SandwormHurt" parent="FSM" instance=ExtResource("10_tq0es")]
+
+[node name="SandwormSealing" parent="FSM" instance=ExtResource("12_qp3rd")]
+
+[node name="SandwormDie" parent="FSM" instance=ExtResource("12_1t0w8")]
 
 [node name="RadiusCheck" parent="." instance=ExtResource("2_po12i")]

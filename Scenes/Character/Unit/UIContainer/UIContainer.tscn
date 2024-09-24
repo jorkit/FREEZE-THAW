@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://8qemlyfupy68"]
+[gd_scene load_steps=6 format=3 uid="uid://8qemlyfupy68"]
 
 [ext_resource type="Script" path="res://Scripts/Character/Unit/UIContainer.cs" id="1_ocmyj"]
 [ext_resource type="PackedScene" uid="uid://db0y3e316xacc" path="res://Scenes/Character/Unit/UIContainer/Unit/Joystick.tscn" id="1_s1e6p"]
 [ext_resource type="PackedScene" uid="uid://c1fo6oja87mi4" path="res://Scenes/Character/Unit/UIContainer/Unit/AttackButton.tscn" id="2_p8t1j"]
 [ext_resource type="PackedScene" uid="uid://7alkwyiu7sa" path="res://Scenes/Character/Unit/UIContainer/Unit/FreezeThawButton.tscn" id="3_c0frb"]
+[ext_resource type="Script" path="res://Scripts/UI/Buttons/AttackButton.cs" id="4_xw4bb"]
 
 [node name="UIContainer" type="CanvasLayer"]
 script = ExtResource("1_ocmyj")
@@ -13,6 +14,7 @@ position = Vector2(222, 459)
 
 [node name="AttackButton" parent="." instance=ExtResource("2_p8t1j")]
 position = Vector2(840, 440)
+script = ExtResource("4_xw4bb")
 
 [node name="FreezeThawButton" parent="." instance=ExtResource("3_c0frb")]
 position = Vector2(952, 272)

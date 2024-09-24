@@ -16,6 +16,13 @@ public partial class SandwormHurt : FSMState
 
     public override void Update(double delta)
     {
+        /* During Hurt, Monster can Changed state */
+        if (true)
+        {
+            LogTool.DebugLogDump(Name + " Hurt play");
+            return;
+        }
+        ((Monster)Fsm.character).Hurting = false;
     }
 
     public override bool EnterCondition()
@@ -26,7 +33,8 @@ public partial class SandwormHurt : FSMState
         }
         LogTool.DebugLogDump(Name + " EnterCondition");
 
-        return true;
+        /* Hurt return false forever */
+        return false;
     }
     public override void OnEnter()
     {

@@ -32,11 +32,20 @@ public abstract partial class Character : CharacterBody2D
             FSM.PreStateChange(_fsm, CharacterStateEnum.Run, false);
         }
         /* If a is stationary and CurrentState is less than Run, set Idle state force */
-        else if (_fsm.CurrentState.StateIndex <= CharacterStateEnum.Run)
+        else if (_fsm.PreState <= CharacterStateEnum.Run)
         {
             FSM.PreStateChange(_fsm, CharacterStateEnum.Idle, true);
         }
     }
 
     public abstract Vector2 GetDirection();
+    public CharacterStateEnum GetCurrentState()
+    {
+        return _fsm.CurrentState.StateIndex;
+    }
+
+    public void AttackButtonPressedHandle()
+    {
+        FSM.PreStateChange(_fsm, CharacterStateEnum.Attack, false);
+    }
 }

@@ -16,25 +16,40 @@ public partial class SandwormAttack : FSMState
 
     public override void Update(double delta)
     {
-
+        if (true)
+        {
+            LogTool.DebugLogDump(Name + " Attack play");
+            //return;
+        }
+        FSM.PreStateChange(Fsm, CharacterStateEnum.Idle, true);
     }
 
     public override bool EnterCondition()
     {
-        return false;
-        LogTool.DebugLogDump("Attack EnterCondition!");
+        if (Fsm.PreState != CharacterStateEnum.Attack)
+        {
+            return false;
+        }
+        LogTool.DebugLogDump(Name + " EnterCondition!");
+
+        return true;
     }
     public override void OnEnter()
 	{
-		LogTool.DebugLogDump("Attack OnEnter!");
+        LogTool.DebugLogDump(Name + " Attack OnEnter!");
 	}
     public override bool ExitCondition()
     {
-        LogTool.DebugLogDump("Attack ExitCondition!");
+        if (Fsm.PreState == CharacterStateEnum.Attack)
+        {
+            return false;
+        }
+        LogTool.DebugLogDump(Name + " Attack ExitCondition!");
+
         return true;
     }
     public override void OnExit()
     {
-        LogTool.DebugLogDump("Attack OnExit!");
+        LogTool.DebugLogDump(Name + " Attack OnExit!");
     }
 }

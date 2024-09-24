@@ -17,25 +17,43 @@ public partial class SandwormArmor : FSMState
 
     public override void Update(double delta)
     {
-
+        /* During Armor, Monster can't be Changed state until Die */
+        if (true)
+        {
+            LogTool.DebugLogDump(Name + " Attack play");
+            FSM.PreStateChange(Fsm, CharacterStateEnum.Armor, true);
+            //return;
+        }
+        FSM.PreStateChange(Fsm, CharacterStateEnum.Idle, true);
     }
 
     public override bool EnterCondition()
     {
-        return false;
-        LogTool.DebugLogDump("Armor EnterCondition!");
+        if (Fsm.PreState != CharacterStateEnum.Armor)
+        {
+            return false;
+        }
+        LogTool.DebugLogDump(Name + " EnterCondition!");
+
+        return true;
     }
     public override void OnEnter()
     {
-        LogTool.DebugLogDump("Armor OnEnter!");
+
+        LogTool.DebugLogDump(Name + " Attack OnEnter!");
     }
     public override bool ExitCondition()
     {
-        LogTool.DebugLogDump("Armor ExitCondition!");
+        if (Fsm.PreState == CharacterStateEnum.Armor)
+        {
+            return false;
+        }
+        LogTool.DebugLogDump(Name + " Attack ExitCondition!");
+
         return true;
     }
     public override void OnExit()
     {
-        LogTool.DebugLogDump("Armor OnExit!");
+        LogTool.DebugLogDump(Name + " Attack OnExit!");
     }
 }

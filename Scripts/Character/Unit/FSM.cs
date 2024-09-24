@@ -21,7 +21,7 @@ public enum CharacterStateEnum
 };
 public partial class FSM : Node
 {
-    private NodePath InitState;
+    private CharacterStateEnum InitState;
     public FSMState CurrentState { set; get; }
     public CharacterStateEnum PreState { set; get; }
     public Character character;
@@ -34,7 +34,7 @@ public partial class FSM : Node
             LogTool.DebugLogDump("Character not found!");
             return;
         }
-        InitState = "Idle";
+        InitState = CharacterStateEnum.Idle;
         SetInitState();
     }
 
@@ -53,6 +53,18 @@ public partial class FSM : Node
         if (CurrentState != null)
         {
             CurrentState.Update(delta);
+            /* Monster can also operate during getting hurt, just add some Animation*/
+            if (character.GetType().BaseType == typeof(Monster) && ((Monster)character).Hurting == true)
+            {
+                var states = GetChildren();
+                foreach (FSMState state in states)
+                {
+                    if (state.StateIndex == CharacterStateEnum.Hurt)
+                    {
+                        state.Update(delta);
+                    }
+                }
+            }
             CheckStateTransition();
         }
         else
@@ -61,103 +73,101 @@ public partial class FSM : Node
         }
     }
 
-    public static void PreStateChange(FSM fsm, CharacterStateEnum preState, bool force)
+    /* Presate change, wait for CurrentState change */
+    public static void PreStateChange(FSM fsm, CharacterStateEnum newPreState, bool force)
     {
         if (fsm == null)
         {
             LogTool.DebugLogDump("FSM not found!");
             return;
         }
-        if (force == true)
+        if (force == true && fsm.CurrentState.StateIndex != CharacterStateEnum.Die)
         {
-            fsm.PreState = preState;
+            LogTool.DebugLogDump("Force Change To " + newPreState.ToString());
+            fsm.PreState = newPreState;
             return;
         }
-        switch (preState)
+        switch (newPreState)
         {
             case CharacterStateEnum.Idle:
             case CharacterStateEnum.Run:
             case CharacterStateEnum.Attack:
             case CharacterStateEnum.Armor:
             case CharacterStateEnum.Hurt:
-                if (preState > fsm.PreState)
+                if (newPreState > fsm.PreState)
                 {
-                    fsm.PreState = preState;
+                    fsm.PreState = newPreState;
                 }
                 break;
             case CharacterStateEnum.Freezing:
                 if (fsm.CurrentState.StateIndex < CharacterStateEnum.Attack)
                 {
-                    fsm.PreState = preState;
+                    fsm.PreState = newPreState;
                 }
                 break;
             case CharacterStateEnum.Freezed:
                 if (fsm.CurrentState.StateIndex == CharacterStateEnum.Freeing)
                 {
-                    fsm.PreState = preState;
+                    fsm.PreState = newPreState;
                 }
                 break;
             case CharacterStateEnum.Thawing:
                 if (fsm.CurrentState.StateIndex == CharacterStateEnum.Freezed)
                 {
-                    fsm.PreState = preState;
+                    fsm.PreState = newPreState;
                 }
                 break;
             case CharacterStateEnum.Sealing:
                 if (fsm.CurrentState.StateIndex < CharacterStateEnum.Attack)
                 {
-                    fsm.PreState = preState;
+                    fsm.PreState = newPreState;
                 }
                 break;
             case CharacterStateEnum.Sealed:
                 if (fsm.CurrentState.StateIndex == CharacterStateEnum.Freezed)
                 {
-                    fsm.PreState = preState;
+                    fsm.PreState = newPreState;
                 }
                 break;
             case CharacterStateEnum.Unsealing:
                 if (fsm.CurrentState.StateIndex == CharacterStateEnum.Sealed)
                 {
-                    fsm.PreState = preState;
+                    fsm.PreState = newPreState;
                 }
                 break;
             case CharacterStateEnum.Freeing:
                 if (fsm.CurrentState.StateIndex < CharacterStateEnum.Attack)
                 {
-                    fsm.PreState = preState;
+                    fsm.PreState = newPreState;
                 }
                 break;
             case CharacterStateEnum.Die:
-                fsm.PreState = preState;
+                fsm.PreState = newPreState;
                 break;
         }
     }
 
     private void SetInitState()
     {
-        var validStates = GetChildren();
-        if (validStates.Count <= 0)
+        var count = GetChildCount();
+
+        while (count > 0)
         {
-            LogTool.DebugLogDump("ValidStates not found!");
-            return;
-        }
-        foreach (FSMState validState in validStates)
-        {
-            if (validState.StateIndex == CharacterStateEnum.Idle)
+            FSMState state = GetChild<FSMState>(--count);
+            LogTool.DebugLogDump(state.Name);
+            if (state.StateIndex == InitState)
             {
-                CurrentState = validState;
+                CurrentState = state;
+                CurrentState.OnEnter();
+                return;
             }
         }
-        if (CurrentState != null)
-        {
-            CurrentState.OnEnter();
-        }
-        else
-        {
-            LogTool.DebugLogDump("No init state found!");
-        }
+         LogTool.DebugLogDump("No init state found!");
     }
 
+    /// <summary>
+    /// Check condition and transition ready state
+    /// </summary>
     private void CheckStateTransition()
     {
         var count = GetChildCount();
@@ -174,8 +184,8 @@ public partial class FSM : Node
                         CurrentState.OnExit();
                         CurrentState = state;
                         CurrentState.OnEnter();
+                        count = -1;
                     }
-                    count = -1;
                 }
             }
         }
