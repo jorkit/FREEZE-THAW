@@ -18,6 +18,9 @@ public partial class FreezeThawButton : TouchScreenButton
         }
         CanPress = false;
         Pressed += PressedHandler;
+
+        /* set the position according to WindowSize */
+        Position = new Vector2(BigBro.windowSize.X * 13 / 15, BigBro.windowSize.Y * 1 / 2);
     }
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.

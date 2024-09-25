@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=3 uid="uid://dpblqudthbmra"]
+
+[ext_resource type="PackedScene" uid="uid://co0w7rlloo5op" path="res://Scenes/Terminal/GameOpenLoading/Combo/Background/Background.tscn" id="1_4vw84"]
+[ext_resource type="Script" path="res://Scripts/Scene/GameOpenLoading.cs" id="1_n5exu"]
+
+[node name="GameOpenLoading" type="Node"]
+script = ExtResource("1_n5exu")
+
+[node name="Background" parent="." instance=ExtResource("1_4vw84")]

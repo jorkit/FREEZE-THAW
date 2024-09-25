@@ -24,6 +24,7 @@ public partial class FSM : Node
     private CharacterStateEnum InitState;
     public FSMState CurrentState { set; get; }
     public CharacterStateEnum PreState { set; get; }
+
     public Character character;
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
@@ -36,6 +37,23 @@ public partial class FSM : Node
         }
         InitState = CharacterStateEnum.Idle;
         SetInitState();
+    }
+
+    private void SetInitState()
+    {
+        var count = GetChildCount();
+
+        while (count > 0)
+        {
+            FSMState state = GetChild<FSMState>(--count);
+            if (state.StateIndex == InitState)
+            {
+                CurrentState = state;
+                CurrentState.OnEnter();
+                return;
+            }
+        }
+        LogTool.DebugLogDump("No init state found!");
     }
 
     private void RemoveSelf()
@@ -73,7 +91,7 @@ public partial class FSM : Node
         }
     }
 
-    /* Presate change, wait for CurrentState change */
+    /* Prestate change, wait for CurrentState change */
     public static void PreStateChange(FSM fsm, CharacterStateEnum newPreState, bool force)
     {
         if (fsm == null)
@@ -147,24 +165,6 @@ public partial class FSM : Node
         }
     }
 
-    private void SetInitState()
-    {
-        var count = GetChildCount();
-
-        while (count > 0)
-        {
-            FSMState state = GetChild<FSMState>(--count);
-            LogTool.DebugLogDump(state.Name);
-            if (state.StateIndex == InitState)
-            {
-                CurrentState = state;
-                CurrentState.OnEnter();
-                return;
-            }
-        }
-         LogTool.DebugLogDump("No init state found!");
-    }
-
     /// <summary>
     /// Check condition and transition ready state
     /// </summary>
@@ -208,10 +208,6 @@ public abstract partial class FSMState : Node
     public CharacterStateEnum StateIndex;
     protected FSM Fsm;
 
-    protected FSMState()
-    {
-        
-    }
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
@@ -237,7 +233,6 @@ public abstract partial class FSMState : Node
     }
 
     public abstract void Update(double delta);
-
     public abstract bool EnterCondition();
     public abstract void OnEnter();
     public abstract bool ExitCondition();

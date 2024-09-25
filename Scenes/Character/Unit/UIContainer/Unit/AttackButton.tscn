@@ -3,6 +3,4 @@
 [ext_resource type="Texture2D" uid="uid://dl7f4lv0k4n05" path="res://Static/UI/Joystick/摇杆.webp" id="1_3357q"]
 
 [node name="AttackButton" type="TouchScreenButton"]
-position = Vector2(-56, -56)
-scale = Vector2(2, 2)
 texture_normal = ExtResource("1_3357q")

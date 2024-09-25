@@ -1,0 +1,12 @@
+[gd_scene load_steps=4 format=3 uid="uid://dwy8otyskrffk"]
+
+[ext_resource type="Script" path="res://Scripts/Scene/OptionsInterface.cs" id="1_aipq2"]
+[ext_resource type="PackedScene" uid="uid://b0d8egdht26rb" path="res://Scenes/Terminal/OptionsInterface/Combo/Background/Background.tscn" id="2_1b76f"]
+[ext_resource type="PackedScene" uid="uid://bea0a7i6incm1" path="res://Scenes/Terminal/OptionsInterface/Combo/OptionContainer/OptionContainer.tscn" id="3_antvl"]
+
+[node name="OptionsInterface" type="Node"]
+script = ExtResource("1_aipq2")
+
+[node name="Background" parent="." instance=ExtResource("2_1b76f")]
+
+[node name="OptionContainer" parent="." instance=ExtResource("3_antvl")]

@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://rqn0yociexem"]
+
+[sub_resource type="Animation" id="Animation_scnyd"]
+resource_name = "new_animation"
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_8h8pa"]
+_data = {
+"new_animation": SubResource("Animation_scnyd")
+}
+
+[node name="Dynamic" type="AnimationPlayer"]
+libraries = {
+"": SubResource("AnimationLibrary_8h8pa")
+}
+
+[node name="Sprite2D" type="Sprite2D" parent="."]

@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://co0w7rlloo5op"]
+
+[ext_resource type="PackedScene" uid="uid://clwooy4iv132j" path="res://Scenes/Terminal/GameOpenLoading/Combo/Background/Unit/StaticImage.tscn" id="1_81uan"]
+
+[node name="Background" type="Node"]
+
+[node name="StaticImage" parent="." instance=ExtResource("1_81uan")]

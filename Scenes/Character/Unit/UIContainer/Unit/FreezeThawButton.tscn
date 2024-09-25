@@ -1,7 +1,9 @@
-[gd_scene load_steps=2 format=3 uid="uid://7alkwyiu7sa"]
+[gd_scene load_steps=3 format=3 uid="uid://7alkwyiu7sa"]
 
 [ext_resource type="Texture2D" uid="uid://cm57d6pgjj4kj" path="res://Static/UI/Joystick/摇杆2.webp" id="1_abyny"]
+[ext_resource type="Script" path="res://Scripts/UI/Buttons/FreezeThawButton.cs" id="2_3loy8"]
 
 [node name="FreezeThawButton" type="TouchScreenButton"]
 position = Vector2(-72, -72)
 texture_normal = ExtResource("1_abyny")
+script = ExtResource("2_3loy8")

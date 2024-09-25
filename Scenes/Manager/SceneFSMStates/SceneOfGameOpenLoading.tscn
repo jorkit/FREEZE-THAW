@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://0ipgu0xy4brf"]
+
+[ext_resource type="Script" path="res://Scripts/Manager/SceneFSMStates/SceneOfGameOpenLoading.cs" id="1_22nos"]
+
+[node name="SceneOfGameOpenLoading" type="Node"]
+script = ExtResource("1_22nos")

@@ -1,6 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://bj88ufb5nedfg"]
-
-[ext_resource type="Script" path="res://Scripts/BigBro.cs" id="1_5qvuu"]
-
-[node name="BigBro" type="Node"]
-script = ExtResource("1_5qvuu")

@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://bcb2rvb0nbml7"]
+
+[ext_resource type="Script" path="res://Scripts/Manager/SceneFSMStates/SceneOfMatchStartLoading.cs" id="1_jwq7n"]
+
+[node name="SceneOfMatchStartLoading" type="Node"]
+script = ExtResource("1_jwq7n")

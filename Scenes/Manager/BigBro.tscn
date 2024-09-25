@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=3 uid="uid://bj88ufb5nedfg"]
+
+[ext_resource type="Script" path="res://Scripts/Manager/BigBro.cs" id="1_piypy"]
+[ext_resource type="PackedScene" uid="uid://dv8l45lnqhcbi" path="res://Scenes/Manager/SceneFSM.tscn" id="2_htbdh"]
+
+[node name="BigBro" type="Node"]
+script = ExtResource("1_piypy")
+
+[node name="SceneFSM" parent="." instance=ExtResource("2_htbdh")]

@@ -16,6 +16,10 @@ public partial class AttackButton : TouchScreenButton
         }
         Pressed += PressedHandler;
         CanBePressed = true;
+
+        /* set the position according to WindowSize */
+        Position = new Vector2(BigBro.windowSize.X * 12 / 15, BigBro.windowSize.Y * 3 / 4);
+ 
     }
 
     // Called every frame. 'delta' is the elapsed time since the previous frame.
