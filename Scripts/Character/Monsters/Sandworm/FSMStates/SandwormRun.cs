@@ -23,6 +23,7 @@ public partial class SandwormRun : FSMState
             var right = Input.IsActionPressed("ui_right");
             var up = Input.IsActionPressed("ui_up");
             var down = Input.IsActionPressed("ui_down");
+
             if (left)
             {
                 velocity.X--;
@@ -41,6 +42,7 @@ public partial class SandwormRun : FSMState
             }
         }
         Fsm.character.Velocity = velocity.Normalized() * (float)delta * Fsm.character.Speed;
+
         /* get Collide info */
         var collision_info = Fsm.character.MoveAndCollide(Fsm.character.Velocity);
         if (collision_info != null)

@@ -9,21 +9,15 @@ public partial class BigBro : Node
     public static Vector2I screenSize;
     public static Vector2I windowSize;
 
-
-    public static bool IsMultiplayer { set; get; }
-    public static Monster Monster { set; get; }
-    public static Godot.Collections.Array<Survivor> Survivors { set; get; }
-    public static Character Player { set; get; }
-    public static ENetMultiplayerPeer Peer { set; get; }
-    public static MultiplayerSpawner Spawner { set; get; }
-    public static MultiplayerSynchronizer SpawnerSynchronizer { set; get; }
+    public static Monster monster;
+    public static Godot.Collections.Array<Survivor> survivors;
+    public static Character Player;
 
     public static SceneFSM SceneFSM { set; get; }
 
     public override void _EnterTree()
     {
         base._EnterTree();
-        IsMultiplayer = false;
         screenSize = DisplayServer.ScreenGetSize();
         var osName = OS.GetName();
         LogTool.DebugLogDump(osName);

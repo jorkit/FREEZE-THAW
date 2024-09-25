@@ -14,5 +14,5 @@ position = Vector2(-1616, -944)
 scale = Vector2(2.8, 2.8)
 
 [node name="Obstacle" parent="." instance=ExtResource("3_kfbmn")]
-position = Vector2(-396, -120)
+position = Vector2(-360, -48)
 scale = Vector2(3, 3)
