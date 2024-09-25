@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://bda2noyvrayfn"]
 
-[node name="Boundary" type="StaticBody2D"]
+[node name="Boundary" type="Area2D"]
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
 position = Vector2(-19.2906, -44.4843)

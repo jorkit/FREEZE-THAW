@@ -1,6 +1,6 @@
 ﻿Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Freeze-Thaw", "Freeze-Thaw.csproj", "{99A604B1-4F8B-4A2C-AF9D-CC18D6C4783C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Freeze-Thaw", "Freeze-Thaw.csproj", "{40B69FFA-916D-4A05-89CD-E67205493FAC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -9,11 +9,11 @@ Global
 	ExportRelease|Any CPU = ExportRelease|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{99A604B1-4F8B-4A2C-AF9D-CC18D6C4783C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{99A604B1-4F8B-4A2C-AF9D-CC18D6C4783C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{99A604B1-4F8B-4A2C-AF9D-CC18D6C4783C}.ExportDebug|Any CPU.ActiveCfg = ExportDebug|Any CPU
-		{99A604B1-4F8B-4A2C-AF9D-CC18D6C4783C}.ExportDebug|Any CPU.Build.0 = ExportDebug|Any CPU
-		{99A604B1-4F8B-4A2C-AF9D-CC18D6C4783C}.ExportRelease|Any CPU.ActiveCfg = ExportRelease|Any CPU
-		{99A604B1-4F8B-4A2C-AF9D-CC18D6C4783C}.ExportRelease|Any CPU.Build.0 = ExportRelease|Any CPU
+		{40B69FFA-916D-4A05-89CD-E67205493FAC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{40B69FFA-916D-4A05-89CD-E67205493FAC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{40B69FFA-916D-4A05-89CD-E67205493FAC}.ExportDebug|Any CPU.ActiveCfg = ExportDebug|Any CPU
+		{40B69FFA-916D-4A05-89CD-E67205493FAC}.ExportDebug|Any CPU.Build.0 = ExportDebug|Any CPU
+		{40B69FFA-916D-4A05-89CD-E67205493FAC}.ExportRelease|Any CPU.ActiveCfg = ExportRelease|Any CPU
+		{40B69FFA-916D-4A05-89CD-E67205493FAC}.ExportRelease|Any CPU.Build.0 = ExportRelease|Any CPU
 	EndGlobalSection
 EndGlobal

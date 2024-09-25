@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://b7tgl6foff0el"]
+[gd_scene load_steps=16 format=3 uid="uid://b7tgl6foff0el"]
 
 [ext_resource type="Texture2D" uid="uid://cf0adrmuibiil" path="res://Static/Animations/Character/Monsters/Sandworm/Adonis_boss.png" id="1_3jexv"]
 [ext_resource type="Script" path="res://Scripts/Character/Monsters/Sandworm/Sandworm.cs" id="1_omcwu"]
@@ -29,13 +29,7 @@ animations = [{
 radius = 40.0
 height = 128.0
 
-[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_pmgvb"]
-properties/0/path = NodePath(".:position")
-properties/0/spawn = true
-properties/0/replication_mode = 1
-
 [node name="Sandworm" type="CharacterBody2D"]
-collision_layer = 2
 script = ExtResource("1_omcwu")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
@@ -47,7 +41,7 @@ autoplay = "default"
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CapsuleShape2D_pnk0x")
 
-[node name="CharacterCamera" parent="." instance=ExtResource("3_yfbfi")]
+[node name="Camera2D" parent="." instance=ExtResource("3_yfbfi")]
 
 [node name="UIContainer" parent="." instance=ExtResource("5_ccx5c")]
 
@@ -68,6 +62,3 @@ shape = SubResource("CapsuleShape2D_pnk0x")
 [node name="SandwormDie" parent="FSM" instance=ExtResource("12_1t0w8")]
 
 [node name="RadiusCheck" parent="." instance=ExtResource("2_po12i")]
-
-[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
-replication_config = SubResource("SceneReplicationConfig_pmgvb")
