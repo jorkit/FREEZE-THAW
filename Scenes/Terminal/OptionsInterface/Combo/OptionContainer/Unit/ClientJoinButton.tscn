@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://cuvj2oo5u1fee"]
+
+[ext_resource type="Texture2D" uid="uid://dl7f4lv0k4n05" path="res://Static/UI/Joystick/摇杆.webp" id="1_3kr63"]
+[ext_resource type="Script" path="res://Scripts/UI/Buttons/ClientJoinButton.cs" id="2_dh8yf"]
+
+[node name="ClientJoinButton" type="TouchScreenButton"]
+position = Vector2(463, 151)
+scale = Vector2(3.07407, 1.22222)
+texture_normal = ExtResource("1_3kr63")
+script = ExtResource("2_dh8yf")

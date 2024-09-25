@@ -1,10 +1,18 @@
-[gd_scene load_steps=3 format=3 uid="uid://bea0a7i6incm1"]
+[gd_scene load_steps=5 format=3 uid="uid://bea0a7i6incm1"]
 
 [ext_resource type="Script" path="res://Scripts/UI/OptionContainer.cs" id="1_7ofxg"]
 [ext_resource type="PackedScene" uid="uid://buwh3iof1b8v7" path="res://Scenes/Terminal/OptionsInterface/Combo/OptionContainer/Unit/MatchStartButton.tscn" id="1_w3qgl"]
+[ext_resource type="PackedScene" uid="uid://cfytds6iiwa01" path="res://Scenes/Terminal/OptionsInterface/Combo/OptionContainer/Unit/ServerCreateButton.tscn" id="3_jrum6"]
+[ext_resource type="PackedScene" uid="uid://cuvj2oo5u1fee" path="res://Scenes/Terminal/OptionsInterface/Combo/OptionContainer/Unit/ClientJoinButton.tscn" id="4_vlxuc"]
 
 [node name="OptionContainer" type="CanvasLayer"]
 script = ExtResource("1_7ofxg")
 
 [node name="MatchStartButton" parent="." instance=ExtResource("1_w3qgl")]
-position = Vector2(878, 269)
+position = Vector2(1036, 136)
+
+[node name="ServerCreateButton" parent="." instance=ExtResource("3_jrum6")]
+position = Vector2(1040, 298)
+
+[node name="ClientJoinButton" parent="." instance=ExtResource("4_vlxuc")]
+position = Vector2(1042, 466)
