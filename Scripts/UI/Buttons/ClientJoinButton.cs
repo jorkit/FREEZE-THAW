@@ -25,7 +25,13 @@ public partial class ClientJoinButton : TouchScreenButton
 
     public void PressedHandler()
     {
+        if (CanBePressed == false)
+        {
+            LogTool.DebugLogDump("Can't Be Pressed");
+            return;
+        }
         LogTool.DebugLogDump(Name + " pressed!");
+        CanBePressed = false;
         BigBro.IsMultiplayer = true;
         BigBro.Peer = new();
         BigBro.Spawner = new();

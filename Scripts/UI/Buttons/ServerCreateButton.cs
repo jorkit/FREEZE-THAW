@@ -40,25 +40,58 @@ public partial class ServerCreateButton : TouchScreenButton
         }
         Multiplayer.MultiplayerPeer = BigBro.Peer;
         GetTree().Root.GetNodeOrNull<BigBro>("BigBro").AddChild(BigBro.Spawner);
-        Multiplayer.PeerConnected += new MultiplayerApi.PeerConnectedEventHandler(PeerConnectHandle);
         //SceneFSM.PreStateChange(BigBro.SceneFSM, SceneStateEnum.MatchStartLoading, true);
         var players = ResourceLoader.Load<PackedScene>("res://Scenes/Terminal/MatchMain/ProtoMatchMain/Combo/Players/Players.tscn").InstantiateOrNull<Node>();
         GetParent().GetParent().AddChild(players);
-        BigBro.Spawner.SpawnPath = (GetParent().GetParent().GetNode("Players")).GetPath();
+        BigBro.Players = GetParent().GetParent().GetNode("Players");
+        BigBro.Spawner.SpawnPath = BigBro.Players.GetPath();
         BigBro.Spawner.AddSpawnableScene("res://Scenes/Character/Monsters/Sandworm/Sandworm.tscn");
+
         PlayerAdd(Multiplayer.GetUniqueId());
+        Multiplayer.PeerConnected += new MultiplayerApi.PeerConnectedEventHandler(PeerConnectHandle);
+        Multiplayer.PeerDisconnected += new MultiplayerApi.PeerDisconnectedEventHandler(PeerDisConnectHandle);
     }
 
     private void PlayerAdd(long id)
     {
         var monster = ResourceLoader.Load<PackedScene>("res://Scenes/Character/Monsters/Sandworm/Sandworm.tscn").InstantiateOrNull<Sandworm>();
         monster.Name = id.ToString();
-        GetParent().GetParent().GetNode("Players").AddChild(monster);
+        BigBro.Players.AddChild(monster);
+    }
+    private void PlayerRemove(long id)
+    {
+        LogTool.DebugLogDump("id: " + id.ToString());
+        var quittedClient = BigBro.Players.GetNodeOrNull(id.ToString());
+        if (quittedClient != null)
+        {
+            quittedClient.QueueFree();
+        }
+        
     }
 
     public void PeerConnectHandle(long id)
     {
-        LogTool.DebugLogDump("Client[" + id + "]connected!");
-        PlayerAdd((long)id);
+        var connectedClients = Multiplayer.GetPeers();
+        foreach (var connectedClient in connectedClients)
+        {
+            if (connectedClient == id)
+            {
+                if (BigBro.Players.GetNodeOrNull<Character>(id.ToString()) != null)
+                {
+                    LogTool.DebugLogDump("[" + id + "]Has connected");
+                    return;
+                }
+                LogTool.DebugLogDump("Client[" + id + "]Connected!");
+                PlayerAdd((long)id);
+                return;
+            }
+        }
+        LogTool.DebugLogDump("[" + id + "]Don't connect");
+    }
+
+    public void PeerDisConnectHandle(long id)
+    {
+        LogTool.DebugLogDump("Client[" + id + "]Disconnected!");
+        PlayerRemove((long)id);
     }
 }

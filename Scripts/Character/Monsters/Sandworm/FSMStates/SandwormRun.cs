@@ -46,13 +46,6 @@ public partial class SandwormRun : FSMState
             }
         }
         Fsm.character.Velocity = velocity.Normalized() * (float)delta * Fsm.character.Speed;
-        /* get Collide info */
-        var collision_info = Fsm.character.MoveAndCollide(Fsm.character.Velocity);
-        if (collision_info != null)
-        {
-            var collider = collision_info.GetCollider();
-            LogTool.DebugLogDump("COlliding!" + collider.GetType().Name);
-        }
     }
 
     public override bool EnterCondition()

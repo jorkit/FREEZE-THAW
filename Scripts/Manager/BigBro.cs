@@ -11,6 +11,7 @@ public partial class BigBro : Node
 
 
     public static bool IsMultiplayer { set; get; }
+    public static Node Players { set; get; }
     public static Monster Monster { set; get; }
     public static Godot.Collections.Array<Survivor> Survivors { set; get; }
     public static Character Player { set; get; }

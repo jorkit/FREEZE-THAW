@@ -47,6 +47,13 @@ public abstract partial class Character : CharacterBody2D
     
     public override void _PhysicsProcess(double delta)
     {
+        /* get Collide info */
+        var collision_info = _fsm.character.MoveAndCollide(_fsm.character.Velocity);
+        if (collision_info != null)
+        {
+            var collider = collision_info.GetCollider();
+            LogTool.DebugLogDump("COlliding!" + collider.GetType().Name);
+        }
     }
 
     public abstract Vector2 GetDirection();
