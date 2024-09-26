@@ -14,6 +14,7 @@ public partial class BigBro : Node
     public static Monster Monster { set; get; }
     public static Godot.Collections.Array<Survivor> Survivors { set; get; }
     public static Character Player { set; get; }
+    public static MultiplayerApi MultiplayerApi { set; get; }
     public static ENetMultiplayerPeer Peer { set; get; }
     public static MultiplayerSpawner Spawner { set; get; }
     public static MultiplayerSynchronizer SpawnerSynchronizer { set; get; }
@@ -29,9 +30,8 @@ public partial class BigBro : Node
         LogTool.DebugLogDump(osName);
         if (osName == "Windows")
         {
-            windowSize = new Vector2I(1120, 680);
+            windowSize = new Vector2I(1120, 780);
             DisplayServer.WindowSetSize(windowSize);
-            LogTool.DebugLogDump(windowSize.ToString());
             /* window at the center of screen */
             var xStart = (screenSize.X - DisplayServer.WindowGetSize().X) / 2;
             var yStart = (screenSize.Y - DisplayServer.WindowGetSize().Y) / 2;

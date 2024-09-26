@@ -40,7 +40,6 @@ public partial class SceneFSM : Node
             SceneFSMState state = GetChild<SceneFSMState>(--count);
             if (state.StateIndex == InitState)
             {
-                LogTool.DebugLogDump(state.StateIndex + " " + InitState.ToString());
                 CurrentState = state;
                 CurrentState.OnEnter();
                 return;

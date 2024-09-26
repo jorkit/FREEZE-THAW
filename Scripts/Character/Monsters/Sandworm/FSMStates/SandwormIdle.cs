@@ -21,11 +21,12 @@ public partial class SandwormIdle : FSMState
 
     public override bool EnterCondition()
     {
-        if (Fsm.PreState != CharacterStateEnum.Idle)
+        if (Fsm.PreState > CharacterStateEnum.Run || Joystick.GetCurPosition() != new Vector2(0, 0))
         {
             return false;
         }
         LogTool.DebugLogDump(Name + " EnterCondition");
+        Fsm.PreStateChange(CharacterStateEnum.Run, false);
 
         return true;
     }

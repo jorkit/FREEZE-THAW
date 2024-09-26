@@ -21,7 +21,7 @@ public partial class SandwormAttack : FSMState
             LogTool.DebugLogDump(Name + " Attack play");
             //return;
         }
-        FSM.PreStateChange(Fsm, CharacterStateEnum.Idle, true);
+        Fsm.PreStateChange(CharacterStateEnum.Idle, true);
     }
 
     public override bool EnterCondition()

@@ -1,6 +1,7 @@
 ﻿using Godot;
 using System;
 using FreezeThaw.Utils;
+using static Godot.WebSocketPeer;
 
 public enum CharacterStateEnum
 {
@@ -92,17 +93,19 @@ public partial class FSM : Node
     }
 
     /* Prestate change, wait for CurrentState change */
-    public static void PreStateChange(FSM fsm, CharacterStateEnum newPreState, bool force)
+    public void PreStateChange(CharacterStateEnum newPreState, bool force)
     {
-        if (fsm == null)
-        {
-            LogTool.DebugLogDump("FSM not found!");
-            return;
-        }
-        if (force == true && fsm.CurrentState.StateIndex != CharacterStateEnum.Die)
+        Rpc("PreStateChangeRPC", (int)newPreState, force); 
+    }
+
+    [Rpc(mode: MultiplayerApi.RpcMode.AnyPeer, CallLocal = true, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
+    private void PreStateChangeRPC(int newPreState_Int, bool force)
+    {
+        CharacterStateEnum newPreState = (CharacterStateEnum)newPreState_Int;
+        if (force == true && CurrentState.StateIndex != CharacterStateEnum.Die)
         {
             LogTool.DebugLogDump("Force Change To " + newPreState.ToString());
-            fsm.PreState = newPreState;
+            PreState = newPreState;
             return;
         }
         switch (newPreState)
@@ -112,55 +115,55 @@ public partial class FSM : Node
             case CharacterStateEnum.Attack:
             case CharacterStateEnum.Armor:
             case CharacterStateEnum.Hurt:
-                if (newPreState > fsm.PreState)
+                if (newPreState > PreState)
                 {
-                    fsm.PreState = newPreState;
+                    PreState = newPreState;
                 }
                 break;
             case CharacterStateEnum.Freezing:
-                if (fsm.CurrentState.StateIndex < CharacterStateEnum.Attack)
+                if (CurrentState.StateIndex < CharacterStateEnum.Attack)
                 {
-                    fsm.PreState = newPreState;
+                    PreState = newPreState;
                 }
                 break;
             case CharacterStateEnum.Freezed:
-                if (fsm.CurrentState.StateIndex == CharacterStateEnum.Freeing)
+                if (CurrentState.StateIndex == CharacterStateEnum.Freeing)
                 {
-                    fsm.PreState = newPreState;
+                    PreState = newPreState;
                 }
                 break;
             case CharacterStateEnum.Thawing:
-                if (fsm.CurrentState.StateIndex == CharacterStateEnum.Freezed)
+                if (CurrentState.StateIndex == CharacterStateEnum.Freezed)
                 {
-                    fsm.PreState = newPreState;
+                    PreState = newPreState;
                 }
                 break;
             case CharacterStateEnum.Sealing:
-                if (fsm.CurrentState.StateIndex < CharacterStateEnum.Attack)
+                if (CurrentState.StateIndex < CharacterStateEnum.Attack)
                 {
-                    fsm.PreState = newPreState;
+                    PreState = newPreState;
                 }
                 break;
             case CharacterStateEnum.Sealed:
-                if (fsm.CurrentState.StateIndex == CharacterStateEnum.Freezed)
+                if (CurrentState.StateIndex == CharacterStateEnum.Freezed)
                 {
-                    fsm.PreState = newPreState;
+                    PreState = newPreState;
                 }
                 break;
             case CharacterStateEnum.Unsealing:
-                if (fsm.CurrentState.StateIndex == CharacterStateEnum.Sealed)
+                if (CurrentState.StateIndex == CharacterStateEnum.Sealed)
                 {
-                    fsm.PreState = newPreState;
+                    PreState = newPreState;
                 }
                 break;
             case CharacterStateEnum.Freeing:
-                if (fsm.CurrentState.StateIndex < CharacterStateEnum.Attack)
+                if (CurrentState.StateIndex < CharacterStateEnum.Attack)
                 {
-                    fsm.PreState = newPreState;
+                    PreState = newPreState;
                 }
                 break;
             case CharacterStateEnum.Die:
-                fsm.PreState = newPreState;
+                PreState = newPreState;
                 break;
         }
     }
@@ -171,7 +174,6 @@ public partial class FSM : Node
     private void CheckStateTransition()
     {
         var count = GetChildCount();
-
         while (count > 0)
         {
             FSMState state = GetChild<FSMState>(--count);

@@ -16,6 +16,11 @@ public partial class SandwormRun : FSMState
 
     public override void Update(double delta)
     {
+        /* if not self, return */
+        if (IsMultiplayerAuthority() == false)
+        {
+            return;
+        }
         var velocity = Fsm.character.GetDirection();
         if (velocity == new Vector2(0, 0))
         {
@@ -52,11 +57,13 @@ public partial class SandwormRun : FSMState
 
     public override bool EnterCondition()
     {
-        if (Fsm.PreState != CharacterStateEnum.Run)
+        /* if in Idle and Joystick move, try to set Run Prestate */
+        if (Fsm.CurrentState.StateIndex > CharacterStateEnum.Run || Joystick.GetCurPosition() == new Vector2(0, 0))
         {
             return false;
         }
         LogTool.DebugLogDump(Name + " EnterCondition");
+        Fsm.PreStateChange(CharacterStateEnum.Run, false);
 
         return true;
     }
@@ -66,7 +73,7 @@ public partial class SandwormRun : FSMState
     }
     public override bool ExitCondition()
     {
-        if (Fsm.PreState == CharacterStateEnum.Run)
+        if (Fsm.PreState <= CharacterStateEnum.Run && Joystick.GetCurPosition() != new Vector2(0, 0))
         {
             return false;
         }

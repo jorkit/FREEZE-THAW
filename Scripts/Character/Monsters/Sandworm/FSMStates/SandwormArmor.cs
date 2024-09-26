@@ -21,10 +21,9 @@ public partial class SandwormArmor : FSMState
         if (true)
         {
             LogTool.DebugLogDump(Name + " Attack play");
-            FSM.PreStateChange(Fsm, CharacterStateEnum.Armor, true);
             //return;
         }
-        FSM.PreStateChange(Fsm, CharacterStateEnum.Idle, true);
+        Fsm.PreStateChange(CharacterStateEnum.Idle, true);
     }
 
     public override bool EnterCondition()

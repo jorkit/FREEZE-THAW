@@ -1,6 +1,7 @@
 using FreezeThaw.Utils;
 using Godot;
 using System;
+using System.Threading;
 
 public abstract partial class Character : CharacterBody2D
 {
@@ -8,6 +9,26 @@ public abstract partial class Character : CharacterBody2D
     private FSM _fsm;
     // public const float JumpVelocity = -400.0f;
 
+
+    public override void _EnterTree()
+    {
+        base._EnterTree();
+        if (BigBro.IsMultiplayer == true)
+        {
+            SetMultiplayerAuthority(Name.ToString().ToInt());
+            Position = new Vector2(300, 300);
+            if (IsMultiplayerAuthority() == false)
+            {
+                LogTool.DebugLogDump(GetMultiplayerAuthority().ToString());
+                RemoveChild(GetNode<UIContainer>("UIContainer"));
+                RemoveChild(GetNode<Camera2D>("CharacterCamera"));
+            }
+        }
+        else
+        {
+            RemoveChild(GetNode<MultiplayerSynchronizer>("MultiplayerSynchronizer"));
+        }
+    }
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
 	{
@@ -22,20 +43,10 @@ public abstract partial class Character : CharacterBody2D
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
-	}
-
+    }
+    
     public override void _PhysicsProcess(double delta)
     {
-        /* if Joystick move, try to set Run state */
-        if (Joystick.GetCurPosition() != new Vector2(0, 0))
-        {
-            FSM.PreStateChange(_fsm, CharacterStateEnum.Run, false);
-        }
-        /* If a is stationary and CurrentState is less than Run, set Idle state force */
-        else if (_fsm.PreState <= CharacterStateEnum.Run)
-        {
-            FSM.PreStateChange(_fsm, CharacterStateEnum.Idle, true);
-        }
     }
 
     public abstract Vector2 GetDirection();
@@ -46,6 +57,6 @@ public abstract partial class Character : CharacterBody2D
 
     public void AttackButtonPressedHandle()
     {
-        FSM.PreStateChange(_fsm, CharacterStateEnum.Attack, false);
+        _fsm.PreStateChange(CharacterStateEnum.Attack, false);
     }
 }

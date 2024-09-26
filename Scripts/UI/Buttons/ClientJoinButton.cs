@@ -29,6 +29,7 @@ public partial class ClientJoinButton : TouchScreenButton
         BigBro.IsMultiplayer = true;
         BigBro.Peer = new();
         BigBro.Spawner = new();
+        BigBro.MultiplayerApi = Multiplayer;
 
         GetTree().Root.GetNodeOrNull<BigBro>("BigBro").AddChild(BigBro.Spawner);
         var players = ResourceLoader.Load<PackedScene>("res://Scenes/Terminal/MatchMain/ProtoMatchMain/Combo/Players/Players.tscn").InstantiateOrNull<Node>();

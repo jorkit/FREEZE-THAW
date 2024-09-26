@@ -12,7 +12,7 @@ namespace FreezeThaw.Utils
         /// <param name="log"></param>
         public static void DebugLogDump(string log)
         {
-            string log_package = String.Format("{0}:{1}:{2}: {3}", GetCodeContext<string>("__FILE__"), GetCodeContext<string>("__FUNC__"), GetCodeContext<int>("__LINE__"), log);
+            string log_package = String.Format("{0}:{1}:{2}: [{3}] {4}", GetCodeContext<string>("__FILE__"), GetCodeContext<string>("__FUNC__"), GetCodeContext<int>("__LINE__"), BigBro.SceneFSM?.GetMultiplayerAuthority(), log);
             Console.WriteLine(log_package);
 
             /* ±£´æ±¾µØlog */

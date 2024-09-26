@@ -20,10 +20,10 @@ public partial class SandwormSealing : FSMState
         if (true)
         {
             LogTool.DebugLogDump(Name + " Sealing play");
-            FSM.PreStateChange(Fsm, CharacterStateEnum.Sealing, true);
+            Fsm.PreStateChange(CharacterStateEnum.Sealing, true);
             //return;
         }
-        FSM.PreStateChange(Fsm, CharacterStateEnum.Idle, true);
+        Fsm.PreStateChange(CharacterStateEnum.Idle, true);
     }
 
     public override bool EnterCondition()

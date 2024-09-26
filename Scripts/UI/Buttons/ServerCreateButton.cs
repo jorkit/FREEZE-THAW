@@ -31,6 +31,7 @@ public partial class ServerCreateButton : TouchScreenButton
         BigBro.IsMultiplayer = true;
         BigBro.Peer = new();
         BigBro.Spawner = new();
+        BigBro.MultiplayerApi = Multiplayer;
 
         if (BigBro.Peer.CreateServer(7788) != Error.Ok)
         {
