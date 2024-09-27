@@ -36,6 +36,14 @@ public partial class Joystick : Sprite2D
 
 	public override void _Input(InputEvent @event)
 	{
+        if (XBOXJoystickHandle(@event) == true)
+        {
+            return;
+        }
+        if (KeyBoardDirectionHandle(@event) == true)
+        {
+            return;
+        }
         JoystickPreprocess(@event);
         if (@event is InputEventScreenDrag)
 		{
@@ -90,6 +98,81 @@ public partial class Joystick : Sprite2D
             _ondraging = -1;
             CreateTween().TweenProperty(_point, "position", new Vector2(0, 0), 0.1).SetTrans(Tween.TransitionType.Linear);
         }
+    }
+
+    private static bool XBOXJoystickHandle(InputEvent @event)
+    {
+        if (@event is InputEventJoypadMotion)
+        {
+            var x = Input.GetJoyAxis(0, JoyAxis.LeftX);
+
+            var y = Input.GetJoyAxis(0, JoyAxis.LeftY);
+
+            _point.Position = new Vector2(x, y).Normalized();
+            return true;
+        }
+
+        return false;
+    }
+
+    private static bool KeyBoardDirectionHandle(InputEvent @event)
+    {
+        if (@event is InputEventKey)
+        {
+            var velocity = new Vector2();
+            var left = Input.IsActionPressed("ui_left");
+            var right = Input.IsActionPressed("ui_right");
+            var up = Input.IsActionPressed("ui_up");
+            var down = Input.IsActionPressed("ui_down");
+
+            if (left)
+            {
+                velocity.X--;
+            }
+            if (right)
+            {
+                velocity.X++;
+            }
+            if (up)
+            {
+                velocity.Y--;
+            }
+            if (down)
+            {
+                velocity.Y++;
+            }
+
+            left = Input.IsActionJustReleased("ui_left");
+            right = Input.IsActionJustReleased("ui_right");
+            up = Input.IsActionJustReleased("ui_up");
+            down = Input.IsActionJustReleased("ui_down");
+
+            if (left)
+            {
+                velocity.X = 0;
+            }
+            if (right)
+            {
+                velocity.X = 0;
+            }
+            if (up)
+            {
+                velocity.Y = 0;
+            }
+            if (down)
+            {
+                velocity.Y = 0;
+            }
+            if (velocity != new Vector2(0, 0))
+            {
+                _point.Position = velocity.Normalized();
+                return true;
+            }
+            _point.Position = velocity;
+
+            return true;
+        }
+        return false;
     }
 
     /* 外部调用返回当前位置的方法 */
