@@ -1,7 +1,7 @@
 using Godot;
 using System;
 using FreezeThaw.Utils;
-public partial class SandwormDie : FSMState
+public partial class Hurt : FSMState
 {
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
@@ -19,21 +19,22 @@ public partial class SandwormDie : FSMState
         /* During Hurt, Monster can Changed state */
         if (true)
         {
-            LogTool.DebugLogDump(Name + " Dying play");
+            LogTool.DebugLogDump(Name + " Hurt play");
             return;
         }
-        LogTool.DebugLogDump(Name + " Dead play");
+        ((Monster)Fsm.character).Hurting = false;
     }
 
     public override bool EnterCondition()
     {
-        if (Fsm.PreState != CharacterStateEnum.Die)
+        if (Fsm.PreState != CharacterStateEnum.Hurt)
         {
             return false;
         }
         LogTool.DebugLogDump(Name + " EnterCondition");
 
-        return true;
+        /* Hurt return false forever */
+        return false;
     }
     public override void OnEnter()
     {
@@ -41,11 +42,16 @@ public partial class SandwormDie : FSMState
     }
     public override bool ExitCondition()
     {
-        /* Die is the last state */
-        return false;
+        if (Fsm.PreState == CharacterStateEnum.Hurt)
+        {
+            return false;
+        }
+        LogTool.DebugLogDump(Name + " ExitCondition");
+
+        return true;
     }
     public override void OnExit()
     {
-        return;
+        LogTool.DebugLogDump(Name + " OnExit!");
     }
 }

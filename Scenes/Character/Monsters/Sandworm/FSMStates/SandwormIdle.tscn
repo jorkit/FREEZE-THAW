@@ -1,6 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://b1r1cygbd47lk"]
-
-[ext_resource type="Script" path="res://Scripts/Character/Monsters/Sandworm/FSMStates/SandwormIdle.cs" id="1_i85ph"]
-
-[node name="SandwormIdle" type="Node"]
-script = ExtResource("1_i85ph")

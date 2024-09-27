@@ -35,6 +35,17 @@ public partial class AttackButton : TouchScreenButton
         }
     }
 
+    public override void _Input(InputEvent @event)
+    {
+        if (@event is InputEventJoypadButton && @event.IsPressed())
+        {
+            if (Input.IsJoyButtonPressed(0, JoyButton.A))
+            {
+                PressedHandler();
+            }
+        }
+    }
+
     public void PressedHandler()
     {
         LogTool.DebugLogDump("ATB pressed!");

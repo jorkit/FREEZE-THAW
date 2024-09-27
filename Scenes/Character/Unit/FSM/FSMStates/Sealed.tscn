@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://b2sbowkq3x7lb"]
+
+[ext_resource type="Script" path="res://Scripts/Character/Unit/FSM/FSMStates/Sealed.cs" id="1_yuckk"]
+
+[node name="Sealed" type="Node"]
+script = ExtResource("1_yuckk")

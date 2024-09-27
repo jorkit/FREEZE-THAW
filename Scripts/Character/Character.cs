@@ -7,9 +7,7 @@ public abstract partial class Character : CharacterBody2D
 {
     public float Speed;
     private FSM _fsm;
-    protected PackedScene Bullet;
     // public const float JumpVelocity = -400.0f;
-
 
     public override void _EnterTree()
     {
@@ -27,9 +25,12 @@ public abstract partial class Character : CharacterBody2D
         }
         else
         {
-            RemoveChild(GetNode<MultiplayerSynchronizer>("MultiplayerSynchronizer"));
+            var MultiplayerSynchronizer = GetNodeOrNull<MultiplayerSynchronizer>("MultiplayerSynchronizer");
+            if (MultiplayerSynchronizer != null)
+                RemoveChild(MultiplayerSynchronizer);
         }
     }
+
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
 	{
@@ -44,13 +45,18 @@ public abstract partial class Character : CharacterBody2D
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
-    }
-    
+	}
+
     public override void _PhysicsProcess(double delta)
     {
         /* if not self, return */
         if (IsMultiplayerAuthority() == false)
         {
+            return;
+        }
+        if (_fsm == null)
+        {
+            LogTool.DebugLogDump("Character not found");
             return;
         }
         var velocity = _fsm.character.GetDirection();

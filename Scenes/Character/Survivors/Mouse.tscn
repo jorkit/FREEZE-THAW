@@ -1,0 +1,115 @@
+[gd_scene load_steps=25 format=3 uid="uid://cb64aufhpklb2"]
+
+[ext_resource type="Script" path="res://Scripts/Character/Survivors/Mouse.cs" id="1_4hk77"]
+[ext_resource type="PackedScene" uid="uid://2toocttgi3dx" path="res://Scenes/Character/Unit/CharacterCamera.tscn" id="2_i5wyr"]
+[ext_resource type="Texture2D" uid="uid://gvncxoauseb3" path="res://Static/Animations/Character/Survivors/Mouse/微信图片_20240927225500.png" id="2_ye2ph"]
+[ext_resource type="PackedScene" uid="uid://8qemlyfupy68" path="res://Scenes/Character/Unit/UIContainer/UIContainer.tscn" id="3_ut7bq"]
+[ext_resource type="PackedScene" uid="uid://b8bjf4yiby1fb" path="res://Scenes/Character/Unit/FSM/FSM.tscn" id="4_chgp5"]
+[ext_resource type="PackedScene" uid="uid://b2odjxtivg3xw" path="res://Scenes/Character/Unit/FSM/FSMStates/Armor.tscn" id="5_cpua2"]
+[ext_resource type="PackedScene" uid="uid://deqsnwihsugpv" path="res://Scenes/Character/Unit/RadiusCheck.tscn" id="5_xjjew"]
+[ext_resource type="PackedScene" uid="uid://dmucna7b1cxtm" path="res://Scenes/Character/Unit/FSM/FSMStates/Attack.tscn" id="6_bfy44"]
+[ext_resource type="PackedScene" uid="uid://n0sxm7qpqn70" path="res://Scenes/Character/Unit/FSM/FSMStates/Die.tscn" id="7_dwbw4"]
+[ext_resource type="PackedScene" uid="uid://djtg8ri6l5pcg" path="res://Scenes/Character/Unit/FSM/FSMStates/Freeing.tscn" id="8_j1xs1"]
+[ext_resource type="PackedScene" uid="uid://csse0gatnep14" path="res://Scenes/Character/Unit/FSM/FSMStates/Freezed.tscn" id="9_8eue5"]
+[ext_resource type="PackedScene" uid="uid://qsnlncnjjhyl" path="res://Scenes/Character/Unit/FSM/FSMStates/Hurt.tscn" id="11_s4xak"]
+[ext_resource type="PackedScene" uid="uid://cfk8yf15dhkwd" path="res://Scenes/Character/Unit/FSM/FSMStates/Idle.tscn" id="12_o6s8y"]
+[ext_resource type="PackedScene" uid="uid://cva2e1sardm5w" path="res://Scenes/Character/Unit/FSM/FSMStates/Run.tscn" id="13_n2fh0"]
+[ext_resource type="PackedScene" uid="uid://b2sbowkq3x7lb" path="res://Scenes/Character/Unit/FSM/FSMStates/Sealed.tscn" id="14_ayw1b"]
+[ext_resource type="PackedScene" uid="uid://dqra8hoygdbsh" path="res://Scenes/Character/Unit/FSM/FSMStates/Thawing.tscn" id="15_5aps4"]
+[ext_resource type="PackedScene" uid="uid://de877pbxdenht" path="res://Scenes/Character/Unit/FSM/FSMStates/Unsealing.tscn" id="16_y0esc"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xn61g"]
+atlas = ExtResource("2_ye2ph")
+region = Rect2(0, 0, 1771, 2481)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ix5ti"]
+atlas = ExtResource("2_ye2ph")
+region = Rect2(1771, 0, 1771, 2481)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qq1mp"]
+atlas = ExtResource("2_ye2ph")
+region = Rect2(3542, 0, 1771, 2481)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rv62f"]
+atlas = ExtResource("2_ye2ph")
+region = Rect2(5313, 0, 1771, 2481)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_byw6o"]
+atlas = ExtResource("2_ye2ph")
+region = Rect2(7084, 0, 1771, 2481)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_6o4j5"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xn61g")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ix5ti")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qq1mp")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rv62f")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_byw6o")
+}],
+"loop": true,
+"name": &"Idle",
+"speed": 5.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_pnk0x"]
+radius = 40.0
+height = 128.0
+
+[node name="Mouse" type="CharacterBody2D"]
+script = ExtResource("1_4hk77")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(8, -3.78127)
+scale = Vector2(0.112097, 0.117045)
+sprite_frames = SubResource("SpriteFrames_6o4j5")
+animation = &"Idle"
+autoplay = "Idle"
+frame_progress = 0.400071
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_pnk0x")
+
+[node name="Camera2D" parent="." instance=ExtResource("2_i5wyr")]
+
+[node name="UIContainer" parent="." instance=ExtResource("3_ut7bq")]
+
+[node name="FSM" parent="." instance=ExtResource("4_chgp5")]
+
+[node name="Armor" parent="FSM" instance=ExtResource("5_cpua2")]
+
+[node name="Attack" parent="FSM" instance=ExtResource("6_bfy44")]
+
+[node name="Die" parent="FSM" instance=ExtResource("7_dwbw4")]
+
+[node name="Freeing" parent="FSM" instance=ExtResource("8_j1xs1")]
+
+[node name="Freezed" parent="FSM" instance=ExtResource("9_8eue5")]
+
+[node name="Freezing" parent="FSM" instance=ExtResource("9_8eue5")]
+
+[node name="Hurt" parent="FSM" instance=ExtResource("11_s4xak")]
+
+[node name="Idle" parent="FSM" instance=ExtResource("12_o6s8y")]
+
+[node name="Run" parent="FSM" instance=ExtResource("13_n2fh0")]
+
+[node name="Sealed" parent="FSM" instance=ExtResource("14_ayw1b")]
+
+[node name="Thawing" parent="FSM" instance=ExtResource("15_5aps4")]
+
+[node name="Unsealing" parent="FSM" instance=ExtResource("16_y0esc")]
+
+[node name="RadiusCheck" parent="." instance=ExtResource("5_xjjew")]
+
+[node name="BulletBornPosition" type="Marker2D" parent="."]
+position = Vector2(67, 0)

@@ -15,4 +15,8 @@ public abstract partial class Monster : Character
     public override void _Process(double delta)
     {
     }
+
+    public override void Attack()
+    {
+    }
 }

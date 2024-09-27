@@ -222,7 +222,7 @@ public abstract partial class FSMState : Node
 
         for (CharacterStateEnum cse = 0; cse < CharacterStateEnum.MAX; cse++)
         {
-            if (Name.ToString().EndsWith(cse.ToString()))
+            if (Name.ToString() == cse.ToString())
             {
                 StateIndex = cse;
             }

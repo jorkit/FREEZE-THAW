@@ -1,7 +1,8 @@
 using Godot;
 using System;
 using FreezeThaw.Utils;
-public partial class SandwormHurt : FSMState
+
+public partial class Freeing : FSMState
 {
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
@@ -16,25 +17,24 @@ public partial class SandwormHurt : FSMState
 
     public override void Update(double delta)
     {
-        /* During Hurt, Monster can Changed state */
         if (true)
         {
-            LogTool.DebugLogDump(Name + " Hurt play");
-            return;
+            LogTool.DebugLogDump(Name + " Freeing play");
+            Fsm.PreStateChange(CharacterStateEnum.Freeing, true);
+            //return;
         }
-        ((Monster)Fsm.character).Hurting = false;
+        Fsm.PreStateChange(CharacterStateEnum.Idle, true);
     }
 
     public override bool EnterCondition()
     {
-        if (Fsm.PreState != CharacterStateEnum.Hurt)
+        if (Fsm.PreState != CharacterStateEnum.Freeing)
         {
             return false;
         }
         LogTool.DebugLogDump(Name + " EnterCondition");
 
-        /* Hurt return false forever */
-        return false;
+        return true;
     }
     public override void OnEnter()
     {
@@ -42,7 +42,7 @@ public partial class SandwormHurt : FSMState
     }
     public override bool ExitCondition()
     {
-        if (Fsm.PreState == CharacterStateEnum.Hurt)
+        if (Fsm.PreState == CharacterStateEnum.Freeing)
         {
             return false;
         }
