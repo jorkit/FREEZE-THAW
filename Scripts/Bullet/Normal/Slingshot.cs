@@ -7,7 +7,7 @@ public partial class Slingshot : Bullet
 	public override void _Ready()
 	{
 		base._Ready();
-		Speed = 200;
+		Speed = 700;
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.

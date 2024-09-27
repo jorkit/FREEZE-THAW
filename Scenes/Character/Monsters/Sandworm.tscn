@@ -1,0 +1,67 @@
+[gd_scene load_steps=16 format=3 uid="uid://b7tgl6foff0el"]
+
+[ext_resource type="Script" path="res://Scripts/Character/Monsters/Sandworm.cs" id="1_t20p3"]
+[ext_resource type="Texture2D" uid="uid://cf0adrmuibiil" path="res://Static/Animations/Character/Monsters/Sandworm/Adonis_boss.png" id="2_7oc0d"]
+[ext_resource type="PackedScene" uid="uid://2toocttgi3dx" path="res://Scenes/Character/Unit/CharacterCamera.tscn" id="3_p3sad"]
+[ext_resource type="PackedScene" uid="uid://8qemlyfupy68" path="res://Scenes/Character/Unit/UIContainer/UIContainer.tscn" id="4_yglaa"]
+[ext_resource type="PackedScene" uid="uid://b8bjf4yiby1fb" path="res://Scenes/Character/Unit/FSM/FSM.tscn" id="5_bubw1"]
+[ext_resource type="PackedScene" uid="uid://b2odjxtivg3xw" path="res://Scenes/Character/Unit/FSM/FSMStates/Armor.tscn" id="6_712vj"]
+[ext_resource type="PackedScene" uid="uid://dmucna7b1cxtm" path="res://Scenes/Character/Unit/FSM/FSMStates/Attack.tscn" id="7_hivj5"]
+[ext_resource type="PackedScene" uid="uid://n0sxm7qpqn70" path="res://Scenes/Character/Unit/FSM/FSMStates/Die.tscn" id="8_shogh"]
+[ext_resource type="PackedScene" uid="uid://qsnlncnjjhyl" path="res://Scenes/Character/Unit/FSM/FSMStates/Hurt.tscn" id="9_f1bpv"]
+[ext_resource type="PackedScene" uid="uid://cfk8yf15dhkwd" path="res://Scenes/Character/Unit/FSM/FSMStates/Idle.tscn" id="10_ocl7n"]
+[ext_resource type="PackedScene" uid="uid://cva2e1sardm5w" path="res://Scenes/Character/Unit/FSM/FSMStates/Run.tscn" id="11_ej38v"]
+[ext_resource type="PackedScene" uid="uid://p2rmwudi0j26" path="res://Scenes/Character/Unit/FSM/FSMStates/Sealing.tscn" id="12_vd1ye"]
+[ext_resource type="PackedScene" uid="uid://deqsnwihsugpv" path="res://Scenes/Character/Unit/RadiusCheck.tscn" id="13_rjcp1"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_6o4j5"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_7oc0d")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_pnk0x"]
+radius = 40.0
+height = 128.0
+
+[node name="Sandworm" type="CharacterBody2D"]
+script = ExtResource("1_t20p3")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(8, -3.78127)
+scale = Vector2(0.112097, 0.117045)
+sprite_frames = SubResource("SpriteFrames_6o4j5")
+autoplay = "default"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_pnk0x")
+
+[node name="Camera2D" parent="." instance=ExtResource("3_p3sad")]
+
+[node name="UIContainer" parent="." instance=ExtResource("4_yglaa")]
+
+[node name="FSM" parent="." instance=ExtResource("5_bubw1")]
+
+[node name="Armor" parent="FSM" instance=ExtResource("6_712vj")]
+
+[node name="Attack" parent="FSM" instance=ExtResource("7_hivj5")]
+
+[node name="Die" parent="FSM" instance=ExtResource("8_shogh")]
+
+[node name="Hurt" parent="FSM" instance=ExtResource("9_f1bpv")]
+
+[node name="Idle" parent="FSM" instance=ExtResource("10_ocl7n")]
+
+[node name="Run" parent="FSM" instance=ExtResource("11_ej38v")]
+
+[node name="Sealing" parent="FSM" instance=ExtResource("12_vd1ye")]
+
+[node name="RadiusCheck" parent="." instance=ExtResource("13_rjcp1")]
+
+[node name="BulletBornPosition" type="Marker2D" parent="."]
+position = Vector2(67, 0)

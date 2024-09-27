@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://n0sxm7qpqn70"]
+
+[ext_resource type="Script" path="res://Scripts/Character/Unit/FSM/FSMStates/Die.cs" id="1_pyvsg"]
+
+[node name="Die" type="Node"]
+script = ExtResource("1_pyvsg")

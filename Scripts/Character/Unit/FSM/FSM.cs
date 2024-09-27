@@ -92,17 +92,12 @@ public partial class FSM : Node
     }
 
     /* Prestate change, wait for CurrentState change */
-    public static void PreStateChange(FSM fsm, CharacterStateEnum newPreState, bool force)
+    public void PreStateChange(CharacterStateEnum newPreState, bool force)
     {
-        if (fsm == null)
-        {
-            LogTool.DebugLogDump("FSM not found!");
-            return;
-        }
-        if (force == true && fsm.CurrentState.StateIndex != CharacterStateEnum.Die)
+        if (force == true && CurrentState.StateIndex != CharacterStateEnum.Die)
         {
             LogTool.DebugLogDump("Force Change To " + newPreState.ToString());
-            fsm.PreState = newPreState;
+            PreState = newPreState;
             return;
         }
         switch (newPreState)
@@ -112,55 +107,55 @@ public partial class FSM : Node
             case CharacterStateEnum.Attack:
             case CharacterStateEnum.Armor:
             case CharacterStateEnum.Hurt:
-                if (newPreState > fsm.PreState)
+                if (newPreState > PreState)
                 {
-                    fsm.PreState = newPreState;
+                    PreState = newPreState;
                 }
                 break;
             case CharacterStateEnum.Freezing:
-                if (fsm.CurrentState.StateIndex < CharacterStateEnum.Attack)
+                if (CurrentState.StateIndex < CharacterStateEnum.Attack)
                 {
-                    fsm.PreState = newPreState;
+                    PreState = newPreState;
                 }
                 break;
             case CharacterStateEnum.Freezed:
-                if (fsm.CurrentState.StateIndex == CharacterStateEnum.Freeing)
+                if (CurrentState.StateIndex == CharacterStateEnum.Freeing)
                 {
-                    fsm.PreState = newPreState;
+                    PreState = newPreState;
                 }
                 break;
             case CharacterStateEnum.Thawing:
-                if (fsm.CurrentState.StateIndex == CharacterStateEnum.Freezed)
+                if (CurrentState.StateIndex == CharacterStateEnum.Freezed)
                 {
-                    fsm.PreState = newPreState;
+                    PreState = newPreState;
                 }
                 break;
             case CharacterStateEnum.Sealing:
-                if (fsm.CurrentState.StateIndex < CharacterStateEnum.Attack)
+                if (CurrentState.StateIndex < CharacterStateEnum.Attack)
                 {
-                    fsm.PreState = newPreState;
+                    PreState = newPreState;
                 }
                 break;
             case CharacterStateEnum.Sealed:
-                if (fsm.CurrentState.StateIndex == CharacterStateEnum.Freezed)
+                if (CurrentState.StateIndex == CharacterStateEnum.Freezed)
                 {
-                    fsm.PreState = newPreState;
+                    PreState = newPreState;
                 }
                 break;
             case CharacterStateEnum.Unsealing:
-                if (fsm.CurrentState.StateIndex == CharacterStateEnum.Sealed)
+                if (CurrentState.StateIndex == CharacterStateEnum.Sealed)
                 {
-                    fsm.PreState = newPreState;
+                    PreState = newPreState;
                 }
                 break;
             case CharacterStateEnum.Freeing:
-                if (fsm.CurrentState.StateIndex < CharacterStateEnum.Attack)
+                if (CurrentState.StateIndex < CharacterStateEnum.Attack)
                 {
-                    fsm.PreState = newPreState;
+                    PreState = newPreState;
                 }
                 break;
             case CharacterStateEnum.Die:
-                fsm.PreState = newPreState;
+                PreState = newPreState;
                 break;
         }
     }
@@ -220,7 +215,7 @@ public abstract partial class FSMState : Node
 
         for (CharacterStateEnum cse = 0; cse < CharacterStateEnum.MAX; cse++)
         {
-            if (Name.ToString().EndsWith(cse.ToString()))
+            if (Name.ToString() == cse.ToString())
             {
                 StateIndex = cse;
             }

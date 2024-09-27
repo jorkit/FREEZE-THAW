@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://cuotnagepexyu"]
+
+[ext_resource type="Script" path="res://Scripts/Character/Unit/FSM/FSMStates/Freezing.cs" id="1_x50b3"]
+
+[node name="Freezing" type="Node"]
+script = ExtResource("1_x50b3")

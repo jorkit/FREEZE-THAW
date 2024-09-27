@@ -1,7 +1,7 @@
 [gd_scene load_steps=2 format=3 uid="uid://b25efbwrx4pqb"]
 
-[ext_resource type="PackedScene" uid="uid://b7tgl6foff0el" path="res://Scenes/Character/Monsters/Sandworm/Sandworm.tscn" id="1_wee3i"]
+[ext_resource type="PackedScene" uid="uid://cb64aufhpklb2" path="res://Scenes/Character/Survivors/Mouse.tscn" id="2_lbvhk"]
 
 [node name="Players" type="Node"]
 
-[node name="Sandworm" parent="." instance=ExtResource("1_wee3i")]
+[node name="Mouse" parent="." instance=ExtResource("2_lbvhk")]

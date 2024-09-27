@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://csse0gatnep14"]
+
+[ext_resource type="Script" path="res://Scripts/Character/Unit/FSM/FSMStates/Freezed.cs" id="1_0kxeu"]
+
+[node name="Freezed" type="Node"]
+script = ExtResource("1_0kxeu")

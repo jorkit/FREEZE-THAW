@@ -9,6 +9,7 @@ public partial class BigBro : Node
     public static Vector2I screenSize;
     public static Vector2I windowSize;
 
+    public static bool IsMultiplayer = false;
     public static Monster monster;
     public static Godot.Collections.Array<Survivor> survivors;
     public static Character Player;

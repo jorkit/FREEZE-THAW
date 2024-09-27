@@ -1,6 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://b0okuny548l7j"]
-
-[ext_resource type="Script" path="res://Scripts/Character/Monsters/Sandworm/FSMStates/SandwormRun.cs" id="1_45qpp"]
-
-[node name="SandwormRun" type="Node"]
-script = ExtResource("1_45qpp")

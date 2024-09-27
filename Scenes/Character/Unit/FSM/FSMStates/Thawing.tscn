@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://dqra8hoygdbsh"]
+
+[ext_resource type="Script" path="res://Scripts/Character/Unit/FSM/FSMStates/Thawing.cs" id="1_8dltm"]
+
+[node name="Thawing" type="Node"]
+script = ExtResource("1_8dltm")

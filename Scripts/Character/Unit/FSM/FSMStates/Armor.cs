@@ -1,7 +1,8 @@
 using Godot;
 using System;
 using FreezeThaw.Utils;
-public partial class SandwormHurt : FSMState
+
+public partial class Armor : FSMState
 {
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
@@ -16,42 +17,42 @@ public partial class SandwormHurt : FSMState
 
     public override void Update(double delta)
     {
-        /* During Hurt, Monster can Changed state */
+        /* During Armor, Monster can't be Changed state until Die */
         if (true)
         {
-            LogTool.DebugLogDump(Name + " Hurt play");
-            return;
+            LogTool.DebugLogDump(Name + " Attack play");
+            //return;
         }
-        ((Monster)Fsm.character).Hurting = false;
+        Fsm.PreStateChange(CharacterStateEnum.Idle, true);
     }
 
     public override bool EnterCondition()
     {
-        if (Fsm.PreState != CharacterStateEnum.Hurt)
+        if (Fsm.PreState != CharacterStateEnum.Armor)
         {
             return false;
         }
-        LogTool.DebugLogDump(Name + " EnterCondition");
+        LogTool.DebugLogDump(Name + " EnterCondition!");
 
-        /* Hurt return false forever */
-        return false;
+        return true;
     }
     public override void OnEnter()
     {
-        LogTool.DebugLogDump(Name + " OnEnter!");
+
+        LogTool.DebugLogDump(Name + " Attack OnEnter!");
     }
     public override bool ExitCondition()
     {
-        if (Fsm.PreState == CharacterStateEnum.Hurt)
+        if (Fsm.PreState == CharacterStateEnum.Armor)
         {
             return false;
         }
-        LogTool.DebugLogDump(Name + " ExitCondition");
+        LogTool.DebugLogDump(Name + " Attack ExitCondition!");
 
         return true;
     }
     public override void OnExit()
     {
-        LogTool.DebugLogDump(Name + " OnExit!");
+        LogTool.DebugLogDump(Name + " Attack OnExit!");
     }
 }

@@ -1,12 +1,12 @@
 using Godot;
 using System;
 
-public partial class Sandworm : Monster
+public partial class Mouse : Survivor
 {
     public override void _Ready()
     {
         base._Ready();
-        Speed = 550f;
+        Speed = 400f;
         Bullet = ResourceLoader.Load<PackedScene>("res://Scenes/Bullets/Normal/Slingshot.tscn");
     }
     public override void _PhysicsProcess(double delta)

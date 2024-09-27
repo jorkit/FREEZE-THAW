@@ -2,7 +2,7 @@ using Godot;
 using System;
 using FreezeThaw.Utils;
 
-public partial class SandwormSealing : FSMState
+public partial class Idle : FSMState
 {
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
@@ -17,22 +17,16 @@ public partial class SandwormSealing : FSMState
 
     public override void Update(double delta)
     {
-        if (true)
-        {
-            LogTool.DebugLogDump(Name + " Sealing play");
-            FSM.PreStateChange(Fsm, CharacterStateEnum.Sealing, true);
-            //return;
-        }
-        FSM.PreStateChange(Fsm, CharacterStateEnum.Idle, true);
     }
 
     public override bool EnterCondition()
     {
-        if (Fsm.PreState != CharacterStateEnum.Sealing)
+        if (Fsm.PreState > CharacterStateEnum.Run || Joystick.GetCurPosition() != new Vector2(0, 0))
         {
             return false;
         }
         LogTool.DebugLogDump(Name + " EnterCondition");
+        Fsm.PreStateChange(CharacterStateEnum.Run, false);
 
         return true;
     }
@@ -42,7 +36,7 @@ public partial class SandwormSealing : FSMState
     }
     public override bool ExitCondition()
     {
-        if (Fsm.PreState == CharacterStateEnum.Sealing)
+        if (Fsm.PreState == CharacterStateEnum.Idle)
         {
             return false;
         }

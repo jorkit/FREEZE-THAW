@@ -6,8 +6,29 @@ public abstract partial class Character : CharacterBody2D
 {
     public float Speed;
     private FSM _fsm;
-    protected PackedScene Bullet;
     // public const float JumpVelocity = -400.0f;
+
+    public override void _EnterTree()
+    {
+        base._EnterTree();
+        if (BigBro.IsMultiplayer == true)
+        {
+            SetMultiplayerAuthority(Name.ToString().ToInt());
+            Position = new Vector2(300, 300);
+            if (IsMultiplayerAuthority() == false)
+            {
+                LogTool.DebugLogDump(GetMultiplayerAuthority().ToString());
+                RemoveChild(GetNode<UIContainer>("UIContainer"));
+                RemoveChild(GetNode<Camera2D>("CharacterCamera"));
+            }
+        }
+        else
+        {
+            var MultiplayerSynchronizer = GetNodeOrNull<MultiplayerSynchronizer>("MultiplayerSynchronizer");
+            if (MultiplayerSynchronizer != null)
+                RemoveChild(MultiplayerSynchronizer);
+        }
+    }
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
@@ -27,15 +48,27 @@ public abstract partial class Character : CharacterBody2D
 
     public override void _PhysicsProcess(double delta)
     {
-        /* if Joystick move, try to set Run state */
-        if (Joystick.GetCurPosition() != new Vector2(0, 0))
+        /* if not self, return */
+        if (IsMultiplayerAuthority() == false)
         {
-            FSM.PreStateChange(_fsm, CharacterStateEnum.Run, false);
+            return;
         }
-        /* If a is stationary and CurrentState is less than Run, set Idle state force */
-        else if (_fsm.PreState <= CharacterStateEnum.Run)
+        if (_fsm == null)
         {
-            FSM.PreStateChange(_fsm, CharacterStateEnum.Idle, true);
+            LogTool.DebugLogDump("Character not found");
+            return;
+        }
+        var velocity = _fsm.character.GetDirection();
+        if (velocity != new Vector2(0, 0))
+        {
+            _fsm.character.Velocity = velocity.Normalized() * (float)delta * _fsm.character.Speed;
+            /* get Collide info */
+            var collision_info = _fsm.character.MoveAndCollide(_fsm.character.Velocity);
+            if (collision_info != null)
+            {
+                var collider = collision_info.GetCollider();
+                LogTool.DebugLogDump("COlliding!" + collider.GetType().Name);
+            }
         }
     }
 
@@ -47,14 +80,8 @@ public abstract partial class Character : CharacterBody2D
 
     public void AttackButtonPressedHandle()
     {
-        FSM.PreStateChange(_fsm, CharacterStateEnum.Attack, false);
+        _fsm.PreStateChange(CharacterStateEnum.Attack, false);
     }
 
-    public virtual void Attack()
-    {
-        var bullet = Bullet.Instantiate<Bullet>();
-        bullet.SetDirection(new Vector2(1, 0));
-        GetParent().AddChild(bullet);
-        bullet.GlobalPosition = GetNode<Marker2D>("BulletBornPosition").GlobalPosition;
-    }
+    public abstract void Attack();
 }
