@@ -17,7 +17,49 @@ public partial class SandwormRun : FSMState
     public override void Update(double delta)
     {
     }
+        var velocity = Fsm.character.GetDirection();
+        if (velocity == new Vector2(0, 0))
+        {
+            var left = Input.IsActionPressed("ui_left");
+            var right = Input.IsActionPressed("ui_right");
+            var up = Input.IsActionPressed("ui_up");
+            var down = Input.IsActionPressed("ui_down");
 
+            if (left)
+            {
+                velocity.X--;
+            }
+            if (right)
+            {
+                velocity.X++;
+            }
+            if (up)
+            {
+                velocity.Y--;
+            }
+            if (down)
+            {
+                velocity.Y++;
+            }
+        }
+        Fsm.character.Velocity = velocity.Normalized() * (float)delta * Fsm.character.Speed;
+        Fsm.character.Velocity = velocity.Normalized() * (float)delta * Fsm.character.Speed;
+        /* get Collide info */
+        var collision_info = Fsm.character.MoveAndCollide(Fsm.character.Velocity);
+        if (collision_info != null)
+        {
+            var collider = collision_info.GetCollider();
+            LogTool.DebugLogDump("COlliding!" + collider.GetType().Name);
+        }
+    }
+
+    }
+
+        if (Fsm.PreState != CharacterStateEnum.Run)
+    }
+
+>>>>>>> b10c988 (1. joystick adapt to xbox)
+    }
     public override bool EnterCondition()
     {
         /* if in Idle and Joystick move, try to set Run Prestate */
@@ -27,7 +69,7 @@ public partial class SandwormRun : FSMState
         }
         LogTool.DebugLogDump(Name + " EnterCondition");
         Fsm.PreStateChange(CharacterStateEnum.Run, false);
-
+        if (Fsm.PreState == CharacterStateEnum.Run)
         return true;
     }
     public override void OnEnter()
