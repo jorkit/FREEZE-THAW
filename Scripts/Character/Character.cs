@@ -6,6 +6,7 @@ public abstract partial class Character : CharacterBody2D
 {
     public float Speed;
     private FSM _fsm;
+    protected PackedScene Bullet;
     // public const float JumpVelocity = -400.0f;
 
     // Called when the node enters the scene tree for the first time.
@@ -47,5 +48,13 @@ public abstract partial class Character : CharacterBody2D
     public void AttackButtonPressedHandle()
     {
         FSM.PreStateChange(_fsm, CharacterStateEnum.Attack, false);
+    }
+
+    public virtual void Attack()
+    {
+        var bullet = Bullet.Instantiate<Bullet>();
+        bullet.SetDirection(new Vector2(1, 0));
+        GetParent().AddChild(bullet);
+        bullet.GlobalPosition = GetNode<Marker2D>("BulletBornPosition").GlobalPosition;
     }
 }

@@ -37,7 +37,8 @@ public partial class SandwormAttack : FSMState
     public override void OnEnter()
 	{
         LogTool.DebugLogDump(Name + " Attack OnEnter!");
-	}
+        Fsm.character.Attack();
+    }
     public override bool ExitCondition()
     {
         if (Fsm.PreState == CharacterStateEnum.Attack)

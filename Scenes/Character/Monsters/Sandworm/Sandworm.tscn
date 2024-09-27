@@ -62,3 +62,6 @@ shape = SubResource("CapsuleShape2D_pnk0x")
 [node name="SandwormDie" parent="FSM" instance=ExtResource("12_1t0w8")]
 
 [node name="RadiusCheck" parent="." instance=ExtResource("2_po12i")]
+
+[node name="BulletBornPosition" type="Marker2D" parent="."]
+position = Vector2(67, 0)

@@ -16,7 +16,6 @@ public partial class SandwormRun : FSMState
 
     public override void Update(double delta)
     {
-<<<<<<< HEAD
         var velocity = Fsm.character.GetDirection();
         if (velocity == new Vector2(0, 0))
         {
@@ -51,8 +50,6 @@ public partial class SandwormRun : FSMState
             var collider = collision_info.GetCollider();
             LogTool.DebugLogDump("COlliding!" + collider.GetType().Name);
         }
-=======
->>>>>>> b10c988 (1. joystick adapt to xbox)
     }
 
     public override bool EnterCondition()
