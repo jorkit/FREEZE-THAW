@@ -47,12 +47,22 @@ public abstract partial class Character : CharacterBody2D
     
     public override void _PhysicsProcess(double delta)
     {
-        /* get Collide info */
-        var collision_info = _fsm.character.MoveAndCollide(_fsm.character.Velocity);
-        if (collision_info != null)
+        /* if not self, return */
+        if (IsMultiplayerAuthority() == false)
         {
-            var collider = collision_info.GetCollider();
-            LogTool.DebugLogDump("COlliding!" + collider.GetType().Name);
+            return;
+        }
+        var velocity = _fsm.character.GetDirection();
+        if (velocity != new Vector2(0, 0))
+        {
+            _fsm.character.Velocity = velocity.Normalized() * (float)delta * _fsm.character.Speed;
+            /* get Collide info */
+            var collision_info = _fsm.character.MoveAndCollide(_fsm.character.Velocity);
+            if (collision_info != null)
+            {
+                var collider = collision_info.GetCollider();
+                LogTool.DebugLogDump("COlliding!" + collider.GetType().Name);
+            }
         }
     }
 

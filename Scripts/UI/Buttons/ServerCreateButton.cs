@@ -27,6 +27,10 @@ public partial class ServerCreateButton : TouchScreenButton
 
     public void PressedHandler()
     {
+        if (CanBePressed == false)
+        {
+            return;
+        }
         LogTool.DebugLogDump(Name + " pressed!");
         BigBro.IsMultiplayer = true;
         BigBro.Peer = new();
@@ -50,6 +54,8 @@ public partial class ServerCreateButton : TouchScreenButton
         PlayerAdd(Multiplayer.GetUniqueId());
         Multiplayer.PeerConnected += new MultiplayerApi.PeerConnectedEventHandler(PeerConnectHandle);
         Multiplayer.PeerDisconnected += new MultiplayerApi.PeerDisconnectedEventHandler(PeerDisConnectHandle);
+        CanBePressed = false;
+        _optionContainer.Visible = false;
     }
 
     private void PlayerAdd(long id)

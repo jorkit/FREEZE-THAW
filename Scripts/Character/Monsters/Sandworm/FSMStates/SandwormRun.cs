@@ -16,36 +16,6 @@ public partial class SandwormRun : FSMState
 
     public override void Update(double delta)
     {
-        /* if not self, return */
-        if (IsMultiplayerAuthority() == false)
-        {
-            return;
-        }
-        var velocity = Fsm.character.GetDirection();
-        if (velocity == new Vector2(0, 0))
-        {
-            var left = Input.IsActionPressed("ui_left");
-            var right = Input.IsActionPressed("ui_right");
-            var up = Input.IsActionPressed("ui_up");
-            var down = Input.IsActionPressed("ui_down");
-            if (left)
-            {
-                velocity.X--;
-            }
-            if (right)
-            {
-                velocity.X++;
-            }
-            if (up)
-            {
-                velocity.Y--;
-            }
-            if (down)
-            {
-                velocity.Y++;
-            }
-        }
-        Fsm.character.Velocity = velocity.Normalized() * (float)delta * Fsm.character.Speed;
     }
 
     public override bool EnterCondition()

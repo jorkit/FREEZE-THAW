@@ -31,7 +31,6 @@ public partial class ClientJoinButton : TouchScreenButton
             return;
         }
         LogTool.DebugLogDump(Name + " pressed!");
-        CanBePressed = false;
         BigBro.IsMultiplayer = true;
         BigBro.Peer = new();
         BigBro.Spawner = new();
@@ -43,11 +42,24 @@ public partial class ClientJoinButton : TouchScreenButton
         BigBro.Spawner.SpawnPath = (GetParent().GetParent().GetNode("Players")).GetPath();
         BigBro.Spawner.AddSpawnableScene("res://Scenes/Character/Monsters/Sandworm/Sandworm.tscn");
 
-        if (BigBro.Peer.CreateClient("192.168.1.68", 7788) != Error.Ok)
+        var CreateClientResult = BigBro.Peer.CreateClient("192.168.1.68", 7788);
+        if (CreateClientResult != Error.Ok)
         {
-            LogTool.DebugLogDump("Server create failed!");
+            LogTool.DebugLogDump("Client create failed!");
+            _optionContainer.GetNode<RichTextLabel>("RichTextLabel").Text = CreateClientResult.ToString();
             return;
         }
         Multiplayer.MultiplayerPeer = BigBro.Peer;
+        //OS.DelayMsec(100);
+        Multiplayer.Poll();
+        var GetConnectionStatus = BigBro.Peer.GetConnectionStatus();
+        if (GetConnectionStatus == MultiplayerPeer.ConnectionStatus.Disconnected)
+        {
+            LogTool.DebugLogDump("Client connect failed!");
+            _optionContainer.GetNode<RichTextLabel>("RichTextLabel").Text = GetConnectionStatus.ToString();
+            return;
+        }
+        CanBePressed = false;
+        _optionContainer.Visible = false;
     }
 }
