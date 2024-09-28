@@ -1,4 +1,4 @@
-[gd_scene load_steps=2 format=3 uid="uid://dvkr6b7728cwn"]
+[gd_scene load_steps=2 format=3 uid="uid://ceq5hg4xenaau"]
 
 [ext_resource type="Script" path="res://Scripts/Manager/SceneFSMStates/SceneOfWaitingHall.cs" id="1_ogjuv"]
 

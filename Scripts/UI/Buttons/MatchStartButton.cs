@@ -30,8 +30,6 @@ public partial class MatchStartButton : TouchScreenButton
         LogTool.DebugLogDump(Name + " pressed!");
 
         BigBro.CreatePlayerContainer();
-        var player = ResourceLoader.Load<PackedScene>(BigBro.CharacterPathList[BigBro.CharacterTypeEnum.Mouse]).Instantiate();
-        BigBro.PlayerContainer.AddChild(player);
         SceneFSM.PreStateChange(BigBro.SceneFSM, SceneStateEnum.MatchStartLoading, true);
     }
 }

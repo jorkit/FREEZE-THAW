@@ -83,8 +83,6 @@ public partial class ClientJoinButton : TouchScreenButton
         {
             BigBro.Spawner.AddSpawnableScene(path.Value);
         }
-        /* PlayerContainer create */
-        BigBro.CreatePlayerContainer();
         
         /* Scene change */
         SceneFSM.PreStateChange(BigBro.SceneFSM, SceneStateEnum.WaitingHall, true);

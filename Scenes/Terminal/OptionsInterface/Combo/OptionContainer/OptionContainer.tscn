@@ -2,8 +2,8 @@
 
 [ext_resource type="Script" path="res://Scripts/UI/OptionContainer.cs" id="1_7ofxg"]
 [ext_resource type="PackedScene" uid="uid://buwh3iof1b8v7" path="res://Scenes/Terminal/OptionsInterface/Combo/OptionContainer/Unit/MatchStartButton.tscn" id="1_w3qgl"]
-[ext_resource type="PackedScene" uid="uid://cfytds6iiwa01" path="res://Scenes/Terminal/OptionsInterface/Combo/OptionContainer/Unit/ServerCreateButton.tscn" id="3_jrum6"]
-[ext_resource type="PackedScene" uid="uid://cuvj2oo5u1fee" path="res://Scenes/Terminal/OptionsInterface/Combo/OptionContainer/Unit/ClientJoinButton.tscn" id="4_vlxuc"]
+[ext_resource type="PackedScene" path="res://Scenes/Terminal/OptionsInterface/Combo/OptionContainer/Unit/ServerCreateButton.tscn" id="3_jrum6"]
+[ext_resource type="PackedScene" path="res://Scenes/Terminal/OptionsInterface/Combo/OptionContainer/Unit/ClientJoinButton.tscn" id="4_vlxuc"]
 
 [node name="OptionContainer" type="CanvasLayer"]
 script = ExtResource("1_7ofxg")
