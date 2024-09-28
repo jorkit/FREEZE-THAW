@@ -9,31 +9,31 @@
 script = ExtResource("1_7ofxg")
 
 [node name="MatchStartButton" parent="." instance=ExtResource("1_w3qgl")]
-position = Vector2(1036, 136)
+position = Vector2(979, 138)
 
 [node name="ServerCreateButton" parent="." instance=ExtResource("3_jrum6")]
-position = Vector2(1040, 298)
+position = Vector2(983, 300)
 
 [node name="ClientJoinButton" parent="." instance=ExtResource("4_vlxuc")]
-position = Vector2(1042, 466)
+position = Vector2(985, 468)
 
 [node name="Label_ServerCreate" type="Label" parent="."]
-offset_left = 1082.0
-offset_top = 316.0
-offset_right = 1168.0
-offset_bottom = 342.0
+offset_left = 1025.0
+offset_top = 318.0
+offset_right = 1111.0
+offset_bottom = 344.0
 text = "创建服务器"
 
 [node name="Label_ClientJoin" type="Label" parent="."]
-offset_left = 1082.0
-offset_top = 486.0
-offset_right = 1172.0
-offset_bottom = 512.0
+offset_left = 1025.0
+offset_top = 488.0
+offset_right = 1115.0
+offset_bottom = 514.0
 text = "加入服务器"
 
 [node name="Label_Single" type="Label" parent="."]
-offset_left = 1084.0
-offset_top = 155.0
-offset_right = 1148.0
-offset_bottom = 178.0
+offset_left = 1027.0
+offset_top = 157.0
+offset_right = 1091.0
+offset_bottom = 180.0
 text = "单人游戏"

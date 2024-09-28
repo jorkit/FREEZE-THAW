@@ -31,31 +31,52 @@ public partial class ClientJoinButton : TouchScreenButton
             return;
         }
         LogTool.DebugLogDump(Name + " pressed!");
-        BigBro.IsMultiplayer = true;
+        var ServerAddress = _optionContainer.GetNode<TextEdit>("ServerAddress");
+        if (System.String.IsNullOrWhiteSpace(ServerAddress.Text) == true)
+        {
+            ServerAddress.Text = "Please input server IP or Domain";
+            return;
+        }
         BigBro.Peer = new();
-        BigBro.Spawner = new();
-        BigBro.MultiplayerApi = Multiplayer;
-
-        var CreateClientResult = BigBro.Peer.CreateClient("192.168.1.68", 7788);
+        var CreateClientResult = BigBro.Peer.CreateClient(ServerAddress.Text, 7788);
         if (CreateClientResult != Error.Ok)
         {
             LogTool.DebugLogDump("Client create failed!");
+            ServerAddress.Text = "Please check server IP or Domain";
             return;
         }
+        /* Peer must be added to MultiplayerPeer, or the status will never be Connected */
+        BigBro.MultiplayerApi = Multiplayer;
         BigBro.MultiplayerApi.MultiplayerPeer = BigBro.Peer;
-        GetTree().Root.SetMultiplayerAuthority(BigBro.Peer.GetUniqueId());
 
-        //OS.DelayMsec(100);
-        Multiplayer.Poll();
-        var GetConnectionStatus = BigBro.Peer.GetConnectionStatus();
-        if (GetConnectionStatus == MultiplayerPeer.ConnectionStatus.Disconnected)
+        /* must poll, or the status will never be Connected */
+        int i = 10;
+        do
+        {
+            Multiplayer.Poll();
+            var GetConnectionStatus = BigBro.Peer.GetConnectionStatus();
+            if (GetConnectionStatus == MultiplayerPeer.ConnectionStatus.Connected)
+            {
+                i = -1;
+                break;
+            }
+            OS.DelayMsec(100);
+        } while (--i > 0);
+        if (i != -1)
         {
             LogTool.DebugLogDump("Client connect failed!");
+            ServerAddress.Text = "Please check server IP or Domain";
+            BigBro.Peer.Close();
             return;
         }
+
+        /* Client connection successful */
         CanBePressed = false;
+        BigBro.IsMultiplayer = true;
+        GetTree().Root.SetMultiplayerAuthority(BigBro.Peer.GetUniqueId());
 
         /* Spawner add */
+        BigBro.Spawner = new();
         BigBro.bigBro.AddChild(BigBro.Spawner);
         BigBro.CreatePlayerContainer();
         foreach (var path in BigBro.CharacterPathList)
