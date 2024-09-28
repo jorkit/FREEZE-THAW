@@ -4,7 +4,7 @@ using FreezeThaw.Utils;
 
 public partial class Joystick : Sprite2D
 {
-    private static Sprite2D _point;// 声明一个Sprite2D类型的私有变量_point（圆点）
+    private Sprite2D _point;// 声明一个Sprite2D类型的私有变量_point（圆点）
     private byte _maxlen;// 声明一个byte类型的私有变量maxlen并赋值为70
 	private sbyte _index;
     private sbyte _ondraging;// 声明一个sbyte类型的私有变量并赋值为-1
@@ -48,7 +48,7 @@ public partial class Joystick : Sprite2D
         {
             return;
         }
-        JoystickPreprocess(@event);
+        JoystickTouchHandle(@event);
         if (@event is InputEventScreenDrag)
 		{
             _index = (sbyte)@event.Get("index");
@@ -77,12 +77,13 @@ public partial class Joystick : Sprite2D
 		}
 	}
 
-	private void JoystickPreprocess(InputEvent @event)
+	private void JoystickTouchHandle(InputEvent @event)
 	{
         if (@event is InputEventScreenTouch && @event.IsPressed() && _ondraging == -1)
         {
             Vector2 tmp_vec = (Vector2)@event.Get("position");
-            if (tmp_vec.X > BigBro.windowSize.X/2 || tmp_vec.X < BigBro.windowSize.X/15 || tmp_vec.Y < BigBro.windowSize.Y/8 || tmp_vec.Y > BigBro.windowSize.Y * 9/10)
+            if (tmp_vec.X > BigBro.windowSize.X/2 || tmp_vec.X < BigBro.windowSize.X/15
+                || tmp_vec.Y < BigBro.windowSize.Y/8 || tmp_vec.Y > BigBro.windowSize.Y * 9/10)
             {
                 return;
             }
@@ -100,11 +101,12 @@ public partial class Joystick : Sprite2D
             }
             Visible = false;
             _ondraging = -1;
-            CreateTween().TweenProperty(_point, "position", Vector2.Zero, 0.1).SetTrans(Tween.TransitionType.Linear);
+            _point.Position = Vector2.Zero;
+            //CreateTween().TweenProperty(_point, "position", Vector2.Zero, 0.1).SetTrans(Tween.TransitionType.Linear);
         }
     }
 
-    private static bool XBOXJoystickHandle(InputEvent @event)
+    private bool XBOXJoystickHandle(InputEvent @event)
     {
         if (@event is InputEventJoypadMotion)
         {
@@ -119,7 +121,7 @@ public partial class Joystick : Sprite2D
         return false;
     }
 
-    private static bool KeyBoardDirectionHandle(InputEvent @event)
+    private bool KeyBoardDirectionHandle(InputEvent @event)
     {
         if (@event is InputEventKey)
         {
@@ -129,58 +131,41 @@ public partial class Joystick : Sprite2D
             var up = Input.IsActionPressed("ui_up");
             var down = Input.IsActionPressed("ui_down");
 
-            if (left)
-            {
-                velocity.X--;
-            }
-            if (right)
-            {
-                velocity.X++;
-            }
-            if (up)
-            {
-                velocity.Y--;
-            }
-            if (down)
-            {
-                velocity.Y++;
-            }
+            if (left) velocity.X--;
+
+            if (right) velocity.X++;
+
+            if (up) velocity.Y--;
+
+            if (down) velocity.Y++;
 
             left = Input.IsActionJustReleased("ui_left");
             right = Input.IsActionJustReleased("ui_right");
             up = Input.IsActionJustReleased("ui_up");
             down = Input.IsActionJustReleased("ui_down");
 
-            if (left)
-            {
-                velocity.X = 0;
-            }
-            if (right)
-            {
-                velocity.X = 0;
-            }
-            if (up)
-            {
-                velocity.Y = 0;
-            }
-            if (down)
-            {
-                velocity.Y = 0;
-            }
+            if (left) velocity.X = 0;
+ 
+            if (right) velocity.X = 0;
+
+            if (up) velocity.Y = 0;
+
+            if (down) velocity.Y = 0;
+
             if (velocity != Vector2.Zero)
             {
                 _point.Position = velocity.Normalized();
                 return true;
             }
-            _point.Position = velocity;
-
+            _point.Position = Vector2.Zero;
             return true;
         }
+
         return false;
     }
 
     /* 外部调用返回当前位置的方法 */
-    public static Vector2 GetCurPosition()
+    public Vector2 GetCurPosition()
     {
         return _point.Position.Normalized(); // 返回_point位置的单位向量
     }

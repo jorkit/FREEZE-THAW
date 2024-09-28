@@ -1,7 +1,6 @@
 ﻿using Godot;
 using System;
 using FreezeThaw.Utils;
-using static Godot.WebSocketPeer;
 
 public enum CharacterStateEnum
 {
@@ -95,10 +94,18 @@ public partial class FSM : Node
     /* Prestate change, wait for CurrentState change */
     public void PreStateChange(CharacterStateEnum newPreState, bool force)
     {
-        Rpc("PreStateChangeRPC", (int)newPreState, force); 
+        if (BigBro.IsMultiplayer == true && BigBro.MultiplayerApi.IsServer() == false)
+        {
+            return;
+        }
+        var rpcResult = Rpc("PreStateChangeRPC", (int)newPreState, force);
+        if (rpcResult != Error.Ok)
+        {
+            LogTool.DebugLogDump("Rpc error: " + rpcResult.ToString());
+        }
     }
 
-    [Rpc(mode: MultiplayerApi.RpcMode.AnyPeer, CallLocal = true, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
+    [Rpc(mode: MultiplayerApi.RpcMode.AnyPeer, CallLocal = false, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
     private void PreStateChangeRPC(int newPreState_Int, bool force)
     {
         CharacterStateEnum newPreState = (CharacterStateEnum)newPreState_Int;
@@ -177,20 +184,45 @@ public partial class FSM : Node
         while (count > 0)
         {
             FSMState state = GetChild<FSMState>(--count);
-            if (state != CurrentState)
+            if (state == CurrentState)
             {
-                if (state.EnterCondition())
+                continue;
+            }
+            if (state.EnterCondition() == false)
+            {
+                continue;
+            }
+            if (CurrentState.ExitCondition() == false)
+            {
+                continue;
+            }
+            if (BigBro.IsMultiplayer == true)
+            {
+                if (BigBro.MultiplayerApi.IsServer() == true)
                 {
-                    if (CurrentState.ExitCondition())
+                    var rpcRes = Rpc("CurrentStateChange", (int)state.StateIndex);
+                    if (rpcRes != Error.Ok)
                     {
-                        CurrentState.OnExit();
-                        CurrentState = state;
-                        CurrentState.OnEnter();
-                        count = -1;
+                        LogTool.DebugLogDump("Rpc call failed! " + rpcRes.ToString());
                     }
+                    count = -1;
                 }
             }
+            else
+            {
+                CurrentState.OnExit();
+                CurrentState = state;
+                CurrentState.OnEnter();
+            }
         }
+    }
+
+    [Rpc(mode: MultiplayerApi.RpcMode.AnyPeer, CallLocal = true, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
+    private void CurrentStateChange(int stateIndex)
+    {
+        CurrentState.OnExit();
+        CurrentState = GetNode<FSMState>(((CharacterStateEnum)stateIndex).ToString());
+        CurrentState.OnEnter();
     }
 }
 public abstract partial class FSMState : Node

@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=3 uid="uid://cb64aufhpklb2"]
+[gd_scene load_steps=29 format=3 uid="uid://cb64aufhpklb2"]
 
 [ext_resource type="Script" path="res://Scripts/Character/Survivors/Mouse.cs" id="1_4hk77"]
 [ext_resource type="Texture2D" uid="uid://cf0adrmuibiil" path="res://Static/Animations/Character/Monsters/Sandworm/Adonis_boss.png" id="2_do775"]
@@ -118,11 +118,6 @@ animations = [{
 radius = 40.0
 height = 128.0
 
-[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_y5eb4"]
-properties/0/path = NodePath(".:position")
-properties/0/spawn = true
-properties/0/replication_mode = 1
-
 [node name="Mouse" type="CharacterBody2D"]
 script = ExtResource("1_4hk77")
 
@@ -170,6 +165,3 @@ shape = SubResource("CapsuleShape2D_pnk0x")
 
 [node name="BulletBornPosition" type="Marker2D" parent="."]
 position = Vector2(67, 0)
-
-[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
-replication_config = SubResource("SceneReplicationConfig_y5eb4")

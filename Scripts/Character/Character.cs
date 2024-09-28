@@ -7,7 +7,7 @@ public abstract partial class Character : CharacterBody2D
 {
     private FSM _fsm;
     public float Speed;
-    public AnimatedSprite2D SelfImage {  get; set; }
+    public AnimatedSprite2D SelfImage { get; set; }
     // public const float JumpVelocity = -400.0f;
 
     public override void _EnterTree()
@@ -16,11 +16,16 @@ public abstract partial class Character : CharacterBody2D
         if (BigBro.IsMultiplayer == true)
         {
             /* Set the authority of this node */
+            LogTool.DebugLogDump("lalalalala" + GetMultiplayerAuthority().ToString() + " " + Name);
             SetMultiplayerAuthority(Name.ToString().ToInt());
+            GetNode<Joystick>("UIContainer/Joystick").SetMultiplayerAuthority(Name.ToString().ToInt());
+
             Position = new Vector2(300, 300);
-            if (IsMultiplayerAuthority() == false)
+            if (IsMultiplayerAuthority() == false && BigBro.MultiplayerApi.IsServer() == false)
             {
-                RemoveChild(GetNode<UIContainer>("UIContainer"));
+                LogTool.DebugLogDump(GetMultiplayerAuthority().ToString() + " " + Name);
+                //RemoveChild(GetNode<UIContainer>("UIContainer"));
+                GetNode<UIContainer>("UIContainer").Visible = false;
                 RemoveChild(GetNode<Camera2D>("CharacterCamera"));
             }
         }
@@ -34,7 +39,7 @@ public abstract partial class Character : CharacterBody2D
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
-	{
+    {
         _fsm = GetNodeOrNull<FSM>("FSM");
         if (_fsm == null)
         {
@@ -49,23 +54,24 @@ public abstract partial class Character : CharacterBody2D
         }
     }
 
-	// Called every frame. 'delta' is the elapsed time since the previous frame.
-	public override void _Process(double delta)
-	{
-	}
+    // Called every frame. 'delta' is the elapsed time since the previous frame.
+    public override void _Process(double delta)
+    {
+    }
 
     public override void _PhysicsProcess(double delta)
     {
         /* if not self, return */
         if (IsMultiplayerAuthority() == false)
         {
-            return;
+            //return;
         }
         if (_fsm == null)
         {
             LogTool.DebugLogDump("Character not found");
             return;
         }
+        
         /* get Collide info */
         if (_fsm.character.MoveAndSlide() == true)
         {
@@ -74,16 +80,44 @@ public abstract partial class Character : CharacterBody2D
                 LogTool.DebugLogDump("COlliding!" + GetSlideCollision(i).GetType().Name);
             }
         }
-        _fsm.character.Velocity = Vector2.Zero;
+        SetNewPostion();
+    }
+
+    private void SetNewPostion()
+    {
+        /* Multiplayer and server do Ppc call */
+        if (BigBro.IsMultiplayer == true && BigBro.MultiplayerApi.IsServer() == true)
+        {
+            Rpc("SetNewPostionRpc", Position);
+        }
+    }
+
+    /* AnyPeer means Calls can from any Peer, no matter if they are node's authority or not */
+    [Rpc(mode: MultiplayerApi.RpcMode.AnyPeer, CallLocal = false, TransferMode = MultiplayerPeer.TransferModeEnum.UnreliableOrdered)]
+    private void SetNewPostionRpc(Vector2 newPostion)
+    {
+        var velocity = newPostion - Position;
+        /* debouncing */
+        if (velocity.Abs() > new Vector2((float)6, (float)6))
+        {
+            Velocity = velocity.Normalized() * Speed;
+        }
+        else
+        {
+            Velocity = Vector2.Zero;
+        }
     }
 
     public Vector2 GetDirection()
     {
-        if (IsMultiplayerAuthority() == false)
+        if (BigBro.IsMultiplayer == true)
         {
-            return Vector2.Zero;
+            if (IsMultiplayerAuthority() == false && BigBro.MultiplayerApi.IsServer() == false)
+            {
+                return Vector2.Zero;
+            }
         }
-        return Joystick.GetCurPosition();
+        return GetNodeOrNull<Joystick>("UIContainer/Joystick").GetCurPosition();
     }
     public CharacterStateEnum GetCurrentState()
     {

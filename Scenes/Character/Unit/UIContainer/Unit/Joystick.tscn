@@ -1,8 +1,13 @@
-[gd_scene load_steps=4 format=3 uid="uid://db0y3e316xacc"]
+[gd_scene load_steps=5 format=3 uid="uid://db0y3e316xacc"]
 
 [ext_resource type="Texture2D" uid="uid://cm57d6pgjj4kj" path="res://Static/UI/Joystick/摇杆2.webp" id="1_ccxnb"]
 [ext_resource type="Texture2D" uid="uid://dl7f4lv0k4n05" path="res://Static/UI/Joystick/摇杆.webp" id="2_h8fcs"]
 [ext_resource type="Script" path="res://Scripts/UI/Joystick.cs" id="2_wwdtg"]
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_rfur6"]
+properties/0/path = NodePath("Point:position")
+properties/0/spawn = true
+properties/0/replication_mode = 1
 
 [node name="Joystick" type="Sprite2D"]
 texture = ExtResource("1_ccxnb")
@@ -10,3 +15,6 @@ script = ExtResource("2_wwdtg")
 
 [node name="Point" type="Sprite2D" parent="."]
 texture = ExtResource("2_h8fcs")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_rfur6")

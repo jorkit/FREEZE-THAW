@@ -74,6 +74,60 @@ public partial class BigBro : Node
 	{
 	}
 
+    public static bool MultiplayerInit()
+    {
+        BigBro.IsMultiplayer = true;
+        BigBro.Peer = new();
+        BigBro.Spawner = new();
+
+        var CreateServerResult = BigBro.Peer.CreateServer(7788);
+        if (CreateServerResult != Error.Ok)
+        {
+            LogTool.DebugLogDump("Server create failed!");
+            return false;
+        }
+        BigBro.MultiplayerApi.MultiplayerPeer = BigBro.Peer;
+
+        /* Spawner add */
+        BigBro.bigBro.AddChild(BigBro.Spawner);
+        BigBro.CreatePlayerContainer();
+        foreach (var path in BigBro.CharacterPathList)
+        {
+            BigBro.Spawner.AddSpawnableScene(path.Value);
+        }
+        /* Client event handler bind */
+        BigBro.MultiplayerApi.PeerConnected += new MultiplayerApi.PeerConnectedEventHandler(PeerConnectHandle);
+        BigBro.MultiplayerApi.PeerDisconnected += new MultiplayerApi.PeerDisconnectedEventHandler(PeerDisConnectHandle);
+
+        return true;
+    }
+
+    public static void PeerConnectHandle(long id)
+    {
+        var connectedClients = BigBro.MultiplayerApi.GetPeers();
+        foreach (var connectedClient in connectedClients)
+        {
+            if (connectedClient == id)
+            {
+                if (BigBro.PlayerContainer.GetNodeOrNull<Character>(id.ToString()) != null)
+                {
+                    LogTool.DebugLogDump("[" + id + "]Has connected");
+                    return;
+                }
+                LogTool.DebugLogDump("Client[" + id + "]Connected!");
+                PlayerAdd((long)id, BigBro.CharacterPathList[BigBro.CharacterTypeEnum.Mouse]);
+                return;
+            }
+        }
+        LogTool.DebugLogDump("[" + id + "]Don't connect");
+    }
+
+    public static void PeerDisConnectHandle(long id)
+    {
+        LogTool.DebugLogDump("Client[" + id + "]Disconnected!");
+        PlayerRemove((long)id);
+    }
+
     public static void CreatePlayerContainer()
     {
         var playerContainer = ResourceLoader.Load<PackedScene>(BigBro.PlayerContainerPath).InstantiateOrNull<Node>();
@@ -83,5 +137,20 @@ public partial class BigBro : Node
             return;
         }
         BigBro.PlayerContainer = playerContainer;
+    }
+
+    public static void PlayerAdd(long id, NodePath path)
+    {
+        var character = ResourceLoader.Load<PackedScene>(path).Instantiate();
+        character.Name = id.ToString();
+        BigBro.PlayerContainer.AddChild(character);
+    }
+    private static void PlayerRemove(long id)
+    {
+        var quittedClient = BigBro.PlayerContainer.GetNodeOrNull(id.ToString());
+        if (quittedClient != null)
+        {
+            quittedClient.QueueFree();
+        }
     }
 }

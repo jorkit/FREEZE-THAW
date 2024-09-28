@@ -17,10 +17,30 @@ public partial class Run : FSMState
 
     public override void Update(double delta)
     {
-        var velocity = Fsm.character.GetDirection();
-        if (velocity != Vector2.Zero)
+        if (BigBro.IsMultiplayer == true)
         {
+            if (BigBro.MultiplayerApi.IsServer() == true)
+            {
+                var velocity = Fsm.character.GetDirection();
+                if (velocity == Vector2.Zero)
+                {
+                    Fsm.character.Velocity = Vector2.Zero;
+                }
+                else
+                {    
+                    Fsm.character.Velocity = velocity.Normalized() * Fsm.character.Speed;
+                    
+                }
+            }
+        }
+        else
+        {
+            var velocity = Fsm.character.GetDirection();
             Fsm.character.Velocity = velocity.Normalized() * Fsm.character.Speed;
+        }
+
+        if (Fsm.character.Velocity != Vector2.Zero)
+        {
             Fsm.character.SelfImage.Play("Run");
         }
     }

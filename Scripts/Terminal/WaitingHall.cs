@@ -15,6 +15,10 @@ public partial class WaitingHall : Node
         }
         AddChild(players);
         BigBro.Spawner.SpawnPath = GetNodeOrNull<Node>("PlayerContainer").GetPath();
+        if (BigBro.MultiplayerApi.IsServer() == true)
+        {
+            BigBro.PlayerAdd(GetMultiplayerAuthority(), BigBro.CharacterPathList[BigBro.CharacterTypeEnum.Sandworm]);
+        }
     }
 
     // Called every frame. 'delta' is the elapsed time since the previous frame.
