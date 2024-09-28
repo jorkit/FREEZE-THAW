@@ -1,8 +1,9 @@
-[gd_scene load_steps=25 format=3 uid="uid://cb64aufhpklb2"]
+[gd_scene load_steps=29 format=3 uid="uid://cb64aufhpklb2"]
 
 [ext_resource type="Script" path="res://Scripts/Character/Survivors/Mouse.cs" id="1_4hk77"]
+[ext_resource type="Texture2D" uid="uid://cf0adrmuibiil" path="res://Static/Animations/Character/Monsters/Sandworm/Adonis_boss.png" id="2_do775"]
 [ext_resource type="PackedScene" uid="uid://2toocttgi3dx" path="res://Scenes/Character/Unit/CharacterCamera.tscn" id="2_i5wyr"]
-[ext_resource type="Texture2D" uid="uid://gvncxoauseb3" path="res://Static/Animations/Character/Survivors/Mouse/微信图片_20240927225500.png" id="2_ye2ph"]
+[ext_resource type="Texture2D" uid="uid://bhmsndqi50x04" path="res://Static/Animations/Character/Survivors/Mouse/微信图片_20240927225500.png" id="2_ye2ph"]
 [ext_resource type="PackedScene" uid="uid://8qemlyfupy68" path="res://Scenes/Character/Unit/UIContainer/UIContainer.tscn" id="3_ut7bq"]
 [ext_resource type="PackedScene" uid="uid://b8bjf4yiby1fb" path="res://Scenes/Character/Unit/FSM/FSM.tscn" id="4_chgp5"]
 [ext_resource type="PackedScene" uid="uid://b2odjxtivg3xw" path="res://Scenes/Character/Unit/FSM/FSMStates/Armor.tscn" id="5_cpua2"]
@@ -38,8 +39,40 @@ region = Rect2(5313, 0, 1771, 2481)
 atlas = ExtResource("2_ye2ph")
 region = Rect2(7084, 0, 1771, 2481)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_fjvpe"]
+atlas = ExtResource("2_ye2ph")
+region = Rect2(0, 0, 1771, 2481)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dx1vf"]
+atlas = ExtResource("2_ye2ph")
+region = Rect2(5313, 0, 1771, 2481)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qwak8"]
+atlas = ExtResource("2_ye2ph")
+region = Rect2(7084, 0, 1771, 2481)
+
 [sub_resource type="SpriteFrames" id="SpriteFrames_6o4j5"]
 animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_do775")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_do775")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_do775")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_do775")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_do775")
+}],
+"loop": false,
+"name": &"Attack",
+"speed": 9.0
+}, {
 "frames": [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_xn61g")
@@ -59,6 +92,26 @@ animations = [{
 "loop": true,
 "name": &"Idle",
 "speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fjvpe")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_do775")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dx1vf")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_do775")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qwak8")
+}],
+"loop": true,
+"name": &"Run",
+"speed": 5.0
 }]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_pnk0x"]
@@ -68,13 +121,12 @@ height = 128.0
 [node name="Mouse" type="CharacterBody2D"]
 script = ExtResource("1_4hk77")
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+[node name="SelfImage" type="AnimatedSprite2D" parent="."]
 position = Vector2(8, -3.78127)
 scale = Vector2(0.112097, 0.117045)
 sprite_frames = SubResource("SpriteFrames_6o4j5")
-animation = &"Idle"
+animation = &"Run"
 autoplay = "Idle"
-frame_progress = 0.400071
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CapsuleShape2D_pnk0x")

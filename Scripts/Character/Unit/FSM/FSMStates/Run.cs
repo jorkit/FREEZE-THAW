@@ -17,12 +17,18 @@ public partial class Run : FSMState
 
     public override void Update(double delta)
     {
+        var velocity = Fsm.character.GetDirection();
+        if (velocity != Vector2.Zero)
+        {
+            Fsm.character.Velocity = velocity.Normalized() * Fsm.character.Speed;
+            Fsm.character.SelfImage.Play("Run");
+        }
     }
 
     public override bool EnterCondition()
     {
         /* if in Idle and Joystick move, try to set Run Prestate */
-        if (Fsm.CurrentState.StateIndex > CharacterStateEnum.Run || Joystick.GetCurPosition() == new Vector2(0, 0))
+        if (Fsm.PreState > CharacterStateEnum.Run || Joystick.GetCurPosition() == Vector2.Zero)
         {
             return false;
         }
@@ -37,7 +43,7 @@ public partial class Run : FSMState
     }
     public override bool ExitCondition()
     {
-        if (Fsm.PreState <= CharacterStateEnum.Run && Joystick.GetCurPosition() != new Vector2(0, 0))
+        if (Fsm.PreState <= CharacterStateEnum.Run && Joystick.GetCurPosition() != Vector2.Zero)
         {
             return false;
         }

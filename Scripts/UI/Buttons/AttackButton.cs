@@ -48,6 +48,10 @@ public partial class AttackButton : TouchScreenButton
 
     public void PressedHandler()
     {
+        if (!CanBePressed)
+        {
+            return;
+        }
         LogTool.DebugLogDump("ATB pressed!");
         _uiContainer.character.AttackButtonPressedHandle();
     }

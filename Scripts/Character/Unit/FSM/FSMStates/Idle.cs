@@ -17,16 +17,22 @@ public partial class Idle : FSMState
 
     public override void Update(double delta)
     {
+        if (ExitCondition() == false)
+        {
+            Fsm.character.SelfImage.Play("Idle");
+            LogTool.DebugLogDump(Name + " Animation play");
+            //return;
+        }
     }
 
     public override bool EnterCondition()
     {
-        if (Fsm.PreState > CharacterStateEnum.Run || Joystick.GetCurPosition() != new Vector2(0, 0))
+        /* if PreState is large than Run or joystick move, return*/
+        if (Fsm.PreState > CharacterStateEnum.Run || Joystick.GetCurPosition() != Vector2.Zero)
         {
             return false;
         }
         LogTool.DebugLogDump(Name + " EnterCondition");
-        Fsm.PreStateChange(CharacterStateEnum.Run, false);
 
         return true;
     }
@@ -36,10 +42,12 @@ public partial class Idle : FSMState
     }
     public override bool ExitCondition()
     {
-        if (Fsm.PreState == CharacterStateEnum.Idle)
+        /* if PreState is less or equla to Run and joystick do not move, return*/
+        if (Fsm.PreState <= CharacterStateEnum.Run && Joystick.GetCurPosition() == Vector2.Zero)
         {
             return false;
         }
+        GD.Print(Fsm.PreState);
         LogTool.DebugLogDump(Name + " ExitCondition");
 
         return true;
