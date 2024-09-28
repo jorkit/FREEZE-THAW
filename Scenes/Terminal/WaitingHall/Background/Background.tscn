@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://dkpnbojv31njx"]
+
+[ext_resource type="PackedScene" uid="uid://c57gbyft78l7p" path="res://Scenes/Terminal/OptionsInterface/Combo/Background/Unit/StaticImage.tscn" id="1_8erct"]
+[ext_resource type="PackedScene" uid="uid://c4hq6lek624xu" path="res://Scenes/Terminal/OptionsInterface/Combo/Background/Unit/Dynamic.tscn" id="2_1jlm2"]
+
+[node name="Background" type="Node"]
+
+[node name="StaticImage" parent="." instance=ExtResource("1_8erct")]
+
+[node name="Dynamic" parent="." instance=ExtResource("2_1jlm2")]

@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://dvkr6b7728cwn"]
+
+[ext_resource type="Script" path="res://Scripts/Manager/SceneFSMStates/SceneOfWaitingHall.cs" id="1_ogjuv"]
+
+[node name="SceneOfWaitingHall" type="Node"]
+script = ExtResource("1_ogjuv")

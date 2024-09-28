@@ -7,8 +7,9 @@ using System;
 //LogTool.DebugLogDump("set script");
 public partial class BigBro : Node
 {
-    public static Vector2I screenSize;
-    public static Vector2I windowSize;
+    public static BigBro bigBro { set; get; }
+    public static Vector2I screenSize {  set; get; }
+    public static Vector2I windowSize { set; get; }
 
     public enum CharacterTypeEnum
     {
@@ -20,8 +21,8 @@ public partial class BigBro : Node
     }
 
     public static bool IsMultiplayer { set; get; }
-    public static Node Players { set; get; }
-    public static readonly string PlayersPath = "res://Scenes/Manager/Players.tscn";
+    public static Node PlayerContainer { set; get; }
+    public static readonly string PlayerContainerPath = "res://Scenes/Manager/PlayerContainer.tscn";
     public static readonly Dictionary<CharacterTypeEnum, string> CharacterPathList = new Dictionary<CharacterTypeEnum, string>()
     {
         [CharacterTypeEnum.Sandworm] = "res://Scenes/Character/Monsters/Sandworm.tscn",
@@ -63,6 +64,7 @@ public partial class BigBro : Node
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
 	{
+        BigBro.bigBro = this;
         SceneFSM = GetNodeOrNull<SceneFSM>("SceneFSM");
         SceneFSM.SetInitState();
     }
@@ -71,4 +73,15 @@ public partial class BigBro : Node
     public override void _Process(double delta)
 	{
 	}
+
+    public static void CreatePlayerContainer()
+    {
+        var playerContainer = ResourceLoader.Load<PackedScene>(BigBro.PlayerContainerPath).InstantiateOrNull<Node>();
+        if (playerContainer == null)
+        {
+            LogTool.DebugLogDump("PlayerContainer not found!");
+            return;
+        }
+        BigBro.PlayerContainer = playerContainer;
+    }
 }

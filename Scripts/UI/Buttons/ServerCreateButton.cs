@@ -43,34 +43,33 @@ public partial class ServerCreateButton : TouchScreenButton
             LogTool.DebugLogDump("Server create failed!");
             return;
         }
+        CanBePressed = false;
         BigBro.MultiplayerApi.MultiplayerPeer = BigBro.Peer;
-        GetTree().Root.GetNodeOrNull<BigBro>("BigBro").AddChild(BigBro.Spawner);
-        var players = ResourceLoader.Load<PackedScene>(BigBro.PlayersPath).InstantiateOrNull<Node>();
-        GetParent().GetParent().AddChild(players);
-        BigBro.Players = GetParent().GetParent().GetNode("Players");
-        BigBro.Spawner.SpawnPath = BigBro.Players.GetPath();
+
+        /* Spawner add */
+        BigBro.bigBro.AddChild(BigBro.Spawner);
+        BigBro.CreatePlayerContainer();
         foreach (var path in BigBro.CharacterPathList)
         {
             BigBro.Spawner.AddSpawnableScene(path.Value);
         }
+        /* Client event handler bind */
+        BigBro.MultiplayerApi.PeerConnected += new MultiplayerApi.PeerConnectedEventHandler(PeerConnectHandle);
+        BigBro.MultiplayerApi.PeerDisconnected += new MultiplayerApi.PeerDisconnectedEventHandler(PeerDisConnectHandle);
 
-        PlayerAdd(Multiplayer.GetUniqueId(), BigBro.CharacterPathList[BigBro.CharacterTypeEnum.Sandworm]);
-        Multiplayer.PeerConnected += new MultiplayerApi.PeerConnectedEventHandler(PeerConnectHandle);
-        Multiplayer.PeerDisconnected += new MultiplayerApi.PeerDisconnectedEventHandler(PeerDisConnectHandle);
-        CanBePressed = false;
+        /* Scene change */
+        SceneFSM.PreStateChange(BigBro.SceneFSM, SceneStateEnum.WaitingHall, true);
     }
 
     private void PlayerAdd(long id, NodePath path)
     {
         var character = ResourceLoader.Load<PackedScene>(path).Instantiate();
         character.Name = id.ToString();
-        LogTool.DebugLogDump("I'm " + Multiplayer.GetUniqueId() + ", " + character.Name + " add!!!");
-        BigBro.Players.AddChild(character);
+        BigBro.PlayerContainer.AddChild(character);
     }
     private void PlayerRemove(long id)
     {
-        LogTool.DebugLogDump("id: " + id.ToString());
-        var quittedClient = BigBro.Players.GetNodeOrNull(id.ToString());
+        var quittedClient = BigBro.PlayerContainer.GetNodeOrNull(id.ToString());
         if (quittedClient != null)
         {
             quittedClient.QueueFree();
@@ -79,12 +78,12 @@ public partial class ServerCreateButton : TouchScreenButton
 
     public void PeerConnectHandle(long id)
     {
-        var connectedClients = Multiplayer.GetPeers();
+        var connectedClients = BigBro.MultiplayerApi.GetPeers();
         foreach (var connectedClient in connectedClients)
         {
             if (connectedClient == id)
             {
-                if (BigBro.Players.GetNodeOrNull<Character>(id.ToString()) != null)
+                if (BigBro.PlayerContainer.GetNodeOrNull<Character>(id.ToString()) != null)
                 {
                     LogTool.DebugLogDump("[" + id + "]Has connected");
                     return;

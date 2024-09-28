@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://duyj8ft2u8qnx"]
+
+[ext_resource type="Texture2D" uid="uid://cmoc021nqrsly" path="res://Static/StaticImages/Map/江南白景图.png" id="1_ldnx7"]
+
+[node name="StaticImage" type="Sprite2D"]
+position = Vector2(859, -169)
+texture = ExtResource("1_ldnx7")

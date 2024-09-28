@@ -45,7 +45,7 @@ public partial class SceneOfMatchStartLoading : SceneFSMState
             LogTool.DebugLogDump("scene not found");
             return;
         }
-        SceneFsm.bigbro.AddChild(scene);
+        BigBro.bigBro.AddChild(scene);
     }
     public override bool ExitCondition()
     {
@@ -61,10 +61,10 @@ public partial class SceneOfMatchStartLoading : SceneFSMState
     public override void OnExit()
     {
         LogTool.DebugLogDump(Name + " OnExit");
-        var node = SceneFsm.bigbro.GetNode<MatchStartLoading>("MatchStartLoading");
+        var node = BigBro.bigBro.GetNodeOrNull<MatchStartLoading>("MatchStartLoading");
         if (node != null)
         {
-            SceneFsm.bigbro.RemoveChild(node);
+            BigBro.bigBro.RemoveChild(node);
         }
     }
 }

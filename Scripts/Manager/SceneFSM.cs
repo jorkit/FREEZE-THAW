@@ -5,11 +5,12 @@ using System;
 public enum SceneStateEnum
 {
     GameOpenLoading = 0,
-	Login = 1,
-	OptionsInterface = 2,
-    MatchStartLoading = 3,
-	MatchMain = 4,
-    MatchSettlement = 5,
+	Login,
+	OptionsInterface,
+    WaitingHall,
+    MatchStartLoading,
+	MatchMain,
+    MatchSettlement,
     MAX
 };
 public partial class SceneFSM : Node
@@ -77,6 +78,12 @@ public partial class SceneFSM : Node
                 break;
             case SceneStateEnum.OptionsInterface:
                 if (sceneFsm.CurrentState.StateIndex == SceneStateEnum.Login || sceneFsm.CurrentState.StateIndex == SceneStateEnum.MatchSettlement)
+                {
+                    sceneFsm.PreState = newPreState;
+                }
+                break;
+            case SceneStateEnum.WaitingHall:
+                if (sceneFsm.CurrentState.StateIndex == SceneStateEnum.OptionsInterface)
                 {
                     sceneFsm.PreState = newPreState;
                 }

@@ -45,7 +45,7 @@ public partial class SceneOfGameOpenLoading : SceneFSMState
             LogTool.DebugLogDump("scene not found");
             return;
         }
-        SceneFsm.bigbro.AddChild(scene);
+        BigBro.bigBro.AddChild(scene);
     }
     public override bool ExitCondition()
     {
@@ -61,10 +61,10 @@ public partial class SceneOfGameOpenLoading : SceneFSMState
     public override void OnExit()
     {
         LogTool.DebugLogDump(Name + " OnExit");
-        var node = SceneFsm.bigbro.GetNode<GameOpenLoading>("GameOpenLoading");
+        var node = BigBro.bigBro.GetNodeOrNull<GameOpenLoading>("GameOpenLoading");
         if (node != null)
         {
-            SceneFsm.bigbro.RemoveChild(node);
+            BigBro.bigBro.RemoveChild(node);
         }
     }
 }

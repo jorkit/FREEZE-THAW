@@ -40,31 +40,32 @@ public partial class ClientJoinButton : TouchScreenButton
         if (CreateClientResult != Error.Ok)
         {
             LogTool.DebugLogDump("Client create failed!");
-            _optionContainer.GetNode<RichTextLabel>("RichTextLabel").Text = CreateClientResult.ToString();
             return;
         }
-        GetTree().Root.SetMultiplayerAuthority(BigBro.Peer.GetUniqueId());
         BigBro.MultiplayerApi.MultiplayerPeer = BigBro.Peer;
-        GetTree().Root.GetNodeOrNull<BigBro>("BigBro").AddChild(BigBro.Spawner);
-        var players = ResourceLoader.Load<PackedScene>(BigBro.PlayersPath).InstantiateOrNull<Node>();
-        GetParent().GetParent().AddChild(players);
-        BigBro.Players = GetParent().GetParent().GetNode("Players");
-        BigBro.Spawner.SpawnPath = BigBro.Players.GetPath();
-        foreach (var path in BigBro.CharacterPathList)
-        {
-            BigBro.Spawner.AddSpawnableScene(path.Value);
-        }
-        
+        GetTree().Root.SetMultiplayerAuthority(BigBro.Peer.GetUniqueId());
+
         //OS.DelayMsec(100);
         Multiplayer.Poll();
         var GetConnectionStatus = BigBro.Peer.GetConnectionStatus();
         if (GetConnectionStatus == MultiplayerPeer.ConnectionStatus.Disconnected)
         {
             LogTool.DebugLogDump("Client connect failed!");
-            _optionContainer.GetNode<RichTextLabel>("RichTextLabel").Text = GetConnectionStatus.ToString();
             return;
         }
         CanBePressed = false;
-        _optionContainer.Visible = false;
+
+        /* Spawner add */
+        BigBro.bigBro.AddChild(BigBro.Spawner);
+        BigBro.CreatePlayerContainer();
+        foreach (var path in BigBro.CharacterPathList)
+        {
+            BigBro.Spawner.AddSpawnableScene(path.Value);
+        }
+        /* PlayerContainer create */
+        BigBro.CreatePlayerContainer();
+        
+        /* Scene change */
+        SceneFSM.PreStateChange(BigBro.SceneFSM, SceneStateEnum.WaitingHall, true);
     }
 }

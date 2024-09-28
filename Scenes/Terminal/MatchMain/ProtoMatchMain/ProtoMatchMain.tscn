@@ -1,9 +1,9 @@
 [gd_scene load_steps=5 format=3 uid="uid://bgxf73c8v23vx"]
 
 [ext_resource type="PackedScene" uid="uid://bxp6kssa36qj0" path="res://Scenes/Terminal/MatchMain/ProtoMatchMain/Combo/Background/Background.tscn" id="1_7w3cf"]
-[ext_resource type="Script" path="res://Scripts/Scene/ProtoMatchMain.cs" id="1_mda46"]
+[ext_resource type="Script" path="res://Scripts/Terminal/ProtoMatchMain.cs" id="1_mda46"]
 [ext_resource type="PackedScene" uid="uid://p2nwib3tqoel" path="res://Scenes/Terminal/MatchMain/ProtoMatchMain/Combo/Map/Map.tscn" id="2_ocdbd"]
-[ext_resource type="PackedScene" uid="uid://b25efbwrx4pqb" path="res://Scenes/Manager/Players.tscn" id="4_rohlh"]
+[ext_resource type="PackedScene" uid="uid://b25efbwrx4pqb" path="res://Scenes/Manager/PlayerContainer.tscn" id="4_rohlh"]
 
 [node name="ProtoMatchMain" type="Node"]
 script = ExtResource("1_mda46")
