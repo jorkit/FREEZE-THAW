@@ -1,6 +1,7 @@
 using Godot;
 using System;
 using FreezeThaw.Utils;
+using static System.Net.Mime.MediaTypeNames;
 
 public partial class Attack : FSMState
 {
@@ -17,12 +18,13 @@ public partial class Attack : FSMState
 
     public override void Update(double delta)
     {
-        if (true)
+        if (ExitCondition() == false)
         {
+            Fsm.character.SelfImage.Play("Attack");
             LogTool.DebugLogDump(Name + " Attack play");
             //return;
         }
-        Fsm.PreStateChange(CharacterStateEnum.Idle, true);
+        
     }
 
     public override bool EnterCondition()
@@ -38,8 +40,19 @@ public partial class Attack : FSMState
     public override void OnEnter()
     {
         LogTool.DebugLogDump(Name + " Attack OnEnter!");
+        if (Fsm.character.SelfImage.IsConnected("animation_finished", new Callable(this, "AnimationFinishedHandle")) == false)
+        {
+        if (Fsm.character.SelfImage.IsConnected("animation_finished", new Callable(this, "AnimationFinishedHandle")) == false)
+            Fsm.character.SelfImage.Connect("animation_finished", new Callable(this, "AnimationFinishedHandle"));
+        }
         Fsm.character.Attack();
     }
+
+    public void AnimationFinishedHandle()
+    {
+        Fsm.PreStateChange(CharacterStateEnum.Idle, true);
+    }
+
     public override bool ExitCondition()
     {
         if (Fsm.PreState == CharacterStateEnum.Attack)

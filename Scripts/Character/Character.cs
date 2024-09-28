@@ -4,8 +4,9 @@ using System;
 
 public abstract partial class Character : CharacterBody2D
 {
-    public float Speed;
     private FSM _fsm;
+    public float Speed;
+    public AnimatedSprite2D SelfImage {  get; set; }
     // public const float JumpVelocity = -400.0f;
 
     public override void _EnterTree()
@@ -39,6 +40,12 @@ public abstract partial class Character : CharacterBody2D
             LogTool.DebugLogDump("FSM not found!");
             return;
         }
+        SelfImage = GetNodeOrNull<AnimatedSprite2D>("SelfImage");
+        if (SelfImage == null)
+        {
+            LogTool.DebugLogDump("SelfImage not found!");
+            return;
+        }
     }
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -58,18 +65,15 @@ public abstract partial class Character : CharacterBody2D
             LogTool.DebugLogDump("Character not found");
             return;
         }
-        var velocity = _fsm.character.GetDirection();
-        if (velocity != new Vector2(0, 0))
+        /* get Collide info */
+        if (_fsm.character.MoveAndSlide() == true)
         {
-            _fsm.character.Velocity = velocity.Normalized() * (float)delta * _fsm.character.Speed;
-            /* get Collide info */
-            var collision_info = _fsm.character.MoveAndCollide(_fsm.character.Velocity);
-            if (collision_info != null)
+            for (int i = 0; i < GetSlideCollisionCount(); i++)
             {
-                var collider = collision_info.GetCollider();
-                LogTool.DebugLogDump("COlliding!" + collider.GetType().Name);
+                LogTool.DebugLogDump("COlliding!" + GetSlideCollision(i).GetType().Name);
             }
         }
+        _fsm.character.Velocity = Vector2.Zero;
     }
 
     public abstract Vector2 GetDirection();

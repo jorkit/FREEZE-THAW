@@ -96,7 +96,7 @@ public partial class Joystick : Sprite2D
             }
             Visible = false;
             _ondraging = -1;
-            CreateTween().TweenProperty(_point, "position", new Vector2(0, 0), 0.1).SetTrans(Tween.TransitionType.Linear);
+            CreateTween().TweenProperty(_point, "position", Vector2.Zero, 0.1).SetTrans(Tween.TransitionType.Linear);
         }
     }
 
@@ -163,7 +163,7 @@ public partial class Joystick : Sprite2D
             {
                 velocity.Y = 0;
             }
-            if (velocity != new Vector2(0, 0))
+            if (velocity != Vector2.Zero)
             {
                 _point.Position = velocity.Normalized();
                 return true;
