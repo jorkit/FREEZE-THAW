@@ -15,11 +15,11 @@ public abstract partial class Character : CharacterBody2D
         base._EnterTree();
         if (BigBro.IsMultiplayer == true)
         {
+            /* Set the authority of this node */
             SetMultiplayerAuthority(Name.ToString().ToInt());
             Position = new Vector2(300, 300);
             if (IsMultiplayerAuthority() == false)
             {
-                GD.Print("lalalalla: " + GetMultiplayerAuthority());
                 RemoveChild(GetNode<UIContainer>("UIContainer"));
                 RemoveChild(GetNode<Camera2D>("CharacterCamera"));
             }

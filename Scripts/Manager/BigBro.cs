@@ -33,7 +33,6 @@ public partial class BigBro : Node
     public static MultiplayerApi MultiplayerApi { set; get; }
     public static ENetMultiplayerPeer Peer { set; get; }
     public static MultiplayerSpawner Spawner { set; get; }
-    public static MultiplayerSynchronizer SpawnerSynchronizer { set; get; }
 
     public static SceneFSM SceneFSM { set; get; }
 

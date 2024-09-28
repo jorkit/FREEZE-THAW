@@ -48,7 +48,7 @@ public partial class AttackButton : TouchScreenButton
 
     public void PressedHandler()
     {
-        if (!CanBePressed)
+        if (!CanBePressed || IsMultiplayerAuthority() == false)
         {
             return;
         }

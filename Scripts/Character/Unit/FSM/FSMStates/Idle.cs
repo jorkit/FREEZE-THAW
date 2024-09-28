@@ -28,7 +28,7 @@ public partial class Idle : FSMState
     public override bool EnterCondition()
     {
         /* if PreState is large than Run or joystick move, return*/
-        if (Fsm.PreState > CharacterStateEnum.Run || Joystick.GetCurPosition() != Vector2.Zero)
+        if (Fsm.PreState > CharacterStateEnum.Run || Fsm.character.GetDirection() != Vector2.Zero)
         {
             return false;
         }
@@ -43,7 +43,7 @@ public partial class Idle : FSMState
     public override bool ExitCondition()
     {
         /* if PreState is less or equla to Run and joystick do not move, return*/
-        if (Fsm.PreState <= CharacterStateEnum.Run && Joystick.GetCurPosition() == Vector2.Zero)
+        if (Fsm.PreState <= CharacterStateEnum.Run && Fsm.character.GetDirection() == Vector2.Zero)
         {
             return false;
         }

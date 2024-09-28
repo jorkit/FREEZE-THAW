@@ -36,6 +36,15 @@ public partial class ClientJoinButton : TouchScreenButton
         BigBro.Spawner = new();
         BigBro.MultiplayerApi = Multiplayer;
 
+        var CreateClientResult = BigBro.Peer.CreateClient("192.168.1.68", 7788);
+        if (CreateClientResult != Error.Ok)
+        {
+            LogTool.DebugLogDump("Client create failed!");
+            _optionContainer.GetNode<RichTextLabel>("RichTextLabel").Text = CreateClientResult.ToString();
+            return;
+        }
+        GetTree().Root.SetMultiplayerAuthority(BigBro.Peer.GetUniqueId());
+        BigBro.MultiplayerApi.MultiplayerPeer = BigBro.Peer;
         GetTree().Root.GetNodeOrNull<BigBro>("BigBro").AddChild(BigBro.Spawner);
         var players = ResourceLoader.Load<PackedScene>(BigBro.PlayersPath).InstantiateOrNull<Node>();
         GetParent().GetParent().AddChild(players);
@@ -45,15 +54,7 @@ public partial class ClientJoinButton : TouchScreenButton
         {
             BigBro.Spawner.AddSpawnableScene(path.Value);
         }
-
-        var CreateClientResult = BigBro.Peer.CreateClient("192.168.1.68", 7788);
-        if (CreateClientResult != Error.Ok)
-        {
-            LogTool.DebugLogDump("Client create failed!");
-            _optionContainer.GetNode<RichTextLabel>("RichTextLabel").Text = CreateClientResult.ToString();
-            return;
-        }
-        Multiplayer.MultiplayerPeer = BigBro.Peer;
+        
         //OS.DelayMsec(100);
         Multiplayer.Poll();
         var GetConnectionStatus = BigBro.Peer.GetConnectionStatus();

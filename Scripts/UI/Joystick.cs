@@ -40,7 +40,6 @@ public partial class Joystick : Sprite2D
         {
             return;
         }
-        LogTool.DebugLogDump("I'm " + GetMultiplayerAuthority().ToString());
         if (XBOXJoystickHandle(@event) == true)
         {
             return;

@@ -37,14 +37,14 @@ public partial class ServerCreateButton : TouchScreenButton
         BigBro.Spawner = new();
         BigBro.MultiplayerApi = Multiplayer;
 
-        if (BigBro.Peer.CreateServer(7788) != Error.Ok)
+        var CreateServerResult = BigBro.Peer.CreateServer(7788);
+        if (CreateServerResult != Error.Ok)
         {
             LogTool.DebugLogDump("Server create failed!");
             return;
         }
-        Multiplayer.MultiplayerPeer = BigBro.Peer;
+        BigBro.MultiplayerApi.MultiplayerPeer = BigBro.Peer;
         GetTree().Root.GetNodeOrNull<BigBro>("BigBro").AddChild(BigBro.Spawner);
-        //SceneFSM.PreStateChange(BigBro.SceneFSM, SceneStateEnum.MatchStartLoading, true);
         var players = ResourceLoader.Load<PackedScene>(BigBro.PlayersPath).InstantiateOrNull<Node>();
         GetParent().GetParent().AddChild(players);
         BigBro.Players = GetParent().GetParent().GetNode("Players");
@@ -58,7 +58,6 @@ public partial class ServerCreateButton : TouchScreenButton
         Multiplayer.PeerConnected += new MultiplayerApi.PeerConnectedEventHandler(PeerConnectHandle);
         Multiplayer.PeerDisconnected += new MultiplayerApi.PeerDisconnectedEventHandler(PeerDisConnectHandle);
         CanBePressed = false;
-        _optionContainer.Visible = false;
     }
 
     private void PlayerAdd(long id, NodePath path)
