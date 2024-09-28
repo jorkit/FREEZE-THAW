@@ -37,10 +37,14 @@ public partial class ClientJoinButton : TouchScreenButton
         BigBro.MultiplayerApi = Multiplayer;
 
         GetTree().Root.GetNodeOrNull<BigBro>("BigBro").AddChild(BigBro.Spawner);
-        var players = ResourceLoader.Load<PackedScene>("res://Scenes/Terminal/MatchMain/ProtoMatchMain/Combo/Players/Players.tscn").InstantiateOrNull<Node>();
+        var players = ResourceLoader.Load<PackedScene>(BigBro.PlayersPath).InstantiateOrNull<Node>();
         GetParent().GetParent().AddChild(players);
-        BigBro.Spawner.SpawnPath = (GetParent().GetParent().GetNode("Players")).GetPath();
-        BigBro.Spawner.AddSpawnableScene("res://Scenes/Character/Monsters/Sandworm/Sandworm.tscn");
+        BigBro.Players = GetParent().GetParent().GetNode("Players");
+        BigBro.Spawner.SpawnPath = BigBro.Players.GetPath();
+        foreach (var path in BigBro.CharacterPathList)
+        {
+            BigBro.Spawner.AddSpawnableScene(path.Value);
+        }
 
         var CreateClientResult = BigBro.Peer.CreateClient("192.168.1.68", 7788);
         if (CreateClientResult != Error.Ok)

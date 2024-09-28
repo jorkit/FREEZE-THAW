@@ -14,11 +14,6 @@ public partial class Mouse : Survivor
         base._PhysicsProcess(delta);
     }
 
-    public override Vector2 GetDirection()
-    {
-        return Joystick.GetCurPosition();
-    }
-
     public override void Attack()
     {
         base.Attack();

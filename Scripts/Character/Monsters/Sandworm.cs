@@ -19,11 +19,6 @@ public partial class Sandworm : Monster
         base._PhysicsProcess(delta);
     }
 
-    public override Vector2 GetDirection()
-    {
-        return Joystick.GetCurPosition();
-    }
-
     public override void Attack()
     {
         base.Attack();

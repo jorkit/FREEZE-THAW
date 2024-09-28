@@ -131,7 +131,7 @@ autoplay = "Idle"
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CapsuleShape2D_pnk0x")
 
-[node name="Camera2D" parent="." instance=ExtResource("2_i5wyr")]
+[node name="CharacterCamera" parent="." instance=ExtResource("2_i5wyr")]
 
 [node name="UIContainer" parent="." instance=ExtResource("3_ut7bq")]
 

@@ -1,5 +1,6 @@
 using FreezeThaw.Utils;
 using Godot;
+using Godot.Collections;
 using System;
 
 //GetNode<Monster>("/root/Main/Monster").SetScript(ResourceLoader.Load("res://Scripts/Characters/Monsters/AI.cs"));
@@ -9,9 +10,23 @@ public partial class BigBro : Node
     public static Vector2I screenSize;
     public static Vector2I windowSize;
 
+    public enum CharacterTypeEnum
+    {
+        /* Monster */
+        Sandworm,
+
+        /* Survivor */
+        Mouse
+    }
 
     public static bool IsMultiplayer { set; get; }
     public static Node Players { set; get; }
+    public static readonly string PlayersPath = "res://Scenes/Manager/Players.tscn";
+    public static readonly Dictionary<CharacterTypeEnum, string> CharacterPathList = new Dictionary<CharacterTypeEnum, string>()
+    {
+        [CharacterTypeEnum.Sandworm] = "res://Scenes/Character/Monsters/Sandworm.tscn",
+        [CharacterTypeEnum.Mouse] = "res://Scenes/Character/Survivors/Mouse.tscn",
+    };
     public static Monster Monster { set; get; }
     public static Godot.Collections.Array<Survivor> Survivors { set; get; }
     public static Character Player { set; get; }

@@ -36,6 +36,11 @@ public partial class Joystick : Sprite2D
 
 	public override void _Input(InputEvent @event)
 	{
+        if (IsMultiplayerAuthority() == false)
+        {
+            return;
+        }
+        LogTool.DebugLogDump("I'm " + GetMultiplayerAuthority().ToString());
         if (XBOXJoystickHandle(@event) == true)
         {
             return;

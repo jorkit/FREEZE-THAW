@@ -19,7 +19,7 @@ public abstract partial class Character : CharacterBody2D
             Position = new Vector2(300, 300);
             if (IsMultiplayerAuthority() == false)
             {
-                LogTool.DebugLogDump(GetMultiplayerAuthority().ToString());
+                GD.Print("lalalalla: " + GetMultiplayerAuthority());
                 RemoveChild(GetNode<UIContainer>("UIContainer"));
                 RemoveChild(GetNode<Camera2D>("CharacterCamera"));
             }
@@ -77,7 +77,14 @@ public abstract partial class Character : CharacterBody2D
         _fsm.character.Velocity = Vector2.Zero;
     }
 
-    public abstract Vector2 GetDirection();
+    public Vector2 GetDirection()
+    {
+        if (IsMultiplayerAuthority() == false)
+        {
+            return Vector2.Zero;
+        }
+        return Joystick.GetCurPosition();
+    }
     public CharacterStateEnum GetCurrentState()
     {
         return _fsm.CurrentState.StateIndex;
@@ -90,9 +97,5 @@ public abstract partial class Character : CharacterBody2D
 
     public virtual void Attack()
     {
-        var bullet = Bullet.Instantiate<Bullet>();
-        bullet.SetDirection(new Vector2(1, 0));
-        GetParent().AddChild(bullet);
-        bullet.GlobalPosition = GetNode<Marker2D>("BulletBornPosition").GlobalPosition;
     }
 }

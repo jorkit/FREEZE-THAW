@@ -45,24 +45,28 @@ public partial class ServerCreateButton : TouchScreenButton
         Multiplayer.MultiplayerPeer = BigBro.Peer;
         GetTree().Root.GetNodeOrNull<BigBro>("BigBro").AddChild(BigBro.Spawner);
         //SceneFSM.PreStateChange(BigBro.SceneFSM, SceneStateEnum.MatchStartLoading, true);
-        var players = ResourceLoader.Load<PackedScene>("res://Scenes/Terminal/MatchMain/ProtoMatchMain/Combo/Players/Players.tscn").InstantiateOrNull<Node>();
+        var players = ResourceLoader.Load<PackedScene>(BigBro.PlayersPath).InstantiateOrNull<Node>();
         GetParent().GetParent().AddChild(players);
         BigBro.Players = GetParent().GetParent().GetNode("Players");
         BigBro.Spawner.SpawnPath = BigBro.Players.GetPath();
-        BigBro.Spawner.AddSpawnableScene("res://Scenes/Character/Monsters/Sandworm/Sandworm.tscn");
+        foreach (var path in BigBro.CharacterPathList)
+        {
+            BigBro.Spawner.AddSpawnableScene(path.Value);
+        }
 
-        PlayerAdd(Multiplayer.GetUniqueId());
+        PlayerAdd(Multiplayer.GetUniqueId(), BigBro.CharacterPathList[BigBro.CharacterTypeEnum.Sandworm]);
         Multiplayer.PeerConnected += new MultiplayerApi.PeerConnectedEventHandler(PeerConnectHandle);
         Multiplayer.PeerDisconnected += new MultiplayerApi.PeerDisconnectedEventHandler(PeerDisConnectHandle);
         CanBePressed = false;
         _optionContainer.Visible = false;
     }
 
-    private void PlayerAdd(long id)
+    private void PlayerAdd(long id, NodePath path)
     {
-        var monster = ResourceLoader.Load<PackedScene>("res://Scenes/Character/Monsters/Sandworm/Sandworm.tscn").InstantiateOrNull<Sandworm>();
-        monster.Name = id.ToString();
-        BigBro.Players.AddChild(monster);
+        var character = ResourceLoader.Load<PackedScene>(path).Instantiate();
+        character.Name = id.ToString();
+        LogTool.DebugLogDump("I'm " + Multiplayer.GetUniqueId() + ", " + character.Name + " add!!!");
+        BigBro.Players.AddChild(character);
     }
     private void PlayerRemove(long id)
     {
@@ -72,7 +76,6 @@ public partial class ServerCreateButton : TouchScreenButton
         {
             quittedClient.QueueFree();
         }
-        
     }
 
     public void PeerConnectHandle(long id)
@@ -88,7 +91,7 @@ public partial class ServerCreateButton : TouchScreenButton
                     return;
                 }
                 LogTool.DebugLogDump("Client[" + id + "]Connected!");
-                PlayerAdd((long)id);
+                PlayerAdd((long)id, BigBro.CharacterPathList[BigBro.CharacterTypeEnum.Mouse]);
                 return;
             }
         }

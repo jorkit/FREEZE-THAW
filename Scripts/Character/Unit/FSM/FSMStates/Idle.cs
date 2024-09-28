@@ -20,7 +20,7 @@ public partial class Idle : FSMState
         if (ExitCondition() == false)
         {
             Fsm.character.SelfImage.Play("Idle");
-            LogTool.DebugLogDump(Name + " Animation play");
+            //LogTool.DebugLogDump(Name + " Animation play");
             //return;
         }
     }
@@ -47,7 +47,6 @@ public partial class Idle : FSMState
         {
             return false;
         }
-        GD.Print(Fsm.PreState);
         LogTool.DebugLogDump(Name + " ExitCondition");
 
         return true;

@@ -1,7 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://b25efbwrx4pqb"]
-
-[ext_resource type="PackedScene" uid="uid://cb64aufhpklb2" path="res://Scenes/Character/Survivors/Mouse.tscn" id="2_lbvhk"]
-
-[node name="Players" type="Node"]
-
-[node name="Mouse" parent="." instance=ExtResource("2_lbvhk")]
