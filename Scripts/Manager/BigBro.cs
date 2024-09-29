@@ -74,7 +74,7 @@ public partial class BigBro : Node
 	{
 	}
 
-    public static bool MultiplayerInit()
+    public static bool MultiplayerServerInit()
     {
         BigBro.IsMultiplayer = true;
         BigBro.Peer = new();

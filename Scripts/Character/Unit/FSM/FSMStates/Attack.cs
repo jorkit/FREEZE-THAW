@@ -24,7 +24,6 @@ public partial class Attack : FSMState
             LogTool.DebugLogDump(Name + " Attack play");
             //return;
         }
-        
     }
 
     public override bool EnterCondition()
@@ -40,10 +39,16 @@ public partial class Attack : FSMState
     public override void OnEnter()
     {
         LogTool.DebugLogDump(Name + " Attack OnEnter!");
-        if (Fsm.character.SelfImage.IsConnected("animation_finished", new Callable(this, "AnimationFinishedHandle")) == false)
+        if (BigBro.IsMultiplayer == true && BigBro.MultiplayerApi.IsServer() == true)
         {
-        if (Fsm.character.SelfImage.IsConnected("animation_finished", new Callable(this, "AnimationFinishedHandle")) == false)
-            Fsm.character.SelfImage.Connect("animation_finished", new Callable(this, "AnimationFinishedHandle"));
+            if (Fsm.character.SelfImage.IsConnected("animation_finished", new Callable(this, "AnimationFinishedHandle")) == false)
+            {
+                var connectRes = Fsm.character.SelfImage.Connect("animation_finished", new Callable(this, "AnimationFinishedHandle"));
+                if (connectRes != Error.Ok )
+                {
+                    LogTool.DebugLogDump("AnimationFinishedHandle connect to singal failed! " + connectRes.ToString());
+                }
+            }
         }
         Fsm.character.Attack();
     }

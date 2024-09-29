@@ -17,8 +17,7 @@ public abstract partial class Character : CharacterBody2D
         {
             /* Set the authority of this node */
             LogTool.DebugLogDump("lalalalala" + GetMultiplayerAuthority().ToString() + " " + Name);
-            SetMultiplayerAuthority(Name.ToString().ToInt());
-            GetNode<Joystick>("UIContainer/Joystick").SetMultiplayerAuthority(Name.ToString().ToInt());
+            SetMultiplayerAuthority(Name.ToString().ToInt(), true);
 
             Position = new Vector2(300, 300);
             if (IsMultiplayerAuthority() == false && BigBro.MultiplayerApi.IsServer() == false)

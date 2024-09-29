@@ -1,5 +1,5 @@
+using Godot;
 using System;
-using System.IO;
 using System.Text;
 
 namespace FreezeThaw.Utils
@@ -14,6 +14,7 @@ namespace FreezeThaw.Utils
         {
             string log_package = String.Format("{0}:{1}:{2}: [{3}] {4}", GetCodeContext<string>("__FILE__"), GetCodeContext<string>("__FUNC__"), GetCodeContext<int>("__LINE__"), BigBro.SceneFSM?.GetMultiplayerAuthority(), log);
             Console.WriteLine(log_package);
+            GD.Print(log_package);
 
             /* 保存本地log */
             DateTime currentTime = DateTime.Now;
@@ -32,7 +33,7 @@ namespace FreezeThaw.Utils
         {
             try
             {
-                System.Diagnostics.StackTrace st = new System.Diagnostics.StackTrace(2, true);
+                System.Diagnostics.StackTrace st = new (2, true);
 
                 switch (info)
                 {
@@ -66,7 +67,7 @@ namespace FreezeThaw.Utils
             try
             {
                 string[] ascii_arr = ascii.Split(' ');
-                StringBuilder hexString = new StringBuilder();
+                StringBuilder hexString = new ();
 
                 foreach (string c in ascii_arr)
                 {
@@ -96,20 +97,20 @@ namespace FreezeThaw.Utils
             
             try
             {
-                FileStream fs;
+                FileAccess fs;
                 int i = 0;
                 do
                 {
                     string path = "C:\\" + log_file_name + i + ".txt";
                     /* 保存本地log */
-                    fs = new FileStream(path, FileMode.Append, FileAccess.Write, FileShare.None);
+                    fs = FileAccess.Open(path, FileAccess.ModeFlags.ReadWrite);
                     if (fs == null)
                     {
                         Console.WriteLine("{0}:{1}:{2}: {3}", GetCodeContext<string>("__FILE__"), GetCodeContext<string>("__FUNC__"), GetCodeContext<int>("__LINE__"), "FileStream打开失败！");
                         return;
                     }
                     /* log大小限制在30M左右 */
-                    if (fs.Length > 1024 * 1024 * 30)
+                    if (fs.GetLength() > 1024 * 1024 * 30)
                     {
                         Console.WriteLine("{0}:{1}:{2}: {3}", GetCodeContext<string>("__FILE__"), GetCodeContext<string>("__FUNC__"), GetCodeContext<int>("__LINE__"), "Log文件大小超过30M，更换新文件！");
                         fs.Close();
@@ -120,15 +121,8 @@ namespace FreezeThaw.Utils
                         break;
                     }
                 } while (true);
-
-                StreamWriter sw = new StreamWriter(fs);
-                if (sw == null)
-                {
-                    Console.WriteLine("{0}:{1}:{2}: {3}", GetCodeContext<string>("__FILE__"), GetCodeContext<string>("__FUNC__"), GetCodeContext<int>("__LINE__"), "StreamWriter打开失败！");
-                    return;
-                }
-                sw.Write(log);
-                sw.Close();
+                var oldData = fs.GetAsText();
+                fs.StoreString(oldData + log);
                 fs.Close();
             }
             catch (Exception)

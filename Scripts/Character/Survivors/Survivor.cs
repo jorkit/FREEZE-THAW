@@ -18,6 +18,7 @@ public abstract partial class Survivor : Character
 
     public override void Attack()
     {
+        GD.Print(GetMultiplayerAuthority() + " Attack");
         var bullet = Bullet.Instantiate<Bullet>();
         bullet.SetDirection(new Vector2(1, 0));
         GetParent().AddChild(bullet);

@@ -105,7 +105,7 @@ public partial class FSM : Node
         }
     }
 
-    [Rpc(mode: MultiplayerApi.RpcMode.AnyPeer, CallLocal = false, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
+    [Rpc(mode: MultiplayerApi.RpcMode.AnyPeer, CallLocal = true, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
     private void PreStateChangeRPC(int newPreState_Int, bool force)
     {
         CharacterStateEnum newPreState = (CharacterStateEnum)newPreState_Int;
@@ -115,6 +115,7 @@ public partial class FSM : Node
             PreState = newPreState;
             return;
         }
+        LogTool.DebugLogDump("Change To " + newPreState.ToString());
         switch (newPreState)
         {
             case CharacterStateEnum.Idle:
@@ -180,36 +181,54 @@ public partial class FSM : Node
     /// </summary>
     private void CheckStateTransition()
     {
-        var count = GetChildCount();
-        while (count > 0)
+        if (BigBro.IsMultiplayer == true)
         {
-            FSMState state = GetChild<FSMState>(--count);
-            if (state == CurrentState)
+            if (BigBro.MultiplayerApi.IsServer() == true)
             {
-                continue;
-            }
-            if (state.EnterCondition() == false)
-            {
-                continue;
-            }
-            if (CurrentState.ExitCondition() == false)
-            {
-                continue;
-            }
-            if (BigBro.IsMultiplayer == true)
-            {
-                if (BigBro.MultiplayerApi.IsServer() == true)
+                var count = GetChildCount();
+                while (count > 0)
                 {
+                    FSMState state = GetChild<FSMState>(--count);
+                    if (state == CurrentState)
+                    {
+                        continue;
+                    }
+                    if (state.EnterCondition() == false)
+                    {
+                        continue;
+                    }
+                    if (CurrentState.ExitCondition() == false)
+                    {
+                        continue;
+                    }
                     var rpcRes = Rpc("CurrentStateChange", (int)state.StateIndex);
                     if (rpcRes != Error.Ok)
                     {
                         LogTool.DebugLogDump("Rpc call failed! " + rpcRes.ToString());
+                        return;
                     }
                     count = -1;
                 }
             }
-            else
+        }
+        else
+        {
+            var count = GetChildCount();
+            while (count > 0)
             {
+                FSMState state = GetChild<FSMState>(--count);
+                if (state == CurrentState)
+                {
+                    continue;
+                }
+                if (state.EnterCondition() == false)
+                {
+                    continue;
+                }
+                if (CurrentState.ExitCondition() == false)
+                {
+                    continue;
+                }
                 CurrentState.OnExit();
                 CurrentState = state;
                 CurrentState.OnEnter();

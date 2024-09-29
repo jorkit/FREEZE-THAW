@@ -53,6 +53,27 @@ public partial class AttackButton : TouchScreenButton
             return;
         }
         LogTool.DebugLogDump("ATB pressed!");
+        if (BigBro.IsMultiplayer == true)
+        {
+            if (BigBro.MultiplayerApi.IsServer() == false)
+            {
+                var rpcRes = Rpc("PressedHandleRpc");
+                if (rpcRes != Error.Ok)
+                {
+                    LogTool.DebugLogDump("PressedHandleRpc Failed! " + rpcRes.ToString());
+                }
+            }
+        }
+        else
+        {
+            _uiContainer.character.AttackButtonPressedHandle();
+        }
+    }
+
+    [Rpc(mode: MultiplayerApi.RpcMode.Authority, CallLocal = false, TransferMode = MultiplayerPeer.TransferModeEnum.UnreliableOrdered)]
+    public void PressedHandleRpc()
+    {
+        LogTool.DebugLogDump(GetMultiplayerAuthority().ToString() + " receive Attack from " + BigBro.MultiplayerApi.GetRemoteSenderId());
         _uiContainer.character.AttackButtonPressedHandle();
     }
 }

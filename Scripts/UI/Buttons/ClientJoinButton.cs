@@ -50,6 +50,7 @@ public partial class ClientJoinButton : TouchScreenButton
         BigBro.MultiplayerApi.MultiplayerPeer = BigBro.Peer;
 
         /* must poll, or the status will never be Connected */
+        /*
         int i = 10;
         do
         {
@@ -69,11 +70,24 @@ public partial class ClientJoinButton : TouchScreenButton
             BigBro.Peer.Close();
             return;
         }
+        */
+        /* Server event handle bind */
+        BigBro.MultiplayerApi.ServerDisconnected += ServerDisconnectedHandle;
+        BigBro.MultiplayerApi.ConnectedToServer += ConnectedToServerHandle;
 
+        
+    }
+
+    private void ServerDisconnectedHandle()
+    {
+
+    }
+    private void ConnectedToServerHandle()
+    {
         /* Client connection successful */
         CanBePressed = false;
         BigBro.IsMultiplayer = true;
-        GetTree().Root.SetMultiplayerAuthority(BigBro.Peer.GetUniqueId());
+        GetTree().Root.SetMultiplayerAuthority(BigBro.Peer.GetUniqueId(), true);
 
         /* Spawner add */
         BigBro.Spawner = new();
@@ -83,7 +97,7 @@ public partial class ClientJoinButton : TouchScreenButton
         {
             BigBro.Spawner.AddSpawnableScene(path.Value);
         }
-        
+        BigBro.Peer.SetTargetPeer((int)MultiplayerPeer.TargetPeerServer);
         /* Scene change */
         SceneFSM.PreStateChange(BigBro.SceneFSM, SceneStateEnum.WaitingHall, true);
     }
