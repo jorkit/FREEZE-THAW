@@ -20,7 +20,7 @@ public partial class Armor : FSMState
         /* During Armor, Monster can't be Changed state until Die */
         if (true)
         {
-            LogTool.DebugLogDump(Name + " Attack play");
+            LogTool.DebugLogDump(Name + " play");
             //return;
         }
         Fsm.PreStateChange(CharacterStateEnum.Idle, true);
@@ -39,7 +39,7 @@ public partial class Armor : FSMState
     public override void OnEnter()
     {
 
-        LogTool.DebugLogDump(Name + " Attack OnEnter!");
+        LogTool.DebugLogDump(Name + " OnEnter!");
     }
     public override bool ExitCondition()
     {
@@ -47,12 +47,12 @@ public partial class Armor : FSMState
         {
             return false;
         }
-        LogTool.DebugLogDump(Name + " Attack ExitCondition!");
+        LogTool.DebugLogDump(Name + " ExitCondition!");
 
         return true;
     }
     public override void OnExit()
     {
-        LogTool.DebugLogDump(Name + " Attack OnExit!");
+        LogTool.DebugLogDump(Name + " OnExit!");
     }
 }

@@ -1,18 +1,22 @@
 using Godot;
 using System;
+using System.IO;
 using System.Text;
 
 namespace FreezeThaw.Utils
 {
     public class LogTool
     {
+        private static String path;
+        private static FileStream fs;
+        private static StreamWriter sw;
         /// <summary>
         /// 打印调用处代码信息和debug log。
         /// </summary>
         /// <param name="log"></param>
         public static void DebugLogDump(string log)
         {
-            string log_package = String.Format("{0}:{1}:{2}: [{3}] {4}", GetCodeContext<string>("__FILE__"), GetCodeContext<string>("__FUNC__"), GetCodeContext<int>("__LINE__"), BigBro.SceneFSM?.GetMultiplayerAuthority(), log);
+            string log_package = String.Format("{0}:{1}:{2}: [{3}] {4}", GetCodeContext<string>("__FILE__"), GetCodeContext<string>("__FUNC__"), GetCodeContext<int>("__LINE__"), BigBro.SceneFSM?.GetMultiplayerAuthority().ToString().PadLeft(10), log);
             Console.WriteLine(log_package);
             GD.Print(log_package);
 
@@ -83,37 +87,37 @@ namespace FreezeThaw.Utils
             }
         }
 
-        /// <summary>
-        /// 本地log保存
-        /// </summary>
-        /// <param name="log_file_name"></param>
-        /// <param name="log"></param>
-        public static void LocalLogHandle(string log_file_name, string log)
+        private static bool LocalLogPrepare(string log_file_name)
         {
-            if (log_file_name == null && string.IsNullOrWhiteSpace(log))
+            if (String.IsNullOrWhiteSpace(log_file_name))
             {
-                return;
+                return false;
             }
-            
+
             try
             {
-                FileAccess fs;
                 int i = 0;
                 do
                 {
-                    string path = "C:\\" + log_file_name + i + ".txt";
-                    /* 保存本地log */
-                    fs = FileAccess.Open(path, FileAccess.ModeFlags.ReadWrite);
+                    path = "C:\\" + log_file_name + i + ".txt";
                     if (fs == null)
                     {
-                        Console.WriteLine("{0}:{1}:{2}: {3}", GetCodeContext<string>("__FILE__"), GetCodeContext<string>("__FUNC__"), GetCodeContext<int>("__LINE__"), "FileStream打开失败！");
-                        return;
+                        fs = new FileStream(path, FileMode.Append, System.IO.FileAccess.Write, FileShare.Read);
+                        if (fs == null)
+                        {
+                            Console.WriteLine("{0}:{1}:{2}: {3}", GetCodeContext<string>("__FILE__"), GetCodeContext<string>("__FUNC__"), GetCodeContext<int>("__LINE__"), "FileStream打开失败！");
+                            return false;
+                        }
                     }
                     /* log大小限制在30M左右 */
-                    if (fs.GetLength() > 1024 * 1024 * 30)
+                    if (fs.Length > 1024 * 1024 * 30)
                     {
                         Console.WriteLine("{0}:{1}:{2}: {3}", GetCodeContext<string>("__FILE__"), GetCodeContext<string>("__FUNC__"), GetCodeContext<int>("__LINE__"), "Log文件大小超过30M，更换新文件！");
+                        sw.Close();
+                        sw = null;
                         fs.Close();
+                        fs = null;
+                        
                         i++;
                     }
                     else
@@ -121,14 +125,51 @@ namespace FreezeThaw.Utils
                         break;
                     }
                 } while (true);
-                var oldData = fs.GetAsText();
-                fs.StoreString(oldData + log);
-                fs.Close();
+            }
+            catch(Exception)
+            {
+                Console.WriteLine("{0}:{1}:{2}: {3}", GetCodeContext<string>("__FILE__"), GetCodeContext<string>("__FUNC__"), GetCodeContext<int>("__LINE__"), "本地log处理异常！");
+                return false;
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        /// 本地log保存
+        /// </summary>
+        /// <param name="log_file_name"></param>
+        /// <param name="log"></param>
+        public static void LocalLogHandle(string log_file_name, string log)
+        {
+            if (log == null)
+            {
+                return;
+            }
+            if (LocalLogPrepare(log_file_name) == false)
+            {
+                return;
+            }
+            try
+            {
+                if (sw == null)
+                {
+                    sw = new StreamWriter(fs);
+                    if (sw == null)
+                    {
+                        Console.WriteLine("{0}:{1}:{2}: {3}", GetCodeContext<string>("__FILE__"), GetCodeContext<string>("__FUNC__"), GetCodeContext<int>("__LINE__"), "StreamWriter打开失败！");
+                        fs.Close();
+                        fs = null;
+                        return;
+                    }
+                }
+                sw.Write(log);
             }
             catch (Exception)
             {
                 Console.WriteLine("{0}:{1}:{2}: {3}", GetCodeContext<string>("__FILE__"), GetCodeContext<string>("__FUNC__"), GetCodeContext<int>("__LINE__"), "本地log处理异常！");
-                return;
+                fs.Close();
+                fs = null;
             }
         }
     }

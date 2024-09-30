@@ -19,7 +19,7 @@ public partial class Unsealing : FSMState
     {
         if (true)
         {
-            LogTool.DebugLogDump(Name + " Unsealing play");
+            LogTool.DebugLogDump(Name + " play");
             Fsm.PreStateChange(CharacterStateEnum.Unsealing, true);
             //return;
         }

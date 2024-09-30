@@ -58,13 +58,13 @@ animations = [{
 "texture": ExtResource("2_do775")
 }, {
 "duration": 1.0,
-"texture": ExtResource("2_do775")
+"texture": null
 }, {
 "duration": 1.0,
 "texture": ExtResource("2_do775")
 }, {
 "duration": 1.0,
-"texture": ExtResource("2_do775")
+"texture": null
 }, {
 "duration": 1.0,
 "texture": ExtResource("2_do775")
@@ -121,12 +121,18 @@ height = 128.0
 [node name="Mouse" type="CharacterBody2D"]
 script = ExtResource("1_4hk77")
 
+[node name="BulletDirection" type="Polygon2D" parent="."]
+color = Color(0, 1, 1, 0.141176)
+polygon = PackedVector2Array(0, -16, 248, -24, 240, -32, 272, -56, 312, 0, 272, 56, 240, 32, 248, 24, 0, 16)
+
 [node name="SelfImage" type="AnimatedSprite2D" parent="."]
 position = Vector2(8, -3.78127)
 scale = Vector2(0.112097, 0.117045)
 sprite_frames = SubResource("SpriteFrames_6o4j5")
-animation = &"Run"
+animation = &"Attack"
 autoplay = "Idle"
+frame = 4
+frame_progress = 1.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CapsuleShape2D_pnk0x")
@@ -164,4 +170,3 @@ shape = SubResource("CapsuleShape2D_pnk0x")
 [node name="RadiusCheck" parent="." instance=ExtResource("5_xjjew")]
 
 [node name="BulletBornPosition" type="Marker2D" parent="."]
-position = Vector2(67, 0)

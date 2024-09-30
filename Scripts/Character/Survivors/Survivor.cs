@@ -9,6 +9,7 @@ public abstract partial class Survivor : Character
     {
         base._Ready();
         Speed = 400f;
+        GetNodeOrNull<Polygon2D>("BulletDirection").Visible = false;
     }
 
     // Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -18,10 +19,9 @@ public abstract partial class Survivor : Character
 
     public override void Attack()
     {
-        GD.Print(GetMultiplayerAuthority() + " Attack");
         var bullet = Bullet.Instantiate<Bullet>();
-        bullet.SetDirection(new Vector2(1, 0));
-        GetParent().AddChild(bullet);
+        bullet.SetDirection(GetNodeOrNull<AttackButton>("UIContainer/AttackButton").direction);
         bullet.GlobalPosition = GetNode<Marker2D>("BulletBornPosition").GlobalPosition;
+        GetParent().AddChild(bullet);
     }
 }

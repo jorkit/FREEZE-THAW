@@ -19,7 +19,7 @@ public partial class Sealed : FSMState
     {
         if (true)
         {
-            LogTool.DebugLogDump(Name + " Sealed play");
+            LogTool.DebugLogDump(Name + " play");
             Fsm.PreStateChange(CharacterStateEnum.Sealed, true);
             //return;
         }

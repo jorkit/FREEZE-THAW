@@ -29,7 +29,6 @@ public partial class Run : FSMState
                 else
                 {    
                     Fsm.character.Velocity = velocity.Normalized() * Fsm.character.Speed;
-                    
                 }
             }
         }
@@ -53,7 +52,6 @@ public partial class Run : FSMState
             return false;
         }
         LogTool.DebugLogDump(Name + " EnterCondition");
-        Fsm.PreStateChange(CharacterStateEnum.Run, false);
 
         return true;
     }
@@ -74,5 +72,6 @@ public partial class Run : FSMState
     public override void OnExit()
     {
         LogTool.DebugLogDump(Name + " OnExit");
+        Fsm.character.Velocity = Vector2.Zero;
     }
 }

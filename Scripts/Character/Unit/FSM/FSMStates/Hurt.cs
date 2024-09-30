@@ -19,7 +19,7 @@ public partial class Hurt : FSMState
         /* During Hurt, Monster can Changed state */
         if (true)
         {
-            LogTool.DebugLogDump(Name + " Hurt play");
+            LogTool.DebugLogDump(Name + " play");
             return;
         }
         ((Monster)Fsm.character).Hurting = false;

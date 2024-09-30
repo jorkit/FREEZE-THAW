@@ -19,7 +19,7 @@ public partial class Thawing : FSMState
     {
         if (true)
         {
-            LogTool.DebugLogDump(Name + " Thawing play");
+            LogTool.DebugLogDump(Name + " play");
             Fsm.PreStateChange(CharacterStateEnum.Thawing, true);
             //return;
         }

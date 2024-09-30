@@ -46,7 +46,7 @@ public partial class BigBro : Node
         LogTool.DebugLogDump(osName);
         if (osName == "Windows")
         {
-            windowSize = new Vector2I(1120, 780);
+            windowSize = new Vector2I(1920, 1080);
             DisplayServer.WindowSetSize(windowSize);
             /* window at the center of screen */
             var xStart = (screenSize.X - DisplayServer.WindowGetSize().X) / 2;

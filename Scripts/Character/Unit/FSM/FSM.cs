@@ -94,21 +94,32 @@ public partial class FSM : Node
     /* Prestate change, wait for CurrentState change */
     public void PreStateChange(CharacterStateEnum newPreState, bool force)
     {
-        if (BigBro.IsMultiplayer == true && BigBro.MultiplayerApi.IsServer() == false)
+        if (BigBro.IsMultiplayer == true)
         {
-            return;
+            if (BigBro.MultiplayerApi.IsServer() == false)
+            { 
+                return;
+            }
+            var rpcResult = Rpc("PreStateChangeRPC", (int)newPreState, force);
+            if (rpcResult != Error.Ok)
+            {
+                LogTool.DebugLogDump("Rpc error: " + rpcResult.ToString());
+            }
         }
-        var rpcResult = Rpc("PreStateChangeRPC", (int)newPreState, force);
-        if (rpcResult != Error.Ok)
+        else
         {
-            LogTool.DebugLogDump("Rpc error: " + rpcResult.ToString());
+            PreStateChangeHandle(newPreState, force);
         }
     }
 
     [Rpc(mode: MultiplayerApi.RpcMode.AnyPeer, CallLocal = true, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
     private void PreStateChangeRPC(int newPreState_Int, bool force)
     {
-        CharacterStateEnum newPreState = (CharacterStateEnum)newPreState_Int;
+        PreStateChangeHandle((CharacterStateEnum)newPreState_Int, force);
+    }
+
+    private void PreStateChangeHandle(CharacterStateEnum newPreState, bool force)
+    {
         if (force == true && CurrentState.StateIndex != CharacterStateEnum.Die)
         {
             LogTool.DebugLogDump("Force Change To " + newPreState.ToString());

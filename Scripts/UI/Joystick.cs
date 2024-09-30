@@ -36,7 +36,7 @@ public partial class Joystick : Sprite2D
 
 	public override void _Input(InputEvent @event)
 	{
-        if (IsMultiplayerAuthority() == false)
+        if (BigBro.MultiplayerApi.IsServer() == true || IsMultiplayerAuthority() == false)
         {
             return;
         }

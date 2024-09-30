@@ -19,7 +19,7 @@ public partial class Freezing : FSMState
     {
         if (true)
         {
-            LogTool.DebugLogDump(Name + " Freezing play");
+            LogTool.DebugLogDump(Name + " play");
             Fsm.PreStateChange(CharacterStateEnum.Freezing, true);
             //return;
         }

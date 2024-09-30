@@ -1,3 +1,4 @@
+using FreezeThaw.Utils;
 using Godot;
 using System;
 
@@ -26,7 +27,8 @@ public abstract partial class Bullet : Area2D
 
     public void SetDirection(Vector2 direction)
     {
-        Direction = direction;
+        LogTool.DebugLogDump(direction.ToString());
+        Direction = direction.Normalized();
     }
 
     public virtual void BodyEnteredHandle(Node2D body)

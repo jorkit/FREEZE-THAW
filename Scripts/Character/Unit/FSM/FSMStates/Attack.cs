@@ -18,12 +18,7 @@ public partial class Attack : FSMState
 
     public override void Update(double delta)
     {
-        if (ExitCondition() == false)
-        {
-            Fsm.character.SelfImage.Play("Attack");
-            LogTool.DebugLogDump(Name + " Attack play");
-            //return;
-        }
+        Fsm.character.SelfImage.Play("Attack");
     }
 
     public override bool EnterCondition()
@@ -38,7 +33,7 @@ public partial class Attack : FSMState
     }
     public override void OnEnter()
     {
-        LogTool.DebugLogDump(Name + " Attack OnEnter!");
+        LogTool.DebugLogDump(Name + " OnEnter!");
         if (BigBro.IsMultiplayer == true && BigBro.MultiplayerApi.IsServer() == true)
         {
             if (Fsm.character.SelfImage.IsConnected("animation_finished", new Callable(this, "AnimationFinishedHandle")) == false)
@@ -64,12 +59,12 @@ public partial class Attack : FSMState
         {
             return false;
         }
-        LogTool.DebugLogDump(Name + " Attack ExitCondition!");
+        LogTool.DebugLogDump(Name + " ExitCondition!");
 
         return true;
     }
     public override void OnExit()
     {
-        LogTool.DebugLogDump(Name + " Attack OnExit!");
+        LogTool.DebugLogDump(Name + " OnExit!");
     }
 }

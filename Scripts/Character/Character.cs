@@ -16,14 +16,13 @@ public abstract partial class Character : CharacterBody2D
         if (BigBro.IsMultiplayer == true)
         {
             /* Set the authority of this node */
-            LogTool.DebugLogDump("lalalalala" + GetMultiplayerAuthority().ToString() + " " + Name);
             SetMultiplayerAuthority(Name.ToString().ToInt(), true);
 
             Position = new Vector2(300, 300);
             if (IsMultiplayerAuthority() == false && BigBro.MultiplayerApi.IsServer() == false)
             {
                 LogTool.DebugLogDump(GetMultiplayerAuthority().ToString() + " " + Name);
-                //RemoveChild(GetNode<UIContainer>("UIContainer"));
+                /* hide the other clients' UIContainer and remove their Camera */
                 GetNode<UIContainer>("UIContainer").Visible = false;
                 RemoveChild(GetNode<Camera2D>("CharacterCamera"));
             }
@@ -60,11 +59,6 @@ public abstract partial class Character : CharacterBody2D
 
     public override void _PhysicsProcess(double delta)
     {
-        /* if not self, return */
-        if (IsMultiplayerAuthority() == false)
-        {
-            //return;
-        }
         if (_fsm == null)
         {
             LogTool.DebugLogDump("Character not found");
@@ -87,7 +81,11 @@ public abstract partial class Character : CharacterBody2D
         /* Multiplayer and server do Ppc call */
         if (BigBro.IsMultiplayer == true && BigBro.MultiplayerApi.IsServer() == true)
         {
-            Rpc("SetNewPostionRpc", Position);
+            var rpcRes = Rpc("SetNewPostionRpc", Position);
+            if (rpcRes != Error.Ok)
+            {
+                LogTool.DebugLogDump("SetNewPostionRpc failed! " + rpcRes.ToString());
+            }
         }
     }
 
@@ -111,6 +109,7 @@ public abstract partial class Character : CharacterBody2D
     {
         if (BigBro.IsMultiplayer == true)
         {
+            /* client do NOT receive the joystick info */
             if (IsMultiplayerAuthority() == false && BigBro.MultiplayerApi.IsServer() == false)
             {
                 return Vector2.Zero;

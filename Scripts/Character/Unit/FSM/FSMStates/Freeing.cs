@@ -19,7 +19,7 @@ public partial class Freeing : FSMState
     {
         if (true)
         {
-            LogTool.DebugLogDump(Name + " Freeing play");
+            LogTool.DebugLogDump(Name + " play");
             Fsm.PreStateChange(CharacterStateEnum.Freeing, true);
             //return;
         }
