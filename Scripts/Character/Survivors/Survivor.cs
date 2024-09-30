@@ -20,8 +20,14 @@ public abstract partial class Survivor : Character
     public override void Attack()
     {
         var bullet = Bullet.Instantiate<Bullet>();
-        bullet.SetDirection(GetNodeOrNull<AttackButton>("UIContainer/AttackButton").direction);
-        bullet.GlobalPosition = GetNode<Marker2D>("BulletBornPosition").GlobalPosition;
+        var direction = GetNodeOrNull<AttackButton>("UIContainer/AttackButton").direction;
+        bullet.Direction = direction;
+        bullet.GlobalPosition = Position + direction * 60;
         GetParent().AddChild(bullet);
+    }
+
+    public override void FreezeThawButtonPressedHandle()
+    {
+        _fsm.PreStateChange(CharacterStateEnum.Freezing, false);
     }
 }

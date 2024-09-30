@@ -4,7 +4,7 @@ using FreezeThaw.Utils;
 
 public partial class FreezeThawButton : TouchScreenButton
 {
-	bool CanPress;
+	private bool CanBePressed;
 	Survivor survivor;
     Node survivors;
 	private UIContainer _uiContainer;
@@ -16,8 +16,8 @@ public partial class FreezeThawButton : TouchScreenButton
         {
 			LogTool.DebugLogDump("UIContainer not found!");
         }
-        CanPress = false;
-        Pressed += PressedHandler;
+        CanBePressed = false;
+        Pressed += PressedHandle;
 
         /* set the position according to WindowSize */
         Position = new Vector2(BigBro.windowSize.X * 13 / 15, BigBro.windowSize.Y * 1 / 2);
@@ -26,10 +26,58 @@ public partial class FreezeThawButton : TouchScreenButton
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
+        if (_uiContainer.character.GetType().BaseType == typeof(Monster))
+        {
+            /* detective if there are freezing Survivors */
+            if (_uiContainer.character.GetCurrentState() < CharacterStateEnum.Attack)
+            {
+                CanBePressed = true;
+            }
+            else
+            {
+                CanBePressed = false;
+            }
+        }
+        else
+        {
+            if (_uiContainer.character.GetCurrentState() < CharacterStateEnum.Attack)
+            {
+                CanBePressed = true;
+            }
+            else
+            {
+                CanBePressed = false;
+            }
+        }
+    }
+
+	public void PressedHandle()
+	{
+        if (CanBePressed == false)
+        {
+            return;
+        }
+        if (BigBro.IsMultiplayer == true)
+        {
+            if (BigBro.MultiplayerApi.IsServer() == false)
+            {
+                var rpcRes = Rpc("PressedHandleRpc");
+                if (rpcRes != Error.Ok)
+                {
+                    LogTool.DebugLogDump("PressedHandleRpc Failed! " + rpcRes.ToString());
+                }
+            }
+        }
+        else
+        {
+            _uiContainer.character.FreezeThawButtonPressedHandle();
+        }
 	}
 
-	public void PressedHandler()
-	{
-       
-	}
+    [Rpc(mode: MultiplayerApi.RpcMode.Authority, CallLocal = false, TransferMode = MultiplayerPeer.TransferModeEnum.UnreliableOrdered)]
+    private void PressedHandleRpc()
+    {
+        LogTool.DebugLogDump(GetMultiplayerAuthority().ToString() + " receive FreezeThaw CMD from " + BigBro.MultiplayerApi.GetRemoteSenderId());
+        _uiContainer.character.FreezeThawButtonPressedHandle();
+    }
 }

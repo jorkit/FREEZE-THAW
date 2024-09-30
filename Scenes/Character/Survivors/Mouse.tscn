@@ -1,9 +1,10 @@
-[gd_scene load_steps=29 format=3 uid="uid://cb64aufhpklb2"]
+[gd_scene load_steps=36 format=3 uid="uid://cb64aufhpklb2"]
 
 [ext_resource type="Script" path="res://Scripts/Character/Survivors/Mouse.cs" id="1_4hk77"]
+[ext_resource type="Texture2D" uid="uid://cm57d6pgjj4kj" path="res://Static/UI/Joystick/摇杆2.webp" id="2_734kd"]
 [ext_resource type="Texture2D" uid="uid://cf0adrmuibiil" path="res://Static/Animations/Character/Monsters/Sandworm/Adonis_boss.png" id="2_do775"]
 [ext_resource type="PackedScene" uid="uid://2toocttgi3dx" path="res://Scenes/Character/Unit/CharacterCamera.tscn" id="2_i5wyr"]
-[ext_resource type="Texture2D" uid="uid://bhmsndqi50x04" path="res://Static/Animations/Character/Survivors/Mouse/微信图片_20240927225500.png" id="2_ye2ph"]
+[ext_resource type="Texture2D" uid="uid://bhmsndqi50x04" path="res://Static/Animations/Character/Survivors/Mouse/Mouse.png" id="2_ye2ph"]
 [ext_resource type="PackedScene" uid="uid://8qemlyfupy68" path="res://Scenes/Character/Unit/UIContainer/UIContainer.tscn" id="3_ut7bq"]
 [ext_resource type="PackedScene" uid="uid://b8bjf4yiby1fb" path="res://Scenes/Character/Unit/FSM/FSM.tscn" id="4_chgp5"]
 [ext_resource type="PackedScene" uid="uid://b2odjxtivg3xw" path="res://Scenes/Character/Unit/FSM/FSMStates/Armor.tscn" id="5_cpua2"]
@@ -13,43 +14,64 @@
 [ext_resource type="PackedScene" uid="uid://djtg8ri6l5pcg" path="res://Scenes/Character/Unit/FSM/FSMStates/Freeing.tscn" id="8_j1xs1"]
 [ext_resource type="PackedScene" uid="uid://csse0gatnep14" path="res://Scenes/Character/Unit/FSM/FSMStates/Freezed.tscn" id="9_8eue5"]
 [ext_resource type="PackedScene" uid="uid://qsnlncnjjhyl" path="res://Scenes/Character/Unit/FSM/FSMStates/Hurt.tscn" id="11_s4xak"]
+[ext_resource type="PackedScene" uid="uid://cuotnagepexyu" path="res://Scenes/Character/Unit/FSM/FSMStates/Freezing.tscn" id="12_nsinp"]
 [ext_resource type="PackedScene" uid="uid://cfk8yf15dhkwd" path="res://Scenes/Character/Unit/FSM/FSMStates/Idle.tscn" id="12_o6s8y"]
 [ext_resource type="PackedScene" uid="uid://cva2e1sardm5w" path="res://Scenes/Character/Unit/FSM/FSMStates/Run.tscn" id="13_n2fh0"]
 [ext_resource type="PackedScene" uid="uid://b2sbowkq3x7lb" path="res://Scenes/Character/Unit/FSM/FSMStates/Sealed.tscn" id="14_ayw1b"]
 [ext_resource type="PackedScene" uid="uid://dqra8hoygdbsh" path="res://Scenes/Character/Unit/FSM/FSMStates/Thawing.tscn" id="15_5aps4"]
 [ext_resource type="PackedScene" uid="uid://de877pbxdenht" path="res://Scenes/Character/Unit/FSM/FSMStates/Unsealing.tscn" id="16_y0esc"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_xn61g"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_jrik5"]
 atlas = ExtResource("2_ye2ph")
-region = Rect2(0, 0, 1771, 2481)
+region = Rect2(0, 0, 1204, 1546)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_ix5ti"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_1fd28"]
 atlas = ExtResource("2_ye2ph")
-region = Rect2(1771, 0, 1771, 2481)
+region = Rect2(2408, 0, 1204, 1546)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_qq1mp"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_tuslp"]
 atlas = ExtResource("2_ye2ph")
-region = Rect2(3542, 0, 1771, 2481)
+region = Rect2(4816, 0, 1204, 1546)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_rv62f"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_6himb"]
 atlas = ExtResource("2_ye2ph")
-region = Rect2(5313, 0, 1771, 2481)
+region = Rect2(7224, 0, 1204, 1546)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_byw6o"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_vydfg"]
 atlas = ExtResource("2_ye2ph")
-region = Rect2(7084, 0, 1771, 2481)
+region = Rect2(0, 0, 1204, 1546)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_fjvpe"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_2e7ch"]
 atlas = ExtResource("2_ye2ph")
-region = Rect2(0, 0, 1771, 2481)
+region = Rect2(1204, 0, 1204, 1546)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_dx1vf"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_sum2w"]
 atlas = ExtResource("2_ye2ph")
-region = Rect2(5313, 0, 1771, 2481)
+region = Rect2(2408, 0, 1204, 1546)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_qwak8"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_mpq8r"]
 atlas = ExtResource("2_ye2ph")
-region = Rect2(7084, 0, 1771, 2481)
+region = Rect2(3612, 0, 1204, 1546)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gmq5g"]
+atlas = ExtResource("2_ye2ph")
+region = Rect2(4816, 0, 1204, 1546)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8yrvh"]
+atlas = ExtResource("2_ye2ph")
+region = Rect2(6020, 0, 1204, 1546)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6m8nt"]
+atlas = ExtResource("2_ye2ph")
+region = Rect2(7224, 0, 1204, 1546)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ylv4c"]
+atlas = ExtResource("2_ye2ph")
+region = Rect2(8428, 0, 1204, 1546)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hvbq4"]
+atlas = ExtResource("2_ye2ph")
+region = Rect2(9632, 0, 1204, 1546)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_6o4j5"]
 animations = [{
@@ -75,39 +97,112 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_xn61g")
+"texture": SubResource("AtlasTexture_jrik5")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_ix5ti")
+"texture": null
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_qq1mp")
+"texture": SubResource("AtlasTexture_1fd28")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_rv62f")
+"texture": null
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_byw6o")
+"texture": SubResource("AtlasTexture_tuslp")
+}, {
+"duration": 1.0,
+"texture": null
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6himb")
 }],
 "loop": true,
-"name": &"Idle",
-"speed": 5.0
+"name": &"Freezed",
+"speed": 6.0
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_fjvpe")
+"texture": SubResource("AtlasTexture_jrik5")
 }, {
 "duration": 1.0,
-"texture": ExtResource("2_do775")
+"texture": null
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_dx1vf")
+"texture": SubResource("AtlasTexture_1fd28")
 }, {
 "duration": 1.0,
-"texture": ExtResource("2_do775")
+"texture": null
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_qwak8")
+"texture": SubResource("AtlasTexture_tuslp")
+}, {
+"duration": 1.0,
+"texture": null
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6himb")
+}],
+"loop": false,
+"name": &"Freezing",
+"speed": 12.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vydfg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2e7ch")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sum2w")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mpq8r")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gmq5g")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8yrvh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6m8nt")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ylv4c")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hvbq4")
+}],
+"loop": true,
+"name": &"Idle",
+"speed": 9.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jrik5")
+}, {
+"duration": 1.0,
+"texture": null
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1fd28")
+}, {
+"duration": 1.0,
+"texture": null
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tuslp")
+}, {
+"duration": 1.0,
+"texture": null
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6himb")
+}, {
+"duration": 1.0,
+"texture": null
 }],
 "loop": true,
 "name": &"Run",
@@ -116,23 +211,28 @@ animations = [{
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_pnk0x"]
 radius = 40.0
-height = 128.0
+height = 160.0
 
 [node name="Mouse" type="CharacterBody2D"]
 script = ExtResource("1_4hk77")
 
+[node name="Shadow" type="Sprite2D" parent="."]
+position = Vector2(-1, 81.5)
+scale = Vector2(1.01429, 0.25)
+texture = ExtResource("2_734kd")
+
 [node name="BulletDirection" type="Polygon2D" parent="."]
-color = Color(0, 1, 1, 0.141176)
-polygon = PackedVector2Array(0, -16, 248, -24, 240, -32, 272, -56, 312, 0, 272, 56, 240, 32, 248, 24, 0, 16)
+scale = Vector2(0.897436, 1)
+color = Color(0, 1, 1, 0.294118)
+polygon = PackedVector2Array(0, -8, 248, -16, 240, -48, 312, 0, 240, 48, 248, 16, 0, 8)
 
 [node name="SelfImage" type="AnimatedSprite2D" parent="."]
-position = Vector2(8, -3.78127)
+position = Vector2(0, -4.76837e-07)
 scale = Vector2(0.112097, 0.117045)
 sprite_frames = SubResource("SpriteFrames_6o4j5")
-animation = &"Attack"
+animation = &"Run"
 autoplay = "Idle"
-frame = 4
-frame_progress = 1.0
+frame_progress = 0.873551
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CapsuleShape2D_pnk0x")
@@ -143,30 +243,28 @@ shape = SubResource("CapsuleShape2D_pnk0x")
 
 [node name="FSM" parent="." instance=ExtResource("4_chgp5")]
 
-[node name="Armor" parent="FSM" instance=ExtResource("5_cpua2")]
-
-[node name="Attack" parent="FSM" instance=ExtResource("6_bfy44")]
-
-[node name="Die" parent="FSM" instance=ExtResource("7_dwbw4")]
-
-[node name="Freeing" parent="FSM" instance=ExtResource("8_j1xs1")]
-
-[node name="Freezed" parent="FSM" instance=ExtResource("9_8eue5")]
-
-[node name="Freezing" parent="FSM" instance=ExtResource("9_8eue5")]
-
-[node name="Hurt" parent="FSM" instance=ExtResource("11_s4xak")]
-
 [node name="Idle" parent="FSM" instance=ExtResource("12_o6s8y")]
 
 [node name="Run" parent="FSM" instance=ExtResource("13_n2fh0")]
 
-[node name="Sealed" parent="FSM" instance=ExtResource("14_ayw1b")]
+[node name="Attack" parent="FSM" instance=ExtResource("6_bfy44")]
+
+[node name="Armor" parent="FSM" instance=ExtResource("5_cpua2")]
+
+[node name="Hurt" parent="FSM" instance=ExtResource("11_s4xak")]
+
+[node name="Freezing" parent="FSM" instance=ExtResource("12_nsinp")]
+
+[node name="Freezed" parent="FSM" instance=ExtResource("9_8eue5")]
 
 [node name="Thawing" parent="FSM" instance=ExtResource("15_5aps4")]
 
+[node name="Sealed" parent="FSM" instance=ExtResource("14_ayw1b")]
+
 [node name="Unsealing" parent="FSM" instance=ExtResource("16_y0esc")]
 
-[node name="RadiusCheck" parent="." instance=ExtResource("5_xjjew")]
+[node name="Freeing" parent="FSM" instance=ExtResource("8_j1xs1")]
 
-[node name="BulletBornPosition" type="Marker2D" parent="."]
+[node name="Die" parent="FSM" instance=ExtResource("7_dwbw4")]
+
+[node name="RadiusCheck" parent="." instance=ExtResource("5_xjjew")]

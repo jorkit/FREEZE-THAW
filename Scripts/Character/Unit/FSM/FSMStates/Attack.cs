@@ -34,21 +34,11 @@ public partial class Attack : FSMState
     public override void OnEnter()
     {
         LogTool.DebugLogDump(Name + " OnEnter!");
-        if (BigBro.IsMultiplayer == true && BigBro.MultiplayerApi.IsServer() == true)
-        {
-            if (Fsm.character.SelfImage.IsConnected("animation_finished", new Callable(this, "AnimationFinishedHandle")) == false)
-            {
-                var connectRes = Fsm.character.SelfImage.Connect("animation_finished", new Callable(this, "AnimationFinishedHandle"));
-                if (connectRes != Error.Ok )
-                {
-                    LogTool.DebugLogDump("AnimationFinishedHandle connect to singal failed! " + connectRes.ToString());
-                }
-            }
-        }
+        Fsm.character.AnimatitionFinishedHandleRegiste(this);
         Fsm.character.Attack();
     }
 
-    public void AnimationFinishedHandle()
+    private void AnimationFinishedHandle()
     {
         Fsm.PreStateChange(CharacterStateEnum.Idle, true);
     }

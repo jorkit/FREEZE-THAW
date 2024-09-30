@@ -17,13 +17,7 @@ public partial class Freezing : FSMState
 
     public override void Update(double delta)
     {
-        if (true)
-        {
-            LogTool.DebugLogDump(Name + " play");
-            Fsm.PreStateChange(CharacterStateEnum.Freezing, true);
-            //return;
-        }
-        Fsm.PreStateChange(CharacterStateEnum.Idle, true);
+        Fsm.character.SelfImage.Play("Freezing");
     }
 
     public override bool EnterCondition()
@@ -39,7 +33,14 @@ public partial class Freezing : FSMState
     public override void OnEnter()
     {
         LogTool.DebugLogDump(Name + " OnEnter!");
+        Fsm.character.AnimatitionFinishedHandleRegiste(this);
     }
+
+    private void AnimationFinishedHandle()
+    {
+        Fsm.PreStateChange(CharacterStateEnum.Freezed, true);
+    }
+
     public override bool ExitCondition()
     {
         if (Fsm.PreState == CharacterStateEnum.Freezing)

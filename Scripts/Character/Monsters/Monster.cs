@@ -19,4 +19,9 @@ public abstract partial class Monster : Character
     public override void Attack()
     {
     }
+
+    public override void FreezeThawButtonPressedHandle()
+    {
+
+    }
 }

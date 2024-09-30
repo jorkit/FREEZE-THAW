@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://bhmsndqi50x04"
-path="res://.godot/imported/微信图片_20240927225500.png-f1168702448cbba8304a8a45b7a40687.ctex"
+path="res://.godot/imported/Mouse.png-e8e8d3ed8b66a195357c49bf09e86951.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Static/Animations/Character/Survivors/Mouse/微信图片_20240927225500.png"
-dest_files=["res://.godot/imported/微信图片_20240927225500.png-f1168702448cbba8304a8a45b7a40687.ctex"]
+source_file="res://Static/Animations/Character/Survivors/Mouse/Mouse.png"
+dest_files=["res://.godot/imported/Mouse.png-e8e8d3ed8b66a195357c49bf09e86951.ctex"]
 
 [params]
 

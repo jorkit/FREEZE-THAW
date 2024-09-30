@@ -14,7 +14,6 @@ public partial class SceneOfMatchStartLoading : SceneFSMState
     {
         if (i < 50)
         {
-            LogTool.DebugLogDump("MatchStartLoading play");
             i++;
             return;
         }

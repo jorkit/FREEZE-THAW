@@ -112,12 +112,12 @@ public partial class AttackButton : Sprite2D
             {
                 return;
             }
-            ReleaseHandler();
+            ReleaseHandle();
             _point.Visible = false;
             _ondraging = -1;
             _point.Position = Vector2.Zero;
+            /* BulletDirection hide */
             _uiContainer.character.GetNodeOrNull<Polygon2D>("BulletDirection").Visible = false;
-            _uiContainer.character.GetNodeOrNull<Polygon2D>("BulletDirection").Rotation = _point.Position.Normalized().Aspect();
         }
     }
     private bool XBOXJoystickHandle(InputEvent @event)
@@ -125,17 +125,32 @@ public partial class AttackButton : Sprite2D
         if (@event is InputEventJoypadMotion)
         {
             var x = Input.GetJoyAxis(0, JoyAxis.RightX);
-
             var y = Input.GetJoyAxis(0, JoyAxis.RightY);
 
-            _point.Position = new Vector2(x, y).Normalized();
-            return true;
+            if (x != 0 || y != 0)
+            {
+                _point.Visible = true;
+                _point.Position = new Vector2(x, y).Normalized() * _maxlen;
+                /* set the Postion of BulletDirection Marker2D for bullet line drawing */
+                _uiContainer.character.GetNodeOrNull<Polygon2D>("BulletDirection").Visible = true;
+                _uiContainer.character.GetNodeOrNull<Polygon2D>("BulletDirection").Rotation = _point.Position.Angle();
+
+                return true;
+            }
+            else
+            {
+                /* set the Postion of BulletDirection Marker2D for bullet line drawing */
+                _point.Visible = false;
+                _uiContainer.character.GetNodeOrNull<Polygon2D>("BulletDirection").Visible = false;
+                ReleaseHandle();
+                _point.Position = Vector2.Zero;
+            }
         }
 
         return false;
     }
 
-    public void ReleaseHandler()
+    public void ReleaseHandle()
     {
         if (!CanBePressed || IsMultiplayerAuthority() == false)
         {

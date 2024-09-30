@@ -14,7 +14,6 @@ public partial class SceneOfGameOpenLoading : SceneFSMState
     {
         if (i < 50)
         {
-            LogTool.DebugLogDump("GameOpenLoading play");
             i++;
             return;
         }

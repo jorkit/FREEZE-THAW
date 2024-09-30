@@ -5,7 +5,7 @@ using System.Threading;
 
 public abstract partial class Character : CharacterBody2D
 {
-    private FSM _fsm;
+    protected FSM _fsm;
     public float Speed;
     public AnimatedSprite2D SelfImage { get; set; }
     // public const float JumpVelocity = -400.0f;
@@ -21,7 +21,6 @@ public abstract partial class Character : CharacterBody2D
             Position = new Vector2(300, 300);
             if (IsMultiplayerAuthority() == false && BigBro.MultiplayerApi.IsServer() == false)
             {
-                LogTool.DebugLogDump(GetMultiplayerAuthority().ToString() + " " + Name);
                 /* hide the other clients' UIContainer and remove their Camera */
                 GetNode<UIContainer>("UIContainer").Visible = false;
                 RemoveChild(GetNode<Camera2D>("CharacterCamera"));
@@ -70,7 +69,7 @@ public abstract partial class Character : CharacterBody2D
         {
             for (int i = 0; i < GetSlideCollisionCount(); i++)
             {
-                LogTool.DebugLogDump("COlliding!" + GetSlideCollision(i).GetType().Name);
+                //LogTool.DebugLogDump("COlliding!" + GetSlideCollision(i).GetType().Name);
             }
         }
         SetNewPostion();
@@ -129,5 +128,36 @@ public abstract partial class Character : CharacterBody2D
 
     public virtual void Attack()
     {
+    }
+
+    public abstract void FreezeThawButtonPressedHandle();
+
+    public void AnimatitionFinishedHandleRegiste(FSMState fsmState)
+    {
+        if (BigBro.IsMultiplayer == true)
+        {
+            if (BigBro.MultiplayerApi.IsServer() == true)
+            {
+                if (SelfImage.IsConnected("animation_finished", new Callable(fsmState, "AnimationFinishedHandle")) == false)
+                {
+                    var connectRes = SelfImage.Connect("animation_finished", new Callable(fsmState, "AnimationFinishedHandle"));
+                    if (connectRes != Error.Ok)
+                    {
+                        LogTool.DebugLogDump("AnimationFinishedHandle connect to singal failed! " + connectRes.ToString());
+                    }
+                }
+            }
+        }
+        else
+        {
+            if (SelfImage.IsConnected("animation_finished", new Callable(fsmState, "AnimationFinishedHandle")) == false)
+            {
+                var connectRes = SelfImage.Connect("animation_finished", new Callable(fsmState, "AnimationFinishedHandle"));
+                if (connectRes != Error.Ok)
+                {
+                    LogTool.DebugLogDump("AnimationFinishedHandle connect to singal failed! " + connectRes.ToString());
+                }
+            }
+        }
     }
 }

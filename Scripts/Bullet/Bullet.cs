@@ -6,7 +6,7 @@ public abstract partial class Bullet : Area2D
 {
     protected int Speed { get; set; }
     protected int Damage { get; set; }
-    private Vector2 Direction { get; set; }
+    public Vector2 Direction { get; set; }
     // Called when the node enters the scene tree for the first time.
     public override async void _Ready()
 	{
@@ -23,12 +23,6 @@ public abstract partial class Bullet : Area2D
     public override void _PhysicsProcess(double delta)
     {
         GlobalPosition += Direction * Speed * (float)delta;
-    }
-
-    public void SetDirection(Vector2 direction)
-    {
-        LogTool.DebugLogDump(direction.ToString());
-        Direction = direction.Normalized();
     }
 
     public virtual void BodyEnteredHandle(Node2D body)

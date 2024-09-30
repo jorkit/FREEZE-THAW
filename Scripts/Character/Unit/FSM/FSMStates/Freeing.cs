@@ -17,13 +17,7 @@ public partial class Freeing : FSMState
 
     public override void Update(double delta)
     {
-        if (true)
-        {
-            LogTool.DebugLogDump(Name + " play");
-            Fsm.PreStateChange(CharacterStateEnum.Freeing, true);
-            //return;
-        }
-        Fsm.PreStateChange(CharacterStateEnum.Idle, true);
+        LogTool.DebugLogDump(Name + " play");
     }
 
     public override bool EnterCondition()
