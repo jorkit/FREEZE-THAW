@@ -25,13 +25,13 @@ public partial class SceneOfGameOpenLoading : SceneFSMState
         {
             return false;
         }
-        LogTool.DebugLogDump(Name + " EnterCondition");
+        //LogTool.DebugLogDump(Name + " EnterCondition");
 
         return true;
     }
     public override void OnEnter()
     {
-        LogTool.DebugLogDump(Name + " OnEnter");
+        //LogTool.DebugLogDump(Name + " OnEnter");
         var source = ResourceLoader.Load<PackedScene>(Path);
         if (source == null)
         {
@@ -52,14 +52,14 @@ public partial class SceneOfGameOpenLoading : SceneFSMState
         {
             return false;
         }
-        LogTool.DebugLogDump(Name + " ExitCondition");
+        //LogTool.DebugLogDump(Name + " ExitCondition");
 
         return true;
 
     }
     public override void OnExit()
     {
-        LogTool.DebugLogDump(Name + " OnExit");
+        //LogTool.DebugLogDump(Name + " OnExit");
         var node = BigBro.bigBro.GetNodeOrNull<GameOpenLoading>("GameOpenLoading");
         node?.QueueFree();
     }

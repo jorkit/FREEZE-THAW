@@ -7,7 +7,7 @@
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_vev7w"]
 properties/0/path = NodePath("Point:position")
 properties/0/spawn = true
-properties/0/replication_mode = 1
+properties/0/replication_mode = 2
 
 [node name="Joystick" type="Sprite2D"]
 texture = ExtResource("1_7gugj")

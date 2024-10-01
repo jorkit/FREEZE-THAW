@@ -2,6 +2,8 @@ using FreezeThaw.Utils;
 using Godot;
 using Godot.Collections;
 using System;
+using static PlayerContainer;
+using System.Collections.Generic;
 
 //GetNode<Monster>("/root/Main/Monster").SetScript(ResourceLoader.Load("res://Scripts/Characters/Monsters/AI.cs"));
 //LogTool.DebugLogDump("set script");
@@ -21,9 +23,10 @@ public partial class BigBro : Node
     }
 
     public static bool IsMultiplayer { set; get; }
-    public static Node PlayerContainer { set; get; }
+    public static PlayerContainer PlayerContainer { set; get; }
     public static readonly string PlayerContainerPath = "res://Scenes/Manager/PlayerContainer.tscn";
-    public static readonly Dictionary<CharacterTypeEnum, string> CharacterPathList = new Dictionary<CharacterTypeEnum, string>()
+    public static List<Player> Players { set; get; }
+    public static readonly Godot.Collections.Dictionary<CharacterTypeEnum, string> CharacterPathList = new Godot.Collections.Dictionary<CharacterTypeEnum, string>()
     {
         [CharacterTypeEnum.Sandworm] = "res://Scenes/Character/Monsters/Sandworm.tscn",
         [CharacterTypeEnum.Mouse] = "res://Scenes/Character/Survivors/Mouse.tscn",
@@ -88,13 +91,8 @@ public partial class BigBro : Node
         }
         BigBro.MultiplayerApi.MultiplayerPeer = BigBro.Peer;
 
-        /* Spawner add */
-        BigBro.bigBro.AddChild(BigBro.Spawner);
         BigBro.CreatePlayerContainer();
-        foreach (var path in BigBro.CharacterPathList)
-        {
-            BigBro.Spawner.AddSpawnableScene(path.Value);
-        }
+        
         /* Client event handler bind */
         BigBro.MultiplayerApi.PeerConnected += new MultiplayerApi.PeerConnectedEventHandler(PeerConnectHandle);
         BigBro.MultiplayerApi.PeerDisconnected += new MultiplayerApi.PeerDisconnectedEventHandler(PeerDisConnectHandle);
@@ -115,7 +113,7 @@ public partial class BigBro : Node
                     return;
                 }
                 LogTool.DebugLogDump("Client[" + id + "]Connected!");
-                PlayerAdd((long)id, BigBro.CharacterPathList[BigBro.CharacterTypeEnum.Mouse]);
+                PlayerAdd(id, BigBro.CharacterPathList[BigBro.CharacterTypeEnum.Mouse]);
                 return;
             }
         }
@@ -125,12 +123,12 @@ public partial class BigBro : Node
     public static void PeerDisConnectHandle(long id)
     {
         LogTool.DebugLogDump("Client[" + id + "]Disconnected!");
-        PlayerRemove((long)id);
+        PlayerRemove(id);
     }
 
     public static void CreatePlayerContainer()
     {
-        var playerContainer = ResourceLoader.Load<PackedScene>(BigBro.PlayerContainerPath).InstantiateOrNull<Node>();
+        var playerContainer = ResourceLoader.Load<PackedScene>(BigBro.PlayerContainerPath).InstantiateOrNull<PlayerContainer>();
         if (playerContainer == null)
         {
             LogTool.DebugLogDump("PlayerContainer not found!");

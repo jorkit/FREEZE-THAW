@@ -7,14 +7,17 @@ public partial class WaitingHall : Node
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
-        var players = BigBro.PlayerContainer;
-        if (players == null)
+        /* Spawner must add first before playerContainer add and then set the SpawnPath */
+        BigBro.Spawner = new();
+        BigBro.bigBro.AddChild(BigBro.Spawner);
+        foreach (var path in BigBro.CharacterPathList)
         {
-            LogTool.DebugLogDump("PlayerContainer not found!");
-            return;
+            BigBro.Spawner.AddSpawnableScene(path.Value);
         }
-        AddChild(players);
-        BigBro.Spawner.SpawnPath = GetNodeOrNull<Node>("PlayerContainer").GetPath();
+
+        BigBro.CreatePlayerContainer();
+        BigBro.bigBro.AddChild(BigBro.PlayerContainer);
+        BigBro.Spawner.SpawnPath = BigBro.PlayerContainer.GetPath();
         if (BigBro.MultiplayerApi.IsServer() == true)
         {
             BigBro.PlayerAdd(GetMultiplayerAuthority(), BigBro.CharacterPathList[BigBro.CharacterTypeEnum.Sandworm]);

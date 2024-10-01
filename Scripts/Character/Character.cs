@@ -12,13 +12,15 @@ public abstract partial class Character : CharacterBody2D
 
     public override void _EnterTree()
     {
-        base._EnterTree();
         if (BigBro.IsMultiplayer == true)
         {
             /* Set the authority of this node */
+            LogTool.DebugLogDump(GetMultiplayerAuthority().ToString());
             SetMultiplayerAuthority(Name.ToString().ToInt(), true);
+            LogTool.DebugLogDump(GetMultiplayerAuthority().ToString());
+            
 
-            Position = new Vector2(300, 300);
+            Position = new Vector2(new Random().Next(1000), new Random().Next(1000));
             if (IsMultiplayerAuthority() == false && BigBro.MultiplayerApi.IsServer() == false)
             {
                 /* hide the other clients' UIContainer and remove their Camera */
@@ -69,7 +71,7 @@ public abstract partial class Character : CharacterBody2D
         {
             for (int i = 0; i < GetSlideCollisionCount(); i++)
             {
-                //LogTool.DebugLogDump("COlliding!" + GetSlideCollision(i).GetType().Name);
+                LogTool.DebugLogDump("COlliding!" + GetSlideCollision(i).GetType().Name);
             }
         }
         SetNewPostion();

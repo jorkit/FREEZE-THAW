@@ -34,7 +34,6 @@ public abstract partial class Bullet : Area2D
         {
             return;
         }
-        GD.Print(body.GetType().BaseType.Name);
         if (body.GetType().BaseType == typeof(Monster))
         {
             QueueFree();

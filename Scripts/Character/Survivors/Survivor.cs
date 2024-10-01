@@ -24,7 +24,7 @@ public abstract partial class Survivor : Character
         bullet.Direction = direction;
         bullet.GlobalPosition = Position + direction * 60;
         bullet.OwnerId = GetMultiplayerAuthority().ToString().ToInt();
-        BigBro.bigBro.GetNodeOrNull<WaitingHall>("WaitingHall").AddChild(bullet);
+        GetParent().GetParent().AddChild(bullet);
     }
 
     public override void FreezeThawButtonPressedHandle()

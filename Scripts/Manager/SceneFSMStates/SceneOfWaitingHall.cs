@@ -13,7 +13,10 @@ public partial class SceneOfWaitingHall : SceneFSMState
 
     public override void Update(double delta)
     {
-
+        if (BigBro.PlayerContainer.Players.Count == 3)
+        {
+            SceneFSM.PreStateChange(SceneFsm, SceneStateEnum.MatchStartLoading, true);
+        }
     }
     public override bool EnterCondition()
     {
@@ -51,5 +54,7 @@ public partial class SceneOfWaitingHall : SceneFSMState
         LogTool.DebugLogDump(Name + " OnExit");
         var node = BigBro.bigBro.GetNodeOrNull<WaitingHall>("WaitingHall");
         node?.QueueFree();
+
+        return;
     }
 }

@@ -67,16 +67,9 @@ public partial class ClientJoinButton : TouchScreenButton
         /* Client connection successful */
         CanBePressed = false;
         BigBro.IsMultiplayer = true;
+        /* set the client sceneTree auth */
         GetTree().Root.SetMultiplayerAuthority(BigBro.Peer.GetUniqueId(), true);
-
-        /* Spawner add */
-        BigBro.Spawner = new();
-        BigBro.bigBro.AddChild(BigBro.Spawner);
-        BigBro.CreatePlayerContainer();
-        foreach (var path in BigBro.CharacterPathList)
-        {
-            BigBro.Spawner.AddSpawnableScene(path.Value);
-        }
+        /* Set the RPC target server */
         BigBro.Peer.SetTargetPeer((int)MultiplayerPeer.TargetPeerServer);
         /* Scene change */
         SceneFSM.PreStateChange(BigBro.SceneFSM, SceneStateEnum.WaitingHall, true);

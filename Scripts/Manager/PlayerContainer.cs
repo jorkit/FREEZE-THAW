@@ -7,18 +7,18 @@ public partial class PlayerContainer : Node
 {
 	public struct Player
 	{
-		public int Id;
+		public long Id;
 		public string NickName;
 		public int Score;
 	}
     public List<Player> Players { set; get; }
 	private int SCORE_INIT { set; get; }
 
-	private static Timer _timer;
+	public static Timer _timer;
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
-		SCORE_INIT = 300;
+        SCORE_INIT = 300;
 		Players = new List<Player>();
         ChildEnteredTree += new ChildEnteredTreeEventHandler(ChileEnterTreeHandler);
 		if (BigBro.IsMultiplayer == true && BigBro.MultiplayerApi.IsServer() == false)
@@ -74,9 +74,7 @@ public partial class PlayerContainer : Node
     [Rpc(mode: MultiplayerApi.RpcMode.AnyPeer, CallLocal = false, TransferMode = MultiplayerPeer.TransferModeEnum.UnreliableOrdered)]
     public void RequestDataRpc()
 	{
-		var playersJson = JsonConvert.SerializeObject(Players);
-		GD.Print(Players[1].Score.ToString());
-
+        var playersJson = JsonConvert.SerializeObject(Players);
         var rpcRes = RpcId(BigBro.MultiplayerApi.GetRemoteSenderId(), "ResponseDataRpc", playersJson);
         if (rpcRes != Error.Ok)
         {
@@ -87,6 +85,6 @@ public partial class PlayerContainer : Node
     [Rpc(mode: MultiplayerApi.RpcMode.AnyPeer, CallLocal = false, TransferMode = MultiplayerPeer.TransferModeEnum.UnreliableOrdered)]
     public void ResponseDataRpc(string playersJson)
     {
-		Players = JsonConvert.DeserializeObject<List<Player>>(playersJson);
+        Players = JsonConvert.DeserializeObject<List<Player>>(playersJson);
     }
 }
