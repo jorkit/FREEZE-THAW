@@ -29,6 +29,14 @@ window/handheld/orientation=4
 
 project/assembly_name="Freeze-Thaw"
 
+[input]
+
+Attack={
+"deadzone": 0.5,
+"events": [Object(InputEventJoypadMotion,"resource_local_to_scene":false,"resource_name":"","device":0,"axis":5,"axis_value":1.0,"script":null)
+]
+}
+
 [input_devices]
 
 pointing/emulate_touch_from_mouse=true

@@ -56,9 +56,6 @@ public partial class SceneOfOptionsInterface : SceneFSMState
     {
         LogTool.DebugLogDump(Name + " OnExit");
         var node = BigBro.bigBro.GetNodeOrNull<OptionsInterface>("OptionsInterface");
-        if (node != null)
-        {
-            BigBro.bigBro.RemoveChild(node);
-        }
+        node?.QueueFree();
     }
 }

@@ -61,9 +61,6 @@ public partial class SceneOfMatchStartLoading : SceneFSMState
     {
         LogTool.DebugLogDump(Name + " OnExit");
         var node = BigBro.bigBro.GetNodeOrNull<MatchStartLoading>("MatchStartLoading");
-        if (node != null)
-        {
-            BigBro.bigBro.RemoveChild(node);
-        }
+        node?.QueueFree();
     }
 }

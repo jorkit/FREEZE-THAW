@@ -134,17 +134,21 @@ public partial class AttackButton : Sprite2D
                 /* set the Postion of BulletDirection Marker2D for bullet line drawing */
                 _uiContainer.character.GetNodeOrNull<Polygon2D>("BulletDirection").Visible = true;
                 _uiContainer.character.GetNodeOrNull<Polygon2D>("BulletDirection").Rotation = _point.Position.Angle();
-
-                return true;
             }
             else
             {
-                /* set the Postion of BulletDirection Marker2D for bullet line drawing */
                 _point.Visible = false;
-                _uiContainer.character.GetNodeOrNull<Polygon2D>("BulletDirection").Visible = false;
-                ReleaseHandle();
                 _point.Position = Vector2.Zero;
+                _uiContainer.character.GetNodeOrNull<Polygon2D>("BulletDirection").Visible = false;
             }
+        }
+        var attack = Input.IsActionPressed("Attack");
+        if (attack == true)
+        {
+            ReleaseHandle();
+            _point.Visible = false;
+            _point.Position = Vector2.Zero;
+            _uiContainer.character.GetNodeOrNull<Polygon2D>("BulletDirection").Visible = false;
         }
 
         return false;

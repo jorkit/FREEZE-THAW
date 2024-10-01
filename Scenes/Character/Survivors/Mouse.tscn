@@ -222,19 +222,20 @@ scale = Vector2(1.01429, 0.25)
 texture = ExtResource("2_734kd")
 
 [node name="BulletDirection" type="Polygon2D" parent="."]
-scale = Vector2(0.897436, 1)
+scale = Vector2(1.04215, 1)
 color = Color(0, 1, 1, 0.294118)
-polygon = PackedVector2Array(0, -8, 248, -16, 240, -48, 312, 0, 240, 48, 248, 16, 0, 8)
+polygon = PackedVector2Array(0, 0, 284.028, -8, 260.999, -16, 99.7938, -16, 260.999, -24, 314.734, 0, 260.999, 24, 99.7938, 16, 260.999, 16, 285.257, 8, 0, 0)
 
 [node name="SelfImage" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, -4.76837e-07)
 scale = Vector2(0.112097, 0.117045)
 sprite_frames = SubResource("SpriteFrames_6o4j5")
-animation = &"Run"
+animation = &"Idle"
 autoplay = "Idle"
-frame_progress = 0.873551
+frame_progress = 0.504795
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
 shape = SubResource("CapsuleShape2D_pnk0x")
 
 [node name="CharacterCamera" parent="." instance=ExtResource("2_i5wyr")]
@@ -268,3 +269,4 @@ shape = SubResource("CapsuleShape2D_pnk0x")
 [node name="Die" parent="FSM" instance=ExtResource("7_dwbw4")]
 
 [node name="RadiusCheck" parent="." instance=ExtResource("5_xjjew")]
+visible = false

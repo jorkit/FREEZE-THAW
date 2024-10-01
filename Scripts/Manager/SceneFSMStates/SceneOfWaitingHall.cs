@@ -50,9 +50,6 @@ public partial class SceneOfWaitingHall : SceneFSMState
     {
         LogTool.DebugLogDump(Name + " OnExit");
         var node = BigBro.bigBro.GetNodeOrNull<WaitingHall>("WaitingHall");
-        if (node != null)
-        {
-            BigBro.bigBro.RemoveChild(node);
-        }
+        node?.QueueFree();
     }
 }

@@ -61,9 +61,6 @@ public partial class SceneOfGameOpenLoading : SceneFSMState
     {
         LogTool.DebugLogDump(Name + " OnExit");
         var node = BigBro.bigBro.GetNodeOrNull<GameOpenLoading>("GameOpenLoading");
-        if (node != null)
-        {
-            BigBro.bigBro.RemoveChild(node);
-        }
+        node?.QueueFree();
     }
 }

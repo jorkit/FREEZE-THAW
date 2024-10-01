@@ -23,7 +23,8 @@ public abstract partial class Survivor : Character
         var direction = GetNodeOrNull<AttackButton>("UIContainer/AttackButton").direction;
         bullet.Direction = direction;
         bullet.GlobalPosition = Position + direction * 60;
-        GetParent().AddChild(bullet);
+        bullet.OwnerId = GetMultiplayerAuthority().ToString().ToInt();
+        BigBro.bigBro.GetNodeOrNull<WaitingHall>("WaitingHall").AddChild(bullet);
     }
 
     public override void FreezeThawButtonPressedHandle()

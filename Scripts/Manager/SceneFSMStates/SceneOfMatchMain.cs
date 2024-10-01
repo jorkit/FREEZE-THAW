@@ -49,9 +49,6 @@ public partial class SceneOfMatchMain : SceneFSMState
     {
         LogTool.DebugLogDump(Name + " OnExit");
         var node = BigBro.bigBro.GetNodeOrNull<ProtoMatchMain>("ProtoMatchMain");
-        if (node != null)
-        {
-            BigBro.bigBro.RemoveChild(node);
-        }
+        node?.QueueFree();
     }
 }
