@@ -70,6 +70,7 @@ public partial class AttackButton : Sprite2D
         {
             return;
         }
+
         JoystickTouchHandle(@event);
         if (@event is InputEventScreenDrag)
         {
@@ -167,29 +168,36 @@ public partial class AttackButton : Sprite2D
 
     public void ReleaseHandle()
     {
-        if (!CanBePressed || IsMultiplayerAuthority() == false)
+        if (BigBro.IsMultiplayer == true && IsMultiplayerAuthority() == true)
         {
-            return;
-        }
-        LogTool.DebugLogDump("ATB released!");
-        direction = (_point.GlobalPosition - Position).Normalized();
-        if (direction == Vector2.Zero)
-        {
-            return;
-        }
-        if (BigBro.IsMultiplayer == true)
-        {
-            if (BigBro.MultiplayerApi.IsServer() == false)
+            if (!CanBePressed)
             {
-                var rpcRes = Rpc("ReleaseHandlerRpc");
-                if (rpcRes != Error.Ok)
-                {
-                    LogTool.DebugLogDump("ReleaseHandlerRpc Failed! " + rpcRes.ToString());
-                }
+                return;
+            }
+            LogTool.DebugLogDump("ATB released!");
+            direction = (_point.GlobalPosition - Position).Normalized();
+            if (direction == Vector2.Zero)
+            {
+                return;
+            }
+            var rpcRes = Rpc("ReleaseHandlerRpc");
+            if (rpcRes != Error.Ok)
+            {
+                LogTool.DebugLogDump("ReleaseHandlerRpc Failed! " + rpcRes.ToString());
             }
         }
         else
         {
+            if (!CanBePressed)
+            {
+                return;
+            }
+            LogTool.DebugLogDump("ATB released!");
+            direction = (_point.GlobalPosition - Position).Normalized();
+            if (direction == Vector2.Zero)
+            {
+                return;
+            }
             _uiContainer.character.AttackButtonPressedHandle();
         }
     }

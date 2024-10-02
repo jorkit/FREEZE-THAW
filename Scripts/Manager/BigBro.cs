@@ -122,8 +122,15 @@ public partial class BigBro : Node
     public static void PlayerAdd(string name, NodePath path)
     {
         var character = ResourceLoader.Load<PackedScene>(path).Instantiate();
+        if (character == null)
+        {
+            LogTool.DebugLogDump("Character Instantiate faild!");
+            return;
+        }
         character.Name = name;
         LogTool.DebugLogDump(character.Name);
+        if (character.GetType() == typeof(Mouse))
+            BigBro.Player = (Character)character;
         BigBro.PlayerContainer.AddChild(character);
     }
     private static void PlayerRemove(long id)

@@ -9,6 +9,7 @@ public abstract partial class Monster : Character
     {
         base._Ready();
         Speed = 500f;
+        BigBro.Monster = this;
     }
 
     // Called every frame. 'delta' is the elapsed time since the previous frame.

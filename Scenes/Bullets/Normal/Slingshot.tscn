@@ -7,6 +7,8 @@
 radius = 26.0
 
 [node name="Slingshot" type="Area2D"]
+collision_layer = 8
+collision_mask = 2
 script = ExtResource("1_pc3pw")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]

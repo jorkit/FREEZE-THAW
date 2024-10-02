@@ -9,14 +9,18 @@ public abstract partial class Character : CharacterBody2D
     {
         /* Monster */
         Sandworm,
+        AISandworm,
 
         /* Survivor */
-        Mouse
+        Mouse,
+        AIMouse
     }
     public static readonly Godot.Collections.Dictionary<CharacterTypeEnum, string> CharacterPathList = new Godot.Collections.Dictionary<CharacterTypeEnum, string>()
     {
         [CharacterTypeEnum.Sandworm] = "res://Scenes/Character/Monsters/Sandworm.tscn",
+        [CharacterTypeEnum.AISandworm] = "res://Scenes/Character/Monsters/AISandworm.tscn",
         [CharacterTypeEnum.Mouse] = "res://Scenes/Character/Survivors/Mouse.tscn",
+        [CharacterTypeEnum.AIMouse] = "res://Scenes/Character/Survivors/AIMouse.tscn"
     };
 
     protected FSM _fsm;
@@ -44,7 +48,7 @@ public abstract partial class Character : CharacterBody2D
             var MultiplayerSynchronizer = GetNodeOrNull<MultiplayerSynchronizer>("MultiplayerSynchronizer");
             if (MultiplayerSynchronizer != null)
                 RemoveChild(MultiplayerSynchronizer);
-            if (this != BigBro.PlayerContainer.GetChild(0))
+            if (this != BigBro.Player)
             {
                 GetNode<UIContainer>("UIContainer").Visible = false;
                 RemoveChild(GetNode<Camera2D>("CharacterCamera"));
@@ -94,22 +98,28 @@ public abstract partial class Character : CharacterBody2D
         {
             for (int i = 0; i < GetSlideCollisionCount(); i++)
             {
-                LogTool.DebugLogDump("COlliding!" + GetSlideCollision(i).GetType().Name);
+                LogTool.DebugLogDump(Name + " COlliding!" + GetSlideCollision(i).GetType().Name);
+                var collider = GetSlideCollision(i).GetCollider();
+                if (collider == null)
+                {
+                    LogTool.DebugLogDump("Collider not found!");
+                    continue;
+                }
             }
         }
-        SetNewPostion();
+        /* Multiplayer and server do Ppc call */
+        if (BigBro.IsMultiplayer == true && BigBro.MultiplayerApi.IsServer() == true)
+        {
+            SetNewPostion();
+        }
     }
 
     private void SetNewPostion()
     {
-        /* Multiplayer and server do Ppc call */
-        if (BigBro.IsMultiplayer == true && BigBro.MultiplayerApi.IsServer() == true)
+        var rpcRes = Rpc("SetNewPostionRpc", Position);
+        if (rpcRes != Error.Ok)
         {
-            var rpcRes = Rpc("SetNewPostionRpc", Position);
-            if (rpcRes != Error.Ok)
-            {
-                LogTool.DebugLogDump("SetNewPostionRpc failed! " + rpcRes.ToString());
-            }
+            LogTool.DebugLogDump("SetNewPostionRpc failed! " + rpcRes.ToString());
         }
     }
 
