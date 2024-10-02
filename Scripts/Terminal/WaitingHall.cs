@@ -1,26 +1,36 @@
 using FreezeThaw.Utils;
 using Godot;
 using System;
+using static BigBro;
 
 public partial class WaitingHall : Node
 {
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
-        /* Spawner must add first before playerContainer add and then set the SpawnPath */
-        BigBro.Spawner = new();
-        BigBro.bigBro.AddChild(BigBro.Spawner);
-        foreach (var path in BigBro.CharacterPathList)
-        {
-            BigBro.Spawner.AddSpawnableScene(path.Value);
-        }
-
         BigBro.CreatePlayerContainer();
-        BigBro.bigBro.AddChild(BigBro.PlayerContainer);
-        BigBro.Spawner.SpawnPath = BigBro.PlayerContainer.GetPath();
-        if (BigBro.MultiplayerApi.IsServer() == true)
+        if (BigBro.IsMultiplayer == true)
         {
-            BigBro.PlayerAdd(GetMultiplayerAuthority(), BigBro.CharacterPathList[BigBro.CharacterTypeEnum.Sandworm]);
+            /* Spawner must add first before playerContainer add and then set the SpawnPath */
+            BigBro.Spawner = new();
+            BigBro.bigBro.AddChild(BigBro.Spawner);
+            foreach (var path in Character.CharacterPathList)
+            {
+                BigBro.Spawner.AddSpawnableScene(path.Value);
+            }
+            BigBro.bigBro.AddChild(BigBro.PlayerContainer);
+            BigBro.Spawner.SpawnPath = BigBro.PlayerContainer.GetPath();
+            if (BigBro.MultiplayerApi.IsServer() == true)
+            {
+                BigBro.PlayerAdd(GetMultiplayerAuthority().ToString(), Character.CharacterPathList[Character.CharacterTypeEnum.Sandworm]);
+            }
+        }
+        else
+        {
+            BigBro.bigBro.AddChild(BigBro.PlayerContainer);
+            BigBro.PlayerAdd(((int)Character.CharacterTypeEnum.Mouse).ToString(), Character.CharacterPathList[Character.CharacterTypeEnum.Mouse]);
+            BigBro.PlayerAdd(((int)Character.CharacterTypeEnum.Sandworm).ToString(), Character.CharacterPathList[Character.CharacterTypeEnum.Sandworm]);
+            BigBro.Player = BigBro.PlayerContainer.GetChild<Character>(0);
         }
     }
 

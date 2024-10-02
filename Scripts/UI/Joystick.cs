@@ -36,10 +36,21 @@ public partial class Joystick : Sprite2D
 
 	public override void _Input(InputEvent @event)
 	{
-        if (BigBro.MultiplayerApi.IsServer() == true || IsMultiplayerAuthority() == false)
+        if (BigBro.IsMultiplayer == true)
         {
-            return;
+            if (BigBro.MultiplayerApi.IsServer() == true || IsMultiplayerAuthority() == false)
+            {
+                return;
+            }
         }
+        else
+        {
+            if (_uiContainer.character != BigBro.Player)
+            {
+                return;
+            }
+        }
+        
         if (XBOXJoystickHandle(@event) == true)
         {
             return;

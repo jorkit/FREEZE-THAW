@@ -19,7 +19,13 @@ public partial class ProtoMatchMain : Node
         }
         else
         {
-
+            var playerContainer = BigBro.PlayerContainer;
+            if (playerContainer == null)
+            {
+                LogTool.DebugLogDump("PlayerContainer not found!");
+                return;
+            }
+            BigBro.bigBro.MoveChild(BigBro.bigBro.GetNodeOrNull<PlayerContainer>("PlayerContainer"), -1);
         }
     }
 

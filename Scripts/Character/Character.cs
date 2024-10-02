@@ -5,6 +5,20 @@ using System.Threading;
 
 public abstract partial class Character : CharacterBody2D
 {
+    public enum CharacterTypeEnum
+    {
+        /* Monster */
+        Sandworm,
+
+        /* Survivor */
+        Mouse
+    }
+    public static readonly Godot.Collections.Dictionary<CharacterTypeEnum, string> CharacterPathList = new Godot.Collections.Dictionary<CharacterTypeEnum, string>()
+    {
+        [CharacterTypeEnum.Sandworm] = "res://Scenes/Character/Monsters/Sandworm.tscn",
+        [CharacterTypeEnum.Mouse] = "res://Scenes/Character/Survivors/Mouse.tscn",
+    };
+
     protected FSM _fsm;
     public float Speed;
     public AnimatedSprite2D SelfImage { get; set; }
@@ -15,10 +29,7 @@ public abstract partial class Character : CharacterBody2D
         if (BigBro.IsMultiplayer == true)
         {
             /* Set the authority of this node */
-            LogTool.DebugLogDump(GetMultiplayerAuthority().ToString());
             SetMultiplayerAuthority(Name.ToString().ToInt(), true);
-            LogTool.DebugLogDump(GetMultiplayerAuthority().ToString());
-            
 
             Position = new Vector2(new Random().Next(1000), new Random().Next(1000));
             if (IsMultiplayerAuthority() == false && BigBro.MultiplayerApi.IsServer() == false)
@@ -33,6 +44,11 @@ public abstract partial class Character : CharacterBody2D
             var MultiplayerSynchronizer = GetNodeOrNull<MultiplayerSynchronizer>("MultiplayerSynchronizer");
             if (MultiplayerSynchronizer != null)
                 RemoveChild(MultiplayerSynchronizer);
+            if (this != BigBro.PlayerContainer.GetChild(0))
+            {
+                GetNode<UIContainer>("UIContainer").Visible = false;
+                RemoveChild(GetNode<Camera2D>("CharacterCamera"));
+            }
         }
     }
 
@@ -51,6 +67,8 @@ public abstract partial class Character : CharacterBody2D
             LogTool.DebugLogDump("SelfImage not found!");
             return;
         }
+        GetNodeOrNull<Polygon2D>("BulletDirection").Visible = false;
+        /* add scoreLabel */
         var scoreLabel = new Label();
         scoreLabel.Name = "ScoreLabel";
         scoreLabel.Text = "300";
@@ -120,8 +138,16 @@ public abstract partial class Character : CharacterBody2D
             {
                 return Vector2.Zero;
             }
+            return GetNodeOrNull<Joystick>("UIContainer/Joystick").GetCurPosition();
         }
-        return GetNodeOrNull<Joystick>("UIContainer/Joystick").GetCurPosition();
+        else
+        {
+            if (this != BigBro.Player)
+            {
+                return Vector2.Zero;
+            }
+            return GetNodeOrNull<Joystick>("UIContainer/Joystick").GetCurPosition();
+        }
     }
     public CharacterStateEnum GetCurrentState()
     {

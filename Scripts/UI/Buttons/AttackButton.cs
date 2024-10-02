@@ -51,10 +51,21 @@ public partial class AttackButton : Sprite2D
 
     public override void _Input(InputEvent @event)
     {
-        if (CanBePressed == false || BigBro.MultiplayerApi.IsServer() == true || IsMultiplayerAuthority() == false)
+        if (BigBro.IsMultiplayer == true)
         {
-            return;
+            if (CanBePressed == false || BigBro.MultiplayerApi.IsServer() == true || IsMultiplayerAuthority() == false)
+            {
+                return;
+            }
         }
+        else
+        {
+            if (CanBePressed == false || _uiContainer.character != BigBro.Player)
+            {
+                return;
+            }
+        }
+        
         if (XBOXJoystickHandle(@event) == true)
         {
             return;

@@ -20,14 +20,24 @@ public partial class PlayerContainer : Node
 	{
         SCORE_INIT = 300;
 		Players = new List<Player>();
-        ChildEnteredTree += new ChildEnteredTreeEventHandler(ChileEnterTreeHandler);
-		if (BigBro.IsMultiplayer == true && BigBro.MultiplayerApi.IsServer() == false)
+        ChildEnteredTree += new ChildEnteredTreeEventHandler(ChildEnterTreeHandler);
+		if (BigBro.IsMultiplayer == true)
 		{
-			_timer = new();
-			_timer.Timeout += TimerTimeOutHandler;
+            if (BigBro.MultiplayerApi.IsServer() == false)
+            {
+                _timer = new();
+                _timer.Timeout += TimerTimeOutHandler;
+                GetParent().AddChild(_timer);
+                _timer.Start(1);
+            }
+		}
+        else
+        {
+            _timer = new();
+            _timer.Timeout += TimerTimeOutHandler;
             GetParent().AddChild(_timer);
             _timer.Start(1);
-		}
+        }
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -35,23 +45,38 @@ public partial class PlayerContainer : Node
 	{
 	}
 
-	private void ChileEnterTreeHandler(Node node)
+	private void ChildEnterTreeHandler(Node node)
 	{
-		Player newPlayer = new ()
+
+        if (BigBro.IsMultiplayer == true)
 		{
-			Id = node.Name.ToString().ToInt(),
-			NickName = node.GetType().ToString(),
-			Score = SCORE_INIT
-        };
-		Players.Add(newPlayer);
+            Player newPlayer = new()
+            {
+                Id = node.Name.ToString().ToInt(),
+                NickName = node.GetType().ToString(),
+                Score = SCORE_INIT
+            };
+            Players.Add(newPlayer);
+        }
+		else
+		{
+            Player newPlayer = new()
+            {
+                Id = node.Name.ToString().ToInt(),
+                NickName = node.GetType().ToString(),
+                Score = SCORE_INIT
+            };
+            Players.Add(newPlayer);
+        }
 	}
 
-	public void ChangeScore(int id, int score)
+	public void ChangeScore(int ownerId, int score)
 	{
         for (int i = 0; i < Players.Count; i++)
         {
-            if (Players[i].Id == id)
+            if (Players[i].Id == ownerId)
             {
+                LogTool.DebugLogDump("lalala");
 				Player player = Players[i];
                 player.Score += score;
 				Players[i] = player;
@@ -61,12 +86,35 @@ public partial class PlayerContainer : Node
 
 	private void TimerTimeOutHandler()
 	{
-        if (BigBro.IsMultiplayer == true && BigBro.MultiplayerApi.IsServer() == false)
+        if (BigBro.IsMultiplayer == true)
         {
-            var rpcRes = RpcId(MultiplayerPeer.TargetPeerServer, "RequestDataRpc");
-            if (rpcRes != Error.Ok)
+            if (BigBro.MultiplayerApi.IsServer() == false)
             {
-                LogTool.DebugLogDump("RequestDataRpc failed! " + rpcRes.ToString());
+                var rpcRes = RpcId(MultiplayerPeer.TargetPeerServer, "RequestDataRpc");
+                if (rpcRes != Error.Ok)
+                {
+                    LogTool.DebugLogDump("RequestDataRpc failed! " + rpcRes.ToString());
+                }
+            }
+        }
+        else
+        {
+            var players = GetChildren();
+            if (players.Count <= 0)
+            {
+                LogTool.DebugLogDump("Players not found!");
+                return;
+            }
+            for (int i = 0; i < players.Count; i++)
+            {
+                var label = players[i].GetNodeOrNull<Label>("ScoreLabel");
+                if (label == null)
+                {
+                    LogTool.DebugLogDump("Label not found!");
+                    continue;
+                }
+                label.Text = Players[i].Score.ToString();
+                LogTool.DebugLogDump(label.Text);
             }
         }
     }

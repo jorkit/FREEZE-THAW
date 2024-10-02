@@ -13,10 +13,14 @@ public partial class SceneOfWaitingHall : SceneFSMState
 
     public override void Update(double delta)
     {
-        if (BigBro.PlayerContainer.Players.Count == 3)
+        if (BigBro.IsMultiplayer == true)
         {
-            SceneFSM.PreStateChange(SceneFsm, SceneStateEnum.MatchStartLoading, true);
+            if (BigBro.PlayerContainer.Players.Count == 3)
+            {
+                SceneFSM.PreStateChange(SceneFsm, SceneStateEnum.MatchStartLoading, true);
+            }
         }
+        SceneFSM.PreStateChange(SceneFsm, SceneStateEnum.MatchStartLoading, true);
     }
     public override bool EnterCondition()
     {

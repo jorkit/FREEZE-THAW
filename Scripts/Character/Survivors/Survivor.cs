@@ -9,7 +9,6 @@ public abstract partial class Survivor : Character
     {
         base._Ready();
         Speed = 400f;
-        GetNodeOrNull<Polygon2D>("BulletDirection").Visible = false;
     }
 
     // Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -19,12 +18,24 @@ public abstract partial class Survivor : Character
 
     public override void Attack()
     {
-        var bullet = Bullet.Instantiate<Bullet>();
-        var direction = GetNodeOrNull<AttackButton>("UIContainer/AttackButton").direction;
-        bullet.Direction = direction;
-        bullet.GlobalPosition = Position + direction * 60;
-        bullet.OwnerId = GetMultiplayerAuthority().ToString().ToInt();
-        GetParent().GetParent().AddChild(bullet);
+        if (BigBro.IsMultiplayer == true)
+        {
+            var bullet = Bullet.Instantiate<Bullet>();
+            var direction = GetNodeOrNull<AttackButton>("UIContainer/AttackButton").direction;
+            bullet.Direction = direction;
+            bullet.GlobalPosition = Position + direction * 60;
+            bullet.OwnerId = GetMultiplayerAuthority();
+            BigBro.bigBro.AddChild(bullet);
+        }
+        else
+        {
+            var bullet = Bullet.Instantiate<Bullet>();
+            var direction = GetNodeOrNull<AttackButton>("UIContainer/AttackButton").direction;
+            bullet.Direction = direction;
+            bullet.GlobalPosition = Position + direction * 60;
+            bullet.OwnerId = Name.ToString().ToInt();
+            BigBro.bigBro.AddChild(bullet);
+        }
     }
 
     public override void FreezeThawButtonPressedHandle()

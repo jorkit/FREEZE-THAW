@@ -34,14 +34,30 @@ public abstract partial class Bullet : Area2D
         {
             return;
         }
-        if (body.GetType().BaseType == typeof(Monster))
+        if (BigBro.IsMultiplayer == true)
         {
-            QueueFree();
-            if (BigBro.MultiplayerApi.IsServer() == true)
+            if (body.GetType().BaseType == typeof(Monster))
             {
+                QueueFree();
+                if (BigBro.MultiplayerApi.IsServer() == true)
+                {
+                    var playerContainer = GetParent().GetNodeOrNull<PlayerContainer>("PlayerContainer");
+                    if (playerContainer != null)
+                    {
+                        playerContainer.ChangeScore(OwnerId, HitScore);
+                    }
+                }
+            }
+        }
+        else
+        {
+            if (body.GetType().BaseType == typeof(Monster))
+            {
+                QueueFree();
                 var playerContainer = GetParent().GetNodeOrNull<PlayerContainer>("PlayerContainer");
                 if (playerContainer != null)
                 {
+                    LogTool.DebugLogDump(OwnerId.ToString());
                     playerContainer.ChangeScore(OwnerId, HitScore);
                 }
             }

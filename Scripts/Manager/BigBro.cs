@@ -1,9 +1,5 @@
 using FreezeThaw.Utils;
 using Godot;
-using Godot.Collections;
-using System;
-using static PlayerContainer;
-using System.Collections.Generic;
 
 //GetNode<Monster>("/root/Main/Monster").SetScript(ResourceLoader.Load("res://Scripts/Characters/Monsters/AI.cs"));
 //LogTool.DebugLogDump("set script");
@@ -13,24 +9,10 @@ public partial class BigBro : Node
     public static Vector2I screenSize {  set; get; }
     public static Vector2I windowSize { set; get; }
 
-    public enum CharacterTypeEnum
-    {
-        /* Monster */
-        Sandworm,
-
-        /* Survivor */
-        Mouse
-    }
-
     public static bool IsMultiplayer { set; get; }
     public static PlayerContainer PlayerContainer { set; get; }
     public static readonly string PlayerContainerPath = "res://Scenes/Manager/PlayerContainer.tscn";
-    public static List<Player> Players { set; get; }
-    public static readonly Godot.Collections.Dictionary<CharacterTypeEnum, string> CharacterPathList = new Godot.Collections.Dictionary<CharacterTypeEnum, string>()
-    {
-        [CharacterTypeEnum.Sandworm] = "res://Scenes/Character/Monsters/Sandworm.tscn",
-        [CharacterTypeEnum.Mouse] = "res://Scenes/Character/Survivors/Mouse.tscn",
-    };
+ 
     public static Monster Monster { set; get; }
     public static Godot.Collections.Array<Survivor> Survivors { set; get; }
     public static Character Player { set; get; }
@@ -113,7 +95,7 @@ public partial class BigBro : Node
                     return;
                 }
                 LogTool.DebugLogDump("Client[" + id + "]Connected!");
-                PlayerAdd(id, BigBro.CharacterPathList[BigBro.CharacterTypeEnum.Mouse]);
+                PlayerAdd(id.ToString(), Character.CharacterPathList[Character.CharacterTypeEnum.Mouse]);
                 return;
             }
         }
@@ -137,10 +119,11 @@ public partial class BigBro : Node
         BigBro.PlayerContainer = playerContainer;
     }
 
-    public static void PlayerAdd(long id, NodePath path)
+    public static void PlayerAdd(string name, NodePath path)
     {
         var character = ResourceLoader.Load<PackedScene>(path).Instantiate();
-        character.Name = id.ToString();
+        character.Name = name;
+        LogTool.DebugLogDump(character.Name);
         BigBro.PlayerContainer.AddChild(character);
     }
     private static void PlayerRemove(long id)
@@ -149,6 +132,14 @@ public partial class BigBro : Node
         if (quittedClient != null)
         {
             quittedClient.QueueFree();
+            for (int i = 0; i < PlayerContainer.Players.Count; i++)
+            {
+                if (PlayerContainer.Players[i].Id == id)
+                {
+                    PlayerContainer.Players.RemoveAt(i);
+                    break;
+                }
+            }
         }
     }
 }

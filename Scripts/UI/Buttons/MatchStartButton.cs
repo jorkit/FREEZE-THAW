@@ -28,8 +28,6 @@ public partial class MatchStartButton : TouchScreenButton
     public void PressedHandler()
     {
         LogTool.DebugLogDump(Name + " pressed!");
-
-        BigBro.CreatePlayerContainer();
-        SceneFSM.PreStateChange(BigBro.SceneFSM, SceneStateEnum.MatchStartLoading, true);
+        SceneFSM.PreStateChange(BigBro.SceneFSM, SceneStateEnum.WaitingHall, true);
     }
 }
