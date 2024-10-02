@@ -86,5 +86,21 @@ public partial class PlayerContainer : Node
     public void ResponseDataRpc(string playersJson)
     {
         Players = JsonConvert.DeserializeObject<List<Player>>(playersJson);
+		var players = GetChildren();
+		if (players.Count <= 0)
+		{
+			LogTool.DebugLogDump("Players not found!");
+			return;
+		}
+		for (int i = 0; i < players.Count; i++)
+		{
+			var label = players[i].GetNodeOrNull<Label>("ScoreLabel");
+			if (label == null)
+			{
+				LogTool.DebugLogDump("Label not found!");
+				continue;
+			}
+            label.Text = Players[i].Score.ToString();
+		}
     }
 }

@@ -51,6 +51,11 @@ public abstract partial class Character : CharacterBody2D
             LogTool.DebugLogDump("SelfImage not found!");
             return;
         }
+        var scoreLabel = new Label();
+        scoreLabel.Name = "ScoreLabel";
+        scoreLabel.Text = "300";
+        scoreLabel.Position = new Vector2(-20, -150);
+        AddChild(scoreLabel);
     }
 
     // Called every frame. 'delta' is the elapsed time since the previous frame.
