@@ -23,7 +23,7 @@ public abstract partial class Character : CharacterBody2D
         [CharacterTypeEnum.AIMouse] = "res://Scenes/Character/Survivors/AIMouse.tscn"
     };
 
-    protected FSM _fsm;
+    public FSM Fsm;
     public float Speed;
     public AnimatedSprite2D SelfImage { get; set; }
     // public const float JumpVelocity = -400.0f;
@@ -59,8 +59,8 @@ public abstract partial class Character : CharacterBody2D
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
-        _fsm = GetNodeOrNull<FSM>("FSM");
-        if (_fsm == null)
+        Fsm = GetNodeOrNull<FSM>("FSM");
+        if (Fsm == null)
         {
             LogTool.DebugLogDump("FSM not found!");
             return;
@@ -71,7 +71,7 @@ public abstract partial class Character : CharacterBody2D
             LogTool.DebugLogDump("SelfImage not found!");
             return;
         }
-        GetNodeOrNull<Polygon2D>("BulletDirection").Visible = false;
+        GetNodeOrNull<Polygon2D>("AttackDirection").Visible = false;
         /* add scoreLabel */
         var scoreLabel = new Label();
         scoreLabel.Name = "ScoreLabel";
@@ -87,18 +87,18 @@ public abstract partial class Character : CharacterBody2D
 
     public override void _PhysicsProcess(double delta)
     {
-        if (_fsm == null)
+        if (Fsm == null)
         {
             LogTool.DebugLogDump("Character not found");
             return;
         }
         
         /* get Collide info */
-        if (_fsm.character.MoveAndSlide() == true)
+        if (Fsm.character.MoveAndSlide() == true)
         {
             for (int i = 0; i < GetSlideCollisionCount(); i++)
             {
-                LogTool.DebugLogDump(Name + " COlliding!" + GetSlideCollision(i).GetType().Name);
+                //LogTool.DebugLogDump(Name + " COlliding!" + GetSlideCollision(i).GetType().Name);
                 var collider = GetSlideCollision(i).GetCollider();
                 if (collider == null)
                 {
@@ -161,12 +161,12 @@ public abstract partial class Character : CharacterBody2D
     }
     public CharacterStateEnum GetCurrentState()
     {
-        return _fsm.CurrentState.StateIndex;
+        return Fsm.CurrentState.StateIndex;
     }
 
     public void AttackButtonPressedHandle()
     {
-        _fsm.PreStateChange(CharacterStateEnum.Attack, false);
+        Fsm.PreStateChange(CharacterStateEnum.Attack, false);
     }
 
     public virtual void Attack()

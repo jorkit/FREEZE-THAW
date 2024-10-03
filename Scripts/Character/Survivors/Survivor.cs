@@ -18,28 +18,16 @@ public abstract partial class Survivor : Character
 
     public override void Attack()
     {
-        if (BigBro.IsMultiplayer == true)
-        {
-            var bullet = Bullet.Instantiate<Bullet>();
-            var direction = GetNodeOrNull<AttackButton>("UIContainer/AttackButton").direction;
-            bullet.Direction = direction;
-            bullet.GlobalPosition = Position + direction * 60;
-            bullet.OwnerId = GetMultiplayerAuthority();
-            BigBro.bigBro.AddChild(bullet);
-        }
-        else
-        {
-            var bullet = Bullet.Instantiate<Bullet>();
-            var direction = GetNodeOrNull<AttackButton>("UIContainer/AttackButton").direction;
-            bullet.Direction = direction;
-            bullet.GlobalPosition = Position + direction * 60;
-            bullet.OwnerId = Name.ToString().ToInt();
-            BigBro.bigBro.AddChild(bullet);
-        }
+        var bullet = Bullet.Instantiate<Bullet>();
+        var direction = GetNodeOrNull<AttackButton>("UIContainer/AttackButton").direction;
+        bullet.Direction = direction;
+        bullet.GlobalPosition = Position + direction * 60;
+        bullet.OwnerId = Name.ToString().ToInt();
+        BigBro.bigBro.AddChild(bullet);
     }
 
     public override void FreezeThawButtonPressedHandle()
     {
-        _fsm.PreStateChange(CharacterStateEnum.Freezing, false);
+        Fsm.PreStateChange(CharacterStateEnum.Freezing, false);
     }
 }

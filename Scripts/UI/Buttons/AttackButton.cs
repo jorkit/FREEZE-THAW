@@ -97,8 +97,8 @@ public partial class AttackButton : Sprite2D
                     _point.Position = _point.Position.Normalized() * _maxlen;// 将_point（圆点）的位置设置为单位向量乘以最大长度
                 }
                 /* set the Postion of BulletDirection Marker2D for bullet line drawing */
-                _uiContainer.character.GetNodeOrNull<Polygon2D>("BulletDirection").Visible = true;
-                _uiContainer.character.GetNodeOrNull<Polygon2D>("BulletDirection").Rotation = _point.Position.Angle();
+                _uiContainer.character.GetNodeOrNull<Polygon2D>("AttackDirection").Visible = true;
+                _uiContainer.character.GetNodeOrNull<Polygon2D>("AttackDirection").Rotation = _point.Position.Angle();
             }
         }
     }
@@ -129,7 +129,7 @@ public partial class AttackButton : Sprite2D
             _ondraging = -1;
             _point.Position = Vector2.Zero;
             /* BulletDirection hide */
-            _uiContainer.character.GetNodeOrNull<Polygon2D>("BulletDirection").Visible = false;
+            _uiContainer.character.GetNodeOrNull<Polygon2D>("AttackDirection").Visible = false;
         }
     }
     private bool XBOXJoystickHandle(InputEvent @event)
@@ -144,14 +144,14 @@ public partial class AttackButton : Sprite2D
                 _point.Visible = true;
                 _point.Position = new Vector2(x, y).Normalized() * _maxlen;
                 /* set the Postion of BulletDirection Marker2D for bullet line drawing */
-                _uiContainer.character.GetNodeOrNull<Polygon2D>("BulletDirection").Visible = true;
-                _uiContainer.character.GetNodeOrNull<Polygon2D>("BulletDirection").Rotation = _point.Position.Angle();
+                _uiContainer.character.GetNodeOrNull<Polygon2D>("AttackDirection").Visible = true;
+                _uiContainer.character.GetNodeOrNull<Polygon2D>("AttackDirection").Rotation = _point.Position.Angle();
             }
             else
             {
                 _point.Visible = false;
                 _point.Position = Vector2.Zero;
-                _uiContainer.character.GetNodeOrNull<Polygon2D>("BulletDirection").Visible = false;
+                _uiContainer.character.GetNodeOrNull<Polygon2D>("AttackDirection").Visible = false;
             }
         }
         var attack = Input.IsActionPressed("Attack");
@@ -160,7 +160,7 @@ public partial class AttackButton : Sprite2D
             ReleaseHandle();
             _point.Visible = false;
             _point.Position = Vector2.Zero;
-            _uiContainer.character.GetNodeOrNull<Polygon2D>("BulletDirection").Visible = false;
+            _uiContainer.character.GetNodeOrNull<Polygon2D>("AttackDirection").Visible = false;
         }
 
         return false;

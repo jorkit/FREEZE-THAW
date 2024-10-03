@@ -28,6 +28,7 @@ public partial class WaitingHall : Node
         else
         {
             BigBro.bigBro.AddChild(BigBro.PlayerContainer);
+            BigBro.PlayerAdd(((int)Character.CharacterTypeEnum.Sandworm).ToString(), Character.CharacterPathList[Character.CharacterTypeEnum.Sandworm]);
             BigBro.PlayerAdd(((int)Character.CharacterTypeEnum.AISandworm).ToString(), Character.CharacterPathList[Character.CharacterTypeEnum.AISandworm]);
             BigBro.PlayerAdd(((int)Character.CharacterTypeEnum.Mouse).ToString(), Character.CharacterPathList[Character.CharacterTypeEnum.Mouse]);
             BigBro.PlayerAdd(((int)Character.CharacterTypeEnum.AIMouse).ToString(), Character.CharacterPathList[Character.CharacterTypeEnum.AIMouse]);

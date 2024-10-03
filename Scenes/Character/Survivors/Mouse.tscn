@@ -73,7 +73,7 @@ region = Rect2(8428, 0, 1204, 1546)
 atlas = ExtResource("2_ye2ph")
 region = Rect2(9632, 0, 1204, 1546)
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_6o4j5"]
+[sub_resource type="SpriteFrames" id="SpriteFrames_snrp6"]
 animations = [{
 "frames": [{
 "duration": 1.0,
@@ -149,6 +149,32 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
+"texture": SubResource("AtlasTexture_jrik5")
+}, {
+"duration": 1.0,
+"texture": null
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1fd28")
+}, {
+"duration": 1.0,
+"texture": null
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tuslp")
+}, {
+"duration": 1.0,
+"texture": null
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6himb")
+}],
+"loop": false,
+"name": &"Hurt",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_vydfg")
 }, {
 "duration": 1.0,
@@ -215,7 +241,8 @@ height = 160.0
 
 [node name="Mouse" type="CharacterBody2D"]
 collision_layer = 4
-collision_mask = 3
+collision_mask = 7
+motion_mode = 1
 script = ExtResource("1_4hk77")
 
 [node name="Shadow" type="Sprite2D" parent="."]
@@ -223,7 +250,7 @@ position = Vector2(-1, 81.5)
 scale = Vector2(1.01429, 0.25)
 texture = ExtResource("2_734kd")
 
-[node name="BulletDirection" type="Polygon2D" parent="."]
+[node name="AttackDirection" type="Polygon2D" parent="."]
 scale = Vector2(1.04215, 1)
 color = Color(0, 1, 1, 0.294118)
 polygon = PackedVector2Array(0, 0, 284.028, -8, 260.999, -16, 99.7938, -16, 260.999, -24, 314.734, 0, 260.999, 24, 99.7938, 16, 260.999, 16, 285.257, 8, 0, 0)
@@ -231,10 +258,9 @@ polygon = PackedVector2Array(0, 0, 284.028, -8, 260.999, -16, 99.7938, -16, 260.
 [node name="SelfImage" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, -4.76837e-07)
 scale = Vector2(0.112097, 0.117045)
-sprite_frames = SubResource("SpriteFrames_6o4j5")
-animation = &"Idle"
+sprite_frames = SubResource("SpriteFrames_snrp6")
+animation = &"Hurt"
 autoplay = "Idle"
-frame_progress = 0.504795
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 visible = false

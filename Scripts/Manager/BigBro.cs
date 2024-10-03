@@ -129,7 +129,7 @@ public partial class BigBro : Node
         }
         character.Name = name;
         LogTool.DebugLogDump(character.Name);
-        if (character.GetType() == typeof(Mouse))
+        if (character.GetType() == typeof(Sandworm))
             BigBro.Player = (Character)character;
         BigBro.PlayerContainer.AddChild(character);
     }

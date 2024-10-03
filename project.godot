@@ -41,13 +41,6 @@ Attack={
 
 pointing/emulate_touch_from_mouse=true
 
-[layer_names]
-
-2d_physics/layer_1="Static"
-2d_physics/layer_2="Monster"
-2d_physics/layer_3="Survivor"
-2d_physics/layer_4="Bullet"
-
 [rendering]
 
 renderer/rendering_method="mobile"

@@ -16,13 +16,7 @@ public partial class Hurt : FSMState
 
     public override void Update(double delta)
     {
-        /* During Hurt, Monster can Changed state */
-        if (true)
-        {
-            LogTool.DebugLogDump(Name + " play");
-            return;
-        }
-        ((Monster)Fsm.character).Hurting = false;
+         Fsm.character.SelfImage.Play("Hurt");
     }
 
     public override bool EnterCondition()
@@ -33,13 +27,19 @@ public partial class Hurt : FSMState
         }
         LogTool.DebugLogDump(Name + " EnterCondition");
 
-        /* Hurt return false forever */
-        return false;
+        return true;
     }
     public override void OnEnter()
     {
         LogTool.DebugLogDump(Name + " OnEnter!");
+        Fsm.character.AnimatitionFinishedHandleRegiste(this);
     }
+
+    private void AnimationFinishedHandle()
+    {
+        Fsm.PreStateChange(CharacterStateEnum.Idle, true);
+    }
+
     public override bool ExitCondition()
     {
         if (Fsm.PreState == CharacterStateEnum.Hurt)

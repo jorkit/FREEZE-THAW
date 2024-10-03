@@ -20,6 +20,18 @@ animations = [{
 "frames": [{
 "duration": 1.0,
 "texture": ExtResource("2_7oc0d")
+}, {
+"duration": 1.0,
+"texture": null
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_7oc0d")
+}, {
+"duration": 1.0,
+"texture": null
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_7oc0d")
 }],
 "loop": false,
 "name": &"Attack",
@@ -49,7 +61,7 @@ height = 128.0
 [node name="Sandworm" type="CharacterBody2D"]
 collision_layer = 2
 collision_mask = 5
-safe_margin = 0.001
+motion_mode = 1
 script = ExtResource("1_t20p3")
 
 [node name="Shadow" type="Sprite2D" parent="."]
@@ -57,8 +69,8 @@ position = Vector2(0, 59)
 scale = Vector2(1.01429, 0.25)
 texture = ExtResource("2_f3o8x")
 
-[node name="BulletDirection" type="Polygon2D" parent="."]
-scale = Vector2(1.04215, 1)
+[node name="AttackDirection" type="Polygon2D" parent="."]
+scale = Vector2(0.657698, 1)
 color = Color(0, 1, 1, 0.294118)
 polygon = PackedVector2Array(0, 0, 284.028, -8, 260.999, -16, 99.7938, -16, 260.999, -24, 314.734, 0, 260.999, 24, 99.7938, 16, 260.999, 16, 285.257, 8, 0, 0)
 
@@ -66,7 +78,7 @@ polygon = PackedVector2Array(0, 0, 284.028, -8, 260.999, -16, 99.7938, -16, 260.
 position = Vector2(8, -3.78127)
 scale = Vector2(0.112097, 0.117045)
 sprite_frames = SubResource("SpriteFrames_6o4j5")
-animation = &"Run"
+animation = &"Attack"
 autoplay = "Idle"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -94,5 +106,10 @@ shape = SubResource("CapsuleShape2D_pnk0x")
 
 [node name="RadiusCheck" parent="." instance=ExtResource("13_rjcp1")]
 
-[node name="BulletBornPosition" type="Marker2D" parent="."]
-position = Vector2(67, 0)
+[node name="AttackArea" type="Area2D" parent="."]
+collision_layer = 2
+collision_mask = 4
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="AttackArea"]
+scale = Vector2(0.657698, 1)
+polygon = PackedVector2Array(320, -28, 320, 28, 0, 28, 0, -28)
