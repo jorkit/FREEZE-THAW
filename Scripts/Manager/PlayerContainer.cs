@@ -7,14 +7,14 @@ public partial class PlayerContainer : Node
 {
 	public struct Player
 	{
-		public long Id;
+		public string Id;
 		public string NickName;
 		public int Score;
 	}
     public List<Player> Players { set; get; }
 	private int SCORE_INIT { set; get; }
 
-	public static Timer _timer;
+	private static Timer _timer;
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
@@ -52,7 +52,7 @@ public partial class PlayerContainer : Node
 		{
             Player newPlayer = new()
             {
-                Id = node.Name.ToString().ToInt(),
+                Id = node.Name,
                 NickName = node.GetType().ToString(),
                 Score = SCORE_INIT
             };
@@ -62,7 +62,7 @@ public partial class PlayerContainer : Node
 		{
             Player newPlayer = new()
             {
-                Id = node.Name.ToString().ToInt(),
+                Id = node.Name,
                 NickName = node.GetType().ToString(),
                 Score = SCORE_INIT
             };
@@ -70,13 +70,12 @@ public partial class PlayerContainer : Node
         }
 	}
 
-	public void ChangeScore(int ownerId, int score)
+	public void ChangeScore(string id, int score)
 	{
         for (int i = 0; i < Players.Count; i++)
         {
-            if (Players[i].Id == ownerId)
+            if (Players[i].Id == id)
             {
-                LogTool.DebugLogDump("lalala");
 				Player player = Players[i];
                 player.Score += score;
 				Players[i] = player;

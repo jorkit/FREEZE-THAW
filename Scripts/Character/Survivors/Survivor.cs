@@ -22,7 +22,7 @@ public abstract partial class Survivor : Character
         var direction = GetNodeOrNull<AttackButton>("UIContainer/AttackButton").direction;
         bullet.Direction = direction;
         bullet.GlobalPosition = Position + direction * 60;
-        bullet.OwnerId = Name.ToString().ToInt();
+        bullet.OwnerId = Name;
         BigBro.bigBro.AddChild(bullet);
     }
 

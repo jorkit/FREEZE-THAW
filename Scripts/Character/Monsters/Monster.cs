@@ -4,6 +4,7 @@ using System;
 
 public abstract partial class Monster : Character
 {
+    private int ATTACK_SCORE = -20;
     public Area2D attackArea { get; set; }
     public bool Hurting { get; set; }
     // Called when the node enters the scene tree for the first time.
@@ -34,8 +35,8 @@ public abstract partial class Monster : Character
     {
         if (body.GetType().BaseType == typeof(Survivor) || body.GetType().BaseType.BaseType == typeof(Survivor))
         {
-            LogTool.DebugLogDump("lalalalala");
             ((Survivor)body).Fsm.PreStateChange(CharacterStateEnum.Hurt, false);
+            BigBro.PlayerContainer.ChangeScore(body.Name, ATTACK_SCORE);
         }
     }
 
@@ -44,7 +45,7 @@ public abstract partial class Monster : Character
         if (SelfImage.Animation == "Attack")
         {
             var frameIndex = SelfImage.Frame;
-            if (frameIndex == 4)
+            if (frameIndex == 3)
             {
                 attackArea.CollisionMask = 4;
             }

@@ -9,7 +9,7 @@ public abstract partial class Bullet : Area2D
     public Vector2 Direction { get; set; }
     private int HitScore = 5;
 
-    public int OwnerId {  get; set; }
+    public string OwnerId {  get; set; }
     // Called when the node enters the scene tree for the first time.
     public override async void _Ready()
 	{
@@ -41,7 +41,7 @@ public abstract partial class Bullet : Area2D
                 QueueFree();
                 if (BigBro.MultiplayerApi.IsServer() == true)
                 {
-                    var playerContainer = GetParent().GetNodeOrNull<PlayerContainer>("PlayerContainer");
+                    var playerContainer = BigBro.PlayerContainer;
                     if (playerContainer != null)
                     {
                         playerContainer.ChangeScore(OwnerId, HitScore);
@@ -54,7 +54,7 @@ public abstract partial class Bullet : Area2D
             if (body.GetType().BaseType == typeof(Monster) || body.GetType().BaseType.BaseType == typeof(Monster))
             {
                 QueueFree();
-                var playerContainer = GetParent().GetNodeOrNull<PlayerContainer>("PlayerContainer");
+                var playerContainer = BigBro.PlayerContainer;
                 if (playerContainer != null)
                 {
                     playerContainer.ChangeScore(OwnerId, HitScore);

@@ -105,7 +105,7 @@ public partial class BigBro : Node
     public static void PeerDisConnectHandle(long id)
     {
         LogTool.DebugLogDump("Client[" + id + "]Disconnected!");
-        PlayerRemove(id);
+        PlayerRemove(id.ToString());
     }
 
     public static void CreatePlayerContainer()
@@ -128,12 +128,11 @@ public partial class BigBro : Node
             return;
         }
         character.Name = name;
-        LogTool.DebugLogDump(character.Name);
         if (character.GetType() == typeof(Sandworm))
             BigBro.Player = (Character)character;
         BigBro.PlayerContainer.AddChild(character);
     }
-    private static void PlayerRemove(long id)
+    private static void PlayerRemove(string id)
     {
         var quittedClient = BigBro.PlayerContainer.GetNodeOrNull(id.ToString());
         if (quittedClient != null)

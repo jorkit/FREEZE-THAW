@@ -20,7 +20,7 @@ public partial class AIMouse : Mouse
         var direction = new Vector2(1, 1);
         bullet.Direction = direction;
         bullet.GlobalPosition = Position + direction * 60;
-        bullet.OwnerId = Name.ToString().ToInt();
+        bullet.OwnerId = Name;
         BigBro.bigBro.AddChild(bullet);
     }
 }
