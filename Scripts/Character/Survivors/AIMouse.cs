@@ -8,11 +8,6 @@ public partial class AIMouse : Mouse
         base._Ready();
         Speed = 300;
     }
-    public override void _PhysicsProcess(double delta)
-    {
-        Velocity = (BigBro.Monster.Position - Position).Normalized() * Speed;
-        base._PhysicsProcess(delta);
-    }
 
     public override void Attack()
     {

@@ -17,6 +17,12 @@ public partial class Hurt : FSMState
     public override void Update(double delta)
     {
          Fsm.character.SelfImage.Play("Hurt");
+        if (Fsm.character.GetType().BaseType == typeof(Survivor) || Fsm.character.GetType().BaseType.BaseType == typeof(Survivor))
+        {
+            var hurtDirection = BigBro.Monster.Position.DirectionTo(Fsm.character.Position).Normalized() * 3;
+            LogTool.DebugLogDump(hurtDirection.ToString());
+            Fsm.character.Position += hurtDirection;
+        }
     }
 
     public override bool EnterCondition()

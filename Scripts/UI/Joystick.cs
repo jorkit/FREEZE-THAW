@@ -29,10 +29,11 @@ public partial class Joystick : Sprite2D
         }
     }
 
-	// Called every frame. 'delta' is the elapsed time since the previous frame.
-	public override void _Process(double delta)
+    // Called every frame. 'delta' is the elapsed time since the previous frame.
+    public override void _PhysicsProcess(double delta)
 	{
-	}
+        AIRunning();
+    }
 
 	public override void _Input(InputEvent @event)
 	{
@@ -180,4 +181,20 @@ public partial class Joystick : Sprite2D
     {
         return _point.Position.Normalized(); // 返回_point位置的单位向量
     }
+
+    private void AIRunning()
+    {
+        if (_uiContainer.character.GetType().BaseType.BaseType != typeof(Character))
+        {
+            if (_uiContainer.character.GetType().BaseType.BaseType == typeof(Monster))
+            {
+                _point.Position = (BigBro.Player.Position - _uiContainer.character.Position).Normalized();
+            }
+            else
+            {
+                _point.Position = (BigBro.Monster.Position - _uiContainer.character.Position).Normalized();
+                LogTool.DebugLogDump(_point.Position.ToString());
+            }
+        }
+    }
 }

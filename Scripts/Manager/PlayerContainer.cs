@@ -113,7 +113,6 @@ public partial class PlayerContainer : Node
                     continue;
                 }
                 label.Text = Players[i].Score.ToString();
-                LogTool.DebugLogDump(label.Text);
             }
         }
     }

@@ -10,16 +10,16 @@ public partial class BigBro : Node
     public static Vector2I windowSize { set; get; }
 
     public static bool IsMultiplayer { set; get; }
-    public static PlayerContainer PlayerContainer { set; get; }
-    public static readonly string PlayerContainerPath = "res://Scenes/Manager/PlayerContainer.tscn";
- 
-    public static Monster Monster { set; get; }
-    public static Godot.Collections.Array<Survivor> Survivors { set; get; }
-    public static Character Player { set; get; }
     public static MultiplayerApi MultiplayerApi { set; get; }
     public static ENetMultiplayerPeer Peer { set; get; }
     public static MultiplayerSpawner Spawner { set; get; }
-
+    
+    public static Character Player { set; get; }
+    public static Monster Monster { set; get; }
+    public static PlayerContainer PlayerContainer { set; get; }
+    public static readonly string PlayerContainerPath = "res://Scenes/Manager/PlayerContainer.tscn";
+    public static Godot.Collections.Array<Survivor> Survivors { set; get; }
+    
     public static SceneFSM SceneFSM { set; get; }
 
     public override void _EnterTree()

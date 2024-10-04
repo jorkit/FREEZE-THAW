@@ -9,9 +9,4 @@ public partial class Sandworm : Monster
         base._Ready();
         Speed = 550f;
     }
-
-    public override void Attack()
-    {
-        base.Attack();
-    }
 }

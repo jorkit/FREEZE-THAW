@@ -45,6 +45,7 @@ public abstract partial class Character : CharacterBody2D
         }
         else
         {
+            GlobalPosition = new Vector2(new Random().Next(1000), new Random().Next(1000));
             var MultiplayerSynchronizer = GetNodeOrNull<MultiplayerSynchronizer>("MultiplayerSynchronizer");
             if (MultiplayerSynchronizer != null)
                 RemoveChild(MultiplayerSynchronizer);
@@ -73,10 +74,13 @@ public abstract partial class Character : CharacterBody2D
         }
         GetNodeOrNull<Polygon2D>("AttackDirection").Visible = false;
         /* add scoreLabel */
-        var scoreLabel = new Label();
-        scoreLabel.Name = "ScoreLabel";
-        scoreLabel.Text = "300";
-        scoreLabel.Position = new Vector2(-20, -150);
+        var scoreLabel = new Label()
+        {
+            Name = "ScoreLabel",
+            Text = "300",
+            Position = new Vector2(-20, -150)
+        };
+        
         AddChild(scoreLabel);
     }
 
@@ -92,7 +96,10 @@ public abstract partial class Character : CharacterBody2D
             LogTool.DebugLogDump("Character not found");
             return;
         }
-        
+        if (GetCurrentState() != CharacterStateEnum.Run && GetCurrentState() != CharacterStateEnum.Hurt)
+        {
+            return;
+        }
         /* get Collide info */
         if (Fsm.character.MoveAndSlide() == true)
         {
@@ -107,7 +114,7 @@ public abstract partial class Character : CharacterBody2D
                 }
             }
         }
-        /* Multiplayer and server do Ppc call */
+        /* Multiplayer and server do RPC call */
         if (BigBro.IsMultiplayer == true && BigBro.MultiplayerApi.IsServer() == true)
         {
             SetNewPostion();
@@ -152,10 +159,6 @@ public abstract partial class Character : CharacterBody2D
         }
         else
         {
-            if (this != BigBro.Player)
-            {
-                return Vector2.Zero;
-            }
             return GetNodeOrNull<Joystick>("UIContainer/Joystick").GetCurPosition();
         }
     }
