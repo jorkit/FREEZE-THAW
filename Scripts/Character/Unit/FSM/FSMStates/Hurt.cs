@@ -63,5 +63,10 @@ public partial class Hurt : FSMState
     public override void OnExit()
     {
         LogTool.DebugLogDump(Name + " OnExit!");
+        if (BigBro.IsMultiplayer == true && BigBro.MultiplayerApi.IsServer() == false)
+        {
+            return;
+        }
+        BigBro.PlayerTranslate(Fsm.character.Name);
     }
 }

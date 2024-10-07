@@ -1,13 +1,16 @@
 using FreezeThaw.Utils;
 using Godot;
+using System;
+using static Godot.Projection;
+using static PlayerContainer;
 
 //GetNode<Monster>("/root/Main/Monster").SetScript(ResourceLoader.Load("res://Scripts/Characters/Monsters/AI.cs"));
 //LogTool.DebugLogDump("set script");
 public partial class BigBro : Node
 {
     public static BigBro bigBro { set; get; }
-    public static Vector2I screenSize {  set; get; }
-    public static Vector2I windowSize { set; get; }
+    public static Vector2I ScreenSize {  set; get; }
+    public static Vector2I WindowSize { set; get; }
 
     public static bool IsMultiplayer { set; get; }
     public static MultiplayerApi MultiplayerApi { set; get; }
@@ -26,23 +29,23 @@ public partial class BigBro : Node
     {
         base._EnterTree();
         IsMultiplayer = false;
-        screenSize = DisplayServer.ScreenGetSize();
+        ScreenSize = DisplayServer.ScreenGetSize();
         var osName = OS.GetName();
         LogTool.DebugLogDump(osName);
         if (osName == "Windows")
         {
-            windowSize = new Vector2I(1920, 1080);
-            DisplayServer.WindowSetSize(windowSize);
+            WindowSize = new Vector2I(1920, 1080);
+            DisplayServer.WindowSetSize(WindowSize);
             /* window at the center of screen */
-            var xStart = (screenSize.X - DisplayServer.WindowGetSize().X) / 2;
-            var yStart = (screenSize.Y - DisplayServer.WindowGetSize().Y) / 2;
+            var xStart = (ScreenSize.X - DisplayServer.WindowGetSize().X) / 2;
+            var yStart = (ScreenSize.Y - DisplayServer.WindowGetSize().Y) / 2;
             DisplayServer.WindowSetPosition(new Vector2I(xStart, yStart));
         }
         else if (osName == "Android")
         {
             DisplayServer.WindowSetMode(DisplayServer.WindowMode.Fullscreen);
-            windowSize = DisplayServer.WindowGetSize();
-            LogTool.DebugLogDump(windowSize.ToString());
+            WindowSize = DisplayServer.WindowGetSize();
+            LogTool.DebugLogDump(WindowSize.ToString());
         }
     }
 
@@ -53,11 +56,6 @@ public partial class BigBro : Node
         SceneFSM = GetNodeOrNull<SceneFSM>("SceneFSM");
         SceneFSM.SetInitState();
     }
-
-    // Called every frame. 'delta' is the elapsed time since the previous frame.
-    public override void _Process(double delta)
-	{
-	}
 
     public static bool MultiplayerServerInit()
     {
@@ -89,12 +87,13 @@ public partial class BigBro : Node
         {
             if (connectedClient == id)
             {
-                if (BigBro.PlayerContainer.GetNodeOrNull<Character>(id.ToString()) != null)
+                if (PlayerContainer.GetNodeOrNull<Character>(id.ToString()) != null)
                 {
                     LogTool.DebugLogDump("[" + id + "]Has connected");
                     return;
                 }
                 LogTool.DebugLogDump("Client[" + id + "]Connected!");
+                PlayerContainer.PlayerInit(id.ToString());
                 PlayerAdd(id.ToString(), Character.CharacterPathList[Character.CharacterTypeEnum.Mouse]);
                 return;
             }
@@ -132,6 +131,7 @@ public partial class BigBro : Node
             BigBro.Player = (Character)character;
         BigBro.PlayerContainer.AddChild(character);
     }
+
     private static void PlayerRemove(string id)
     {
         var quittedClient = BigBro.PlayerContainer.GetNodeOrNull(id.ToString());
@@ -147,5 +147,37 @@ public partial class BigBro : Node
                 }
             }
         }
+    }
+
+    public static void PlayerTranslate(string id)
+    {
+        if (BigBro.IsMultiplayer == true && BigBro.MultiplayerApi.IsServer() == false)
+        {
+            return;
+        }
+        for (int i = 0; i < BigBro.PlayerContainer.Players.Count; i++)
+        {
+            if (BigBro.PlayerContainer.Players[i].Id == id)
+            {
+                var player = BigBro.PlayerContainer.GetNodeOrNull<Survivor>(id);
+                if (player == null)
+                {
+                    LogTool.DebugLogDump("Survivor instance not found!");
+                    return;
+                }
+                var survivor = ResourceLoader.Load<PackedScene>(BigBro.PlayerContainer.Players[i].SurvivorPath).InstantiateOrNull<Survivor>();
+                var monster = ResourceLoader.Load<PackedScene>(BigBro.PlayerContainer.Players[i].MonsterPath).InstantiateOrNull<Monster>();
+                survivor.Name = BigBro.Monster.Name;
+                survivor.Position = BigBro.Monster.Position;
+                monster.Name = player.Name;
+                monster.Position = player.Position;
+                BigBro.Monster.Free();
+                player.Free();
+                BigBro.PlayerContainer.AddChild(survivor);
+                BigBro.PlayerContainer.AddChild(monster);
+                return;
+            }
+        }
+        LogTool.DebugLogDump("Player [" + id + "] not found!");
     }
 }

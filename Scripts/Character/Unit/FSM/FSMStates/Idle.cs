@@ -27,13 +27,13 @@ public partial class Idle : FSMState
         {
             return false;
         }
-        LogTool.DebugLogDump(Name + " EnterCondition");
+        //LogTool.DebugLogDump(Name + " EnterCondition");
 
         return true;
     }
     public override void OnEnter()
     {
-        LogTool.DebugLogDump(Name + " OnEnter!");
+        //LogTool.DebugLogDump(Name + " OnEnter!");
     }
     public override bool ExitCondition()
     {
@@ -42,12 +42,12 @@ public partial class Idle : FSMState
         {
             return false;
         }
-        LogTool.DebugLogDump(Name + " ExitCondition");
+        //LogTool.DebugLogDump(Name + " ExitCondition");
 
         return true;
     }
     public override void OnExit()
     {
-        LogTool.DebugLogDump(Name + " OnExit!");
+        //LogTool.DebugLogDump(Name + " OnExit!");
     }
 }

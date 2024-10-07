@@ -36,7 +36,7 @@ public abstract partial class Bullet : Area2D
         }
         if (BigBro.IsMultiplayer == true)
         {
-            if (body.GetType().BaseType == typeof(Monster))
+            if (body.GetType().BaseType == typeof(Monster) || body.GetType().BaseType.BaseType == typeof(Monster))
             {
                 QueueFree();
                 if (BigBro.MultiplayerApi.IsServer() == true)

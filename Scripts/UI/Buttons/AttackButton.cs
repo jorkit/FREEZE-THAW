@@ -32,7 +32,7 @@ public partial class AttackButton : Sprite2D
         CanBePressed = true;
 
         /* set the position according to WindowSize */
-        Position = new Vector2(BigBro.windowSize.X * 12 / 15, BigBro.windowSize.Y * 3 / 4);
+        Position = new Vector2(BigBro.WindowSize.X * 12 / 15, BigBro.WindowSize.Y * 3 / 4);
  
     }
 

@@ -2,6 +2,7 @@ using FreezeThaw.Utils;
 using Godot;
 using System.Collections.Generic;
 using Newtonsoft.Json;
+using static System.Formats.Asn1.AsnWriter;
 
 public partial class PlayerContainer : Node
 {
@@ -10,9 +11,11 @@ public partial class PlayerContainer : Node
 		public string Id;
 		public string NickName;
 		public int Score;
+        public string SurvivorPath;
+        public string MonsterPath;
 	}
     public List<Player> Players { set; get; }
-	private int SCORE_INIT { set; get; }
+	public int SCORE_INIT { set; get; }
 
 	private static Timer _timer;
 	// Called when the node enters the scene tree for the first time.
@@ -20,7 +23,7 @@ public partial class PlayerContainer : Node
 	{
         SCORE_INIT = 300;
 		Players = new List<Player>();
-        ChildEnteredTree += new ChildEnteredTreeEventHandler(ChildEnterTreeHandler);
+        //ChildEnteredTree += new ChildEnteredTreeEventHandler(ChildEnterTreeHandler);
 		if (BigBro.IsMultiplayer == true)
 		{
             _timer = new();
@@ -37,34 +40,17 @@ public partial class PlayerContainer : Node
         }
 	}
 
-	// Called every frame. 'delta' is the elapsed time since the previous frame.
-	public override void _Process(double delta)
+    public void PlayerInit(string id)
 	{
-	}
-
-	private void ChildEnterTreeHandler(Node node)
-	{
-
-        if (BigBro.IsMultiplayer == true)
-		{
-            Player newPlayer = new()
-            {
-                Id = node.Name,
-                NickName = node.GetType().ToString(),
-                Score = SCORE_INIT
-            };
-            Players.Add(newPlayer);
-        }
-		else
-		{
-            Player newPlayer = new()
-            {
-                Id = node.Name,
-                NickName = node.GetType().ToString(),
-                Score = SCORE_INIT
-            };
-            Players.Add(newPlayer);
-        }
+        Player newPlayer = new()
+        {
+            Id = id,
+            NickName = "",
+            Score = SCORE_INIT,
+            SurvivorPath = Character.CharacterPathList[Character.CharacterTypeEnum.Mouse],
+            MonsterPath = Character.CharacterPathList[Character.CharacterTypeEnum.Sandworm],
+        };
+        Players.Add(newPlayer);
 	}
 
 	public void ChangeScore(string id, int score)
@@ -94,42 +80,12 @@ public partial class PlayerContainer : Node
             }
             else
             {
-                var players = GetChildren();
-                if (players.Count <= 0)
-                {
-                    LogTool.DebugLogDump("Players not found!");
-                    return;
-                }
-                for (int i = 0; i < players.Count; i++)
-                {
-                    var label = players[i].GetNodeOrNull<Label>("ScoreLabel");
-                    if (label == null)
-                    {
-                        LogTool.DebugLogDump("Label not found!");
-                        continue;
-                    }
-                    label.Text = Players[i].Score.ToString();
-                }
+                ScoreLabelUpdate();
             }
         }
         else
         {
-            var players = GetChildren();
-            if (players.Count <= 0)
-            {
-                LogTool.DebugLogDump("Players not found!");
-                return;
-            }
-            for (int i = 0; i < players.Count; i++)
-            {
-                var label = players[i].GetNodeOrNull<Label>("ScoreLabel");
-                if (label == null)
-                {
-                    LogTool.DebugLogDump("Label not found!");
-                    continue;
-                }
-                label.Text = Players[i].Score.ToString();
-            }
+            ScoreLabelUpdate();
         }
     }
 
@@ -148,21 +104,26 @@ public partial class PlayerContainer : Node
     public void ResponseDataRpc(string playersJson)
     {
         Players = JsonConvert.DeserializeObject<List<Player>>(playersJson);
-		var players = GetChildren();
-		if (players.Count <= 0)
-		{
-			LogTool.DebugLogDump("Players not found!");
-			return;
-		}
-		for (int i = 0; i < players.Count; i++)
-		{
-			var label = players[i].GetNodeOrNull<Label>("ScoreLabel");
-			if (label == null)
-			{
-				LogTool.DebugLogDump("Label not found!");
-				continue;
-			}
+        ScoreLabelUpdate();
+    }
+
+    private void ScoreLabelUpdate()
+    {
+        for (int i = 0; i < Players.Count; i++)
+        {
+            var player = GetNodeOrNull<Character>(Players[i].Id);
+            if (player == null)
+            {
+                LogTool.DebugLogDump("Player[" + Players[i].Id + "]not found!");
+                return;
+            }
+            var label = player.GetNodeOrNull<Label>("ScoreLabel");
+            if (label == null)
+            {
+                LogTool.DebugLogDump("Label not found!");
+                continue;
+            }
             label.Text = Players[i].Score.ToString();
-		}
+        }
     }
 }

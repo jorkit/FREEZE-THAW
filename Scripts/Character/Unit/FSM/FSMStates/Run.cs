@@ -10,11 +10,6 @@ public partial class Run : FSMState
         base._Ready();
     }
 
-    // Called every frame. 'delta' is the elapsed time since the previous frame.
-    public override void _Process(double delta)
-    {
-    }
-
     public override void Update(double delta)
     {
         if (BigBro.IsMultiplayer == true)
@@ -51,13 +46,13 @@ public partial class Run : FSMState
         {
             return false;
         }
-        LogTool.DebugLogDump(Name + " EnterCondition");
+        //LogTool.DebugLogDump(Name + " EnterCondition");
 
         return true;
     }
     public override void OnEnter()
     {
-        LogTool.DebugLogDump(Name + " OnEnter");
+        //LogTool.DebugLogDump(Name + " OnEnter");
     }
     public override bool ExitCondition()
     {
@@ -65,13 +60,13 @@ public partial class Run : FSMState
         {
             return false;
         }
-        LogTool.DebugLogDump(Name + " ExitCondition");
+        //LogTool.DebugLogDump(Name + " ExitCondition");
 
         return true;
     }
     public override void OnExit()
     {
-        LogTool.DebugLogDump(Name + " OnExit");
+        //LogTool.DebugLogDump(Name + " OnExit");
         Fsm.character.Velocity = Vector2.Zero;
     }
 }

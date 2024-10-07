@@ -35,12 +35,16 @@ public abstract partial class Character : CharacterBody2D
             /* Set the authority of this node */
             SetMultiplayerAuthority(Name.ToString().ToInt(), true);
 
-            Position = new Vector2(new Random().Next(1000), new Random().Next(1000));
+            if (Position == Vector2.Zero)
+            {
+                Position = new Vector2(new Random().Next(1000), new Random().Next(1000));
+            }
             if (IsMultiplayerAuthority() == false)
             {
                 /* hide the other clients' UIContainer and remove their Camera */
                 GetNode<UIContainer>("UIContainer").Visible = false;
                 RemoveChild(GetNode<Camera2D>("CharacterCamera"));
+                return;
             }
         }
         else
@@ -82,11 +86,6 @@ public abstract partial class Character : CharacterBody2D
         };
         
         AddChild(scoreLabel);
-    }
-
-    // Called every frame. 'delta' is the elapsed time since the previous frame.
-    public override void _Process(double delta)
-    {
     }
 
     public override void _PhysicsProcess(double delta)

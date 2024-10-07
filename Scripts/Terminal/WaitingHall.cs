@@ -22,6 +22,7 @@ public partial class WaitingHall : Node
             BigBro.Spawner.SpawnPath = BigBro.PlayerContainer.GetPath();
             if (BigBro.MultiplayerApi.IsServer() == true)
             {
+                BigBro.PlayerContainer.PlayerInit("1");
                 BigBro.PlayerAdd(GetMultiplayerAuthority().ToString(), Character.CharacterPathList[Character.CharacterTypeEnum.Sandworm]);
             }
         }
@@ -33,10 +34,5 @@ public partial class WaitingHall : Node
             BigBro.PlayerAdd(((int)Character.CharacterTypeEnum.Mouse).ToString(), Character.CharacterPathList[Character.CharacterTypeEnum.Mouse]);
             BigBro.PlayerAdd(((int)Character.CharacterTypeEnum.AIMouse).ToString(), Character.CharacterPathList[Character.CharacterTypeEnum.AIMouse]);
         }
-    }
-
-    // Called every frame. 'delta' is the elapsed time since the previous frame.
-    public override void _Process(double delta)
-    {
     }
 }
