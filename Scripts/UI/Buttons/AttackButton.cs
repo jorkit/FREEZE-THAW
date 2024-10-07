@@ -53,7 +53,7 @@ public partial class AttackButton : Sprite2D
     {
         if (BigBro.IsMultiplayer == true)
         {
-            if (CanBePressed == false || BigBro.MultiplayerApi.IsServer() == true || IsMultiplayerAuthority() == false)
+            if (CanBePressed == false || IsMultiplayerAuthority() == false)
             {
                 return;
             }
@@ -168,22 +168,34 @@ public partial class AttackButton : Sprite2D
 
     public void ReleaseHandle()
     {
-        if (BigBro.IsMultiplayer == true && IsMultiplayerAuthority() == true)
+        if (BigBro.IsMultiplayer == true)
         {
-            if (!CanBePressed)
+            if (BigBro.MultiplayerApi.IsServer() == false && IsMultiplayerAuthority() == true)
             {
-                return;
+                if (!CanBePressed)
+                {
+                    return;
+                }
+                LogTool.DebugLogDump("ATB released!");
+                direction = (_point.GlobalPosition - Position).Normalized();
+                if (direction == Vector2.Zero)
+                {
+                    return;
+                }
+                var rpcRes = Rpc("ReleaseHandlerRpc");
+                if (rpcRes != Error.Ok)
+                {
+                    LogTool.DebugLogDump("ReleaseHandlerRpc Failed! " + rpcRes.ToString());
+                }
             }
-            LogTool.DebugLogDump("ATB released!");
-            direction = (_point.GlobalPosition - Position).Normalized();
-            if (direction == Vector2.Zero)
+            else if (BigBro.MultiplayerApi.IsServer() == true && IsMultiplayerAuthority() == true)
             {
-                return;
-            }
-            var rpcRes = Rpc("ReleaseHandlerRpc");
-            if (rpcRes != Error.Ok)
-            {
-                LogTool.DebugLogDump("ReleaseHandlerRpc Failed! " + rpcRes.ToString());
+                direction = (_point.GlobalPosition - Position).Normalized();
+                if (direction == Vector2.Zero)
+                {
+                    return;
+                }
+                _uiContainer.character.AttackButtonPressedHandle();
             }
         }
         else

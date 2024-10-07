@@ -38,6 +38,10 @@ public partial class Freezing : FSMState
 
     private void AnimationFinishedHandle()
     {
+        if (Fsm.CurrentState != this)
+        {
+            return;
+        }
         Fsm.PreStateChange(CharacterStateEnum.Freezed, true);
     }
 

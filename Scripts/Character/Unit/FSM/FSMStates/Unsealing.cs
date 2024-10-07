@@ -17,13 +17,7 @@ public partial class Unsealing : FSMState
 
     public override void Update(double delta)
     {
-        if (true)
-        {
-            LogTool.DebugLogDump(Name + " play");
-            Fsm.PreStateChange(CharacterStateEnum.Unsealing, true);
-            //return;
-        }
-        Fsm.PreStateChange(CharacterStateEnum.Idle, true);
+        Fsm.character.SelfImage.Play("Unsealing");
     }
 
     public override bool EnterCondition()
@@ -36,10 +30,23 @@ public partial class Unsealing : FSMState
 
         return true;
     }
+
     public override void OnEnter()
     {
         LogTool.DebugLogDump(Name + " OnEnter!");
+        Fsm.character.AnimatitionFinishedHandleRegiste(this);
+        Fsm.character.Attack();
     }
+
+    private void AnimationFinishedHandle()
+    {
+        if (Fsm.CurrentState != this)
+        {
+            return;
+        }
+        Fsm.PreStateChange(CharacterStateEnum.Idle, true);
+    }
+
     public override bool ExitCondition()
     {
         if (Fsm.PreState == CharacterStateEnum.Unsealing)

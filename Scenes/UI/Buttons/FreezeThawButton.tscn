@@ -3,6 +3,6 @@
 [ext_resource type="Texture2D" uid="uid://cm57d6pgjj4kj" path="res://Static/UI/Joystick/摇杆2.webp" id="1_mybtv"]
 [ext_resource type="Script" path="res://Scripts/UI/Buttons/FreezeThawButton.cs" id="2_psph6"]
 
-[node name="FreeThawButton" type="TouchScreenButton"]
+[node name="FreezeThawButton" type="TouchScreenButton"]
 texture_normal = ExtResource("1_mybtv")
 script = ExtResource("2_psph6")

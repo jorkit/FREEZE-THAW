@@ -3,6 +3,7 @@ using System;
 using FreezeThaw.Utils;
 public partial class Hurt : FSMState
 {
+    private int _knockbackSpeed = 5;
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
@@ -19,8 +20,7 @@ public partial class Hurt : FSMState
          Fsm.character.SelfImage.Play("Hurt");
         if (Fsm.character.GetType().BaseType == typeof(Survivor) || Fsm.character.GetType().BaseType.BaseType == typeof(Survivor))
         {
-            var hurtDirection = BigBro.Monster.Position.DirectionTo(Fsm.character.Position).Normalized() * 3;
-            LogTool.DebugLogDump(hurtDirection.ToString());
+            var hurtDirection = BigBro.Monster.Position.DirectionTo(Fsm.character.Position).Normalized() * _knockbackSpeed;
             Fsm.character.Position += hurtDirection;
         }
     }
@@ -43,6 +43,10 @@ public partial class Hurt : FSMState
 
     private void AnimationFinishedHandle()
     {
+        if (Fsm.CurrentState != this)
+        {
+            return;
+        }
         Fsm.PreStateChange(CharacterStateEnum.Idle, true);
     }
 

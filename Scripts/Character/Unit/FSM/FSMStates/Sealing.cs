@@ -17,13 +17,7 @@ public partial class Sealing : FSMState
 
     public override void Update(double delta)
     {
-        if (true)
-        {
-            LogTool.DebugLogDump(Name + " play");
-            Fsm.PreStateChange(CharacterStateEnum.Sealing, true);
-            //return;
-        }
-        Fsm.PreStateChange(CharacterStateEnum.Idle, true);
+        Fsm.character.SelfImage.Play("Sealing");
     }
 
     public override bool EnterCondition()
@@ -39,7 +33,19 @@ public partial class Sealing : FSMState
     public override void OnEnter()
     {
         LogTool.DebugLogDump(Name + " OnEnter!");
+        Fsm.character.AnimatitionFinishedHandleRegiste(this);
     }
+
+    private void AnimationFinishedHandle()
+    {
+        if (Fsm.CurrentState != this)
+        {
+            return;
+        }
+        ((Monster)Fsm.character).Sealing();
+        Fsm.PreStateChange(CharacterStateEnum.Idle, true);
+    }
+
     public override bool ExitCondition()
     {
         if (Fsm.PreState == CharacterStateEnum.Sealing)

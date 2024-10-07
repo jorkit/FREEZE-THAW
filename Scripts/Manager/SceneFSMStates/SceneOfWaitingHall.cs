@@ -18,6 +18,7 @@ public partial class SceneOfWaitingHall : SceneFSMState
             if (BigBro.PlayerContainer.Players.Count == 3)
             {
                 SceneFSM.PreStateChange(SceneFsm, SceneStateEnum.MatchStartLoading, true);
+                BigBro.MultiplayerApi.MultiplayerPeer.RefuseNewConnections = true;
             }
         }
         SceneFSM.PreStateChange(SceneFsm, SceneStateEnum.MatchStartLoading, true);

@@ -16,6 +16,6 @@ scale = Vector2(2.11429, 2.11429)
 position = Vector2(860, 474)
 scale = Vector2(1.84286, 1.84286)
 
-[node name="FreeThawButton" parent="." instance=ExtResource("4_fpbw7")]
+[node name="FreezeThawButton" parent="." instance=ExtResource("4_fpbw7")]
 position = Vector2(899, 101)
 scale = Vector2(1.61429, 1.61429)

@@ -39,7 +39,7 @@ public partial class Joystick : Sprite2D
 	{
         if (BigBro.IsMultiplayer == true)
         {
-            if (BigBro.MultiplayerApi.IsServer() == true || IsMultiplayerAuthority() == false)
+            if (IsMultiplayerAuthority() == false)
             {
                 return;
             }
@@ -193,7 +193,6 @@ public partial class Joystick : Sprite2D
             else
             {
                 _point.Position = (BigBro.Monster.Position - _uiContainer.character.Position).Normalized();
-                LogTool.DebugLogDump(_point.Position.ToString());
             }
         }
     }

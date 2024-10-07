@@ -23,13 +23,10 @@ public partial class PlayerContainer : Node
         ChildEnteredTree += new ChildEnteredTreeEventHandler(ChildEnterTreeHandler);
 		if (BigBro.IsMultiplayer == true)
 		{
-            if (BigBro.MultiplayerApi.IsServer() == false)
-            {
-                _timer = new();
-                _timer.Timeout += TimerTimeOutHandler;
-                GetParent().AddChild(_timer);
-                _timer.Start(1);
-            }
+            _timer = new();
+            _timer.Timeout += TimerTimeOutHandler;
+            GetParent().AddChild(_timer);
+            _timer.Start(1);
 		}
         else
         {
@@ -93,6 +90,25 @@ public partial class PlayerContainer : Node
                 if (rpcRes != Error.Ok)
                 {
                     LogTool.DebugLogDump("RequestDataRpc failed! " + rpcRes.ToString());
+                }
+            }
+            else
+            {
+                var players = GetChildren();
+                if (players.Count <= 0)
+                {
+                    LogTool.DebugLogDump("Players not found!");
+                    return;
+                }
+                for (int i = 0; i < players.Count; i++)
+                {
+                    var label = players[i].GetNodeOrNull<Label>("ScoreLabel");
+                    if (label == null)
+                    {
+                        LogTool.DebugLogDump("Label not found!");
+                        continue;
+                    }
+                    label.Text = Players[i].Score.ToString();
                 }
             }
         }

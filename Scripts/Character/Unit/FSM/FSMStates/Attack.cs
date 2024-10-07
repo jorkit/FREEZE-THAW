@@ -40,6 +40,10 @@ public partial class Attack : FSMState
 
     private void AnimationFinishedHandle()
     {
+        if (Fsm.CurrentState != this)
+        {
+            return;
+        }
         if (Fsm.character.GetType().BaseType == typeof(Monster) || Fsm.character.GetType().BaseType.BaseType == typeof(Monster))
         {
             ((Monster)Fsm.character).attackArea.CollisionMask = 0;

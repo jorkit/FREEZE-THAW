@@ -30,10 +30,19 @@ public partial class Freezed : FSMState
 
         return true;
     }
-    public override void OnEnter()
+    public override async void OnEnter()
     {
         LogTool.DebugLogDump(Name + " OnEnter!");
+        await ToSignal(GetTree().CreateTimer(1.0f), SceneTreeTimer.SignalName.Timeout);
+        var FTB = Fsm.character.GetNodeOrNull<FreezeThawButton>("UIContainer/FreezeThawButton");
+        if (FTB == null)
+        {
+            LogTool.DebugLogDump("FTB not found!");
+            return;
+        }
+        FTB.CanBePressed = true;
     }
+
     public override bool ExitCondition()
     {
         if (Fsm.PreState == CharacterStateEnum.Freezed)

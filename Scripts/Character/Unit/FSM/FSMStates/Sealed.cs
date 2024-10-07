@@ -17,13 +17,7 @@ public partial class Sealed : FSMState
 
     public override void Update(double delta)
     {
-        if (true)
-        {
-            LogTool.DebugLogDump(Name + " play");
-            Fsm.PreStateChange(CharacterStateEnum.Sealed, true);
-            //return;
-        }
-        Fsm.PreStateChange(CharacterStateEnum.Idle, true);
+        Fsm.character.SelfImage.Play("Sealed");
     }
 
     public override bool EnterCondition()
@@ -39,6 +33,13 @@ public partial class Sealed : FSMState
     public override void OnEnter()
     {
         LogTool.DebugLogDump(Name + " OnEnter!");
+        var FTB = Fsm.character.GetNodeOrNull<FreezeThawButton>("UIContainer/FreezeThawButton");
+        if (FTB == null)
+        {
+            LogTool.DebugLogDump("FTB not found!");
+            return;
+        }
+        FTB.CanBePressed = false;
     }
     public override bool ExitCondition()
     {
@@ -53,5 +54,12 @@ public partial class Sealed : FSMState
     public override void OnExit()
     {
         LogTool.DebugLogDump(Name + " OnExit!");
+        var FTB = Fsm.character.GetNodeOrNull<FreezeThawButton>("UIContainer/FreezeThawButton");
+        if (FTB == null)
+        {
+            LogTool.DebugLogDump("FTB not found!");
+            return;
+        }
+        FTB.CanBePressed = true;
     }
 }

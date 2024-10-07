@@ -36,7 +36,7 @@ public abstract partial class Character : CharacterBody2D
             SetMultiplayerAuthority(Name.ToString().ToInt(), true);
 
             Position = new Vector2(new Random().Next(1000), new Random().Next(1000));
-            if (IsMultiplayerAuthority() == false && BigBro.MultiplayerApi.IsServer() == false)
+            if (IsMultiplayerAuthority() == false)
             {
                 /* hide the other clients' UIContainer and remove their Camera */
                 GetNode<UIContainer>("UIContainer").Visible = false;
@@ -96,9 +96,12 @@ public abstract partial class Character : CharacterBody2D
             LogTool.DebugLogDump("Character not found");
             return;
         }
-        if (GetCurrentState() != CharacterStateEnum.Run && GetCurrentState() != CharacterStateEnum.Hurt)
+        if (BigBro.IsMultiplayer != true)
         {
-            return;
+            if (GetCurrentState() != CharacterStateEnum.Run && GetCurrentState() != CharacterStateEnum.Hurt)
+            {
+                return;
+            }
         }
         /* get Collide info */
         if (Fsm.character.MoveAndSlide() == true)

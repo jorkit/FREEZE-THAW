@@ -17,13 +17,7 @@ public partial class Thawing : FSMState
 
     public override void Update(double delta)
     {
-        if (true)
-        {
-            LogTool.DebugLogDump(Name + " play");
-            Fsm.PreStateChange(CharacterStateEnum.Thawing, true);
-            //return;
-        }
-        Fsm.PreStateChange(CharacterStateEnum.Idle, true);
+        Fsm.character.SelfImage.Play("Thawing");
     }
 
     public override bool EnterCondition()
@@ -39,7 +33,18 @@ public partial class Thawing : FSMState
     public override void OnEnter()
     {
         LogTool.DebugLogDump(Name + " OnEnter!");
+        Fsm.character.AnimatitionFinishedHandleRegiste(this);
     }
+
+    private void AnimationFinishedHandle()
+    {
+        if (Fsm.CurrentState != this)
+        {
+            return;
+        }
+        Fsm.PreStateChange(CharacterStateEnum.Idle, true);
+    }
+
     public override bool ExitCondition()
     {
         if (Fsm.PreState == CharacterStateEnum.Thawing)
@@ -53,5 +58,12 @@ public partial class Thawing : FSMState
     public override void OnExit()
     {
         LogTool.DebugLogDump(Name + " OnExit!");
+        var FTB = Fsm.character.GetNodeOrNull<FreezeThawButton>("UIContainer/FreezeThawButton");
+        if (FTB == null)
+        {
+            LogTool.DebugLogDump("FTB not found!");
+            return;
+        }
+        FTB.CanBePressed = true;
     }
 }

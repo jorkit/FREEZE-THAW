@@ -52,6 +52,50 @@ animations = [{
 "loop": true,
 "name": &"Run",
 "speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_7oc0d")
+}, {
+"duration": 1.0,
+"texture": null
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_7oc0d")
+}, {
+"duration": 1.0,
+"texture": null
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_7oc0d")
+}, {
+"duration": 1.0,
+"texture": null
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_7oc0d")
+}, {
+"duration": 1.0,
+"texture": null
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_7oc0d")
+}, {
+"duration": 1.0,
+"texture": null
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_7oc0d")
+}, {
+"duration": 1.0,
+"texture": null
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_7oc0d")
+}],
+"loop": false,
+"name": &"Sealing",
+"speed": 12.0
 }]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_pnk0x"]
@@ -60,7 +104,7 @@ height = 128.0
 
 [node name="Sandworm" type="CharacterBody2D"]
 collision_layer = 2
-collision_mask = 5
+collision_mask = 7
 motion_mode = 1
 script = ExtResource("1_t20p3")
 
@@ -78,7 +122,7 @@ polygon = PackedVector2Array(0, 0, 284.028, -8, 260.999, -16, 99.7938, -16, 260.
 position = Vector2(8, -3.78127)
 scale = Vector2(0.112097, 0.117045)
 sprite_frames = SubResource("SpriteFrames_6o4j5")
-animation = &"Attack"
+animation = &"Sealing"
 autoplay = "Idle"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

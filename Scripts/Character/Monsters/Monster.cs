@@ -63,8 +63,54 @@ public abstract partial class Monster : Character
         attackArea.Rotation = direction.Angle();
     }
 
+    public void Sealing()
+    {
+        var radiusCheck = GetNodeOrNull<RadiusCheck>("RadiusCheck");
+        if (radiusCheck == null)
+        {
+            LogTool.DebugLogDump("RadiusCheck not found!");
+            return;
+        }
+        if (radiusCheck.SurvivorsInArea == null)
+        {
+            LogTool.DebugLogDump("SurvivorsInArea not found!");
+            return;
+        }
+        foreach (var survivor in radiusCheck.SurvivorsInArea)
+        {
+            if (survivor.GetCurrentState() == CharacterStateEnum.Freezed)
+            {
+                survivor.Fsm.PreStateChange(CharacterStateEnum.Sealed, true);
+            }
+        }
+    }
+
     public override void FreezeThawButtonPressedHandle()
     {
+        Fsm.PreStateChange(CharacterStateEnum.Sealing, false);
+    }
 
+    public bool CheckFreezed()
+    {
+        var radiusCheck = GetNodeOrNull<RadiusCheck>("RadiusCheck");
+        if (radiusCheck == null)
+        {
+            LogTool.DebugLogDump("RadiusCheck not found!");
+            return false;
+        }
+        if (radiusCheck.SurvivorsInArea == null)
+        {
+            LogTool.DebugLogDump("SurvivorsInArea not found!");
+            return false;
+        }
+        foreach (var survivor in radiusCheck.SurvivorsInArea)
+        {
+            if (survivor.GetCurrentState() == CharacterStateEnum.Freezed)
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

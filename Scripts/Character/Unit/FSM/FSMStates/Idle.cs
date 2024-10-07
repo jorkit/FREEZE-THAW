@@ -17,12 +17,7 @@ public partial class Idle : FSMState
 
     public override void Update(double delta)
     {
-        if (ExitCondition() == false)
-        {
-            Fsm.character.SelfImage.Play("Idle");
-            //LogTool.DebugLogDump(Name + " Animation play");
-            //return;
-        }
+        Fsm.character.SelfImage.Play("Idle");
     }
 
     public override bool EnterCondition()

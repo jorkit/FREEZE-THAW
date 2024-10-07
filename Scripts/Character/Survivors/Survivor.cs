@@ -28,6 +28,13 @@ public abstract partial class Survivor : Character
 
     public override void FreezeThawButtonPressedHandle()
     {
-        Fsm.PreStateChange(CharacterStateEnum.Freezing, false);
+        if (GetCurrentState() == CharacterStateEnum.Freezed)
+        {
+            Fsm.PreStateChange(CharacterStateEnum.Thawing, false);
+        }
+        else
+        {
+            Fsm.PreStateChange(CharacterStateEnum.Freezing, false);
+        }
     }
 }

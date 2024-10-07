@@ -4,7 +4,7 @@ using FreezeThaw.Utils;
 
 public partial class FreezeThawButton : TouchScreenButton
 {
-	private bool CanBePressed;
+	public bool CanBePressed;
 	Survivor survivor;
     Node survivors;
 	private UIContainer _uiContainer;
@@ -16,7 +16,7 @@ public partial class FreezeThawButton : TouchScreenButton
         {
 			LogTool.DebugLogDump("UIContainer not found!");
         }
-        CanBePressed = false;
+        CanBePressed = true;
         Pressed += PressedHandle;
 
         /* set the position according to WindowSize */
@@ -26,21 +26,10 @@ public partial class FreezeThawButton : TouchScreenButton
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
-        if (_uiContainer.character.GetType().BaseType == typeof(Monster))
+        if (_uiContainer.character.GetType().BaseType == typeof(Monster) || _uiContainer.character.GetType().BaseType.BaseType == typeof(Monster))
         {
             /* detective if there are freezing Survivors */
-            if (_uiContainer.character.GetCurrentState() < CharacterStateEnum.Attack)
-            {
-                CanBePressed = true;
-            }
-            else
-            {
-                CanBePressed = false;
-            }
-        }
-        else
-        {
-            if (_uiContainer.character.GetCurrentState() < CharacterStateEnum.Attack)
+            if (_uiContainer.character.GetCurrentState() < CharacterStateEnum.Attack && ((Monster)_uiContainer.character).CheckFreezed() == true)
             {
                 CanBePressed = true;
             }
@@ -57,6 +46,8 @@ public partial class FreezeThawButton : TouchScreenButton
         {
             return;
         }
+        LogTool.DebugLogDump("FTB pressed!");
+        CanBePressed = false;
         if (BigBro.IsMultiplayer == true)
         {
             if (BigBro.MultiplayerApi.IsServer() == false)
@@ -66,6 +57,10 @@ public partial class FreezeThawButton : TouchScreenButton
                 {
                     LogTool.DebugLogDump("PressedHandleRpc Failed! " + rpcRes.ToString());
                 }
+            }
+            else
+            {
+                _uiContainer.character.FreezeThawButtonPressedHandle();
             }
         }
         else
