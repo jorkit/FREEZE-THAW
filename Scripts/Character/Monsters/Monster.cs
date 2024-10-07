@@ -35,8 +35,11 @@ public abstract partial class Monster : Character
     {
         if (body.GetType().BaseType == typeof(Survivor) || body.GetType().BaseType.BaseType == typeof(Survivor))
         {
-            ((Survivor)body).Fsm.PreStateChange(CharacterStateEnum.Hurt, false);
-            BigBro.PlayerContainer.ChangeScore(body.Name, ATTACK_SCORE);
+            if (((Survivor)body).GetCurrentState() < CharacterStateEnum.Hurt)
+            {
+                ((Survivor)body).Fsm.PreStateChange(CharacterStateEnum.Hurt, false);
+                BigBro.PlayerContainer.ChangeScore(body.Name, ATTACK_SCORE);
+            }
         }
     }
 
@@ -50,11 +53,6 @@ public abstract partial class Monster : Character
                 attackArea.CollisionMask = 4;
             }
         }
-    }
-
-    // Called every frame. 'delta' is the elapsed time since the previous frame.
-    public override void _Process(double delta)
-    {
     }
 
     public override void Attack()

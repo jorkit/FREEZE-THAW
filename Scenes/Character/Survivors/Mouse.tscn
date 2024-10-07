@@ -109,6 +109,32 @@ animations = [{
 "texture": null
 }, {
 "duration": 1.0,
+"texture": SubResource("AtlasTexture_1fd28")
+}, {
+"duration": 1.0,
+"texture": null
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1fd28")
+}],
+"loop": false,
+"name": &"Freeing",
+"speed": 6.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jrik5")
+}, {
+"duration": 1.0,
+"texture": null
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1fd28")
+}, {
+"duration": 1.0,
+"texture": null
+}, {
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_tuslp")
 }, {
 "duration": 1.0,
@@ -230,9 +256,6 @@ animations = [{
 "texture": ExtResource("2_do775")
 }, {
 "duration": 1.0,
-"texture": null
-}, {
-"duration": 1.0,
 "texture": SubResource("AtlasTexture_jrik5")
 }],
 "loop": true,
@@ -248,13 +271,36 @@ animations = [{
 }, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_1fd28")
-}, {
-"duration": 1.0,
-"texture": null
 }],
 "loop": false,
 "name": &"Thawing",
 "speed": 12.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jrik5")
+}, {
+"duration": 1.0,
+"texture": null
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1fd28")
+}, {
+"duration": 1.0,
+"texture": null
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1fd28")
+}, {
+"duration": 1.0,
+"texture": null
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1fd28")
+}],
+"loop": false,
+"name": &"Unsealing",
+"speed": 6.0
 }]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_pnk0x"]
@@ -281,9 +327,10 @@ polygon = PackedVector2Array(0, 0, 284.028, -8, 260.999, -16, 99.7938, -16, 260.
 position = Vector2(0, -4.76837e-07)
 scale = Vector2(0.112097, 0.117045)
 sprite_frames = SubResource("SpriteFrames_snrp6")
-animation = &"Sealed"
+animation = &"Unsealing"
 autoplay = "Idle"
-frame_progress = 0.991807
+frame = 6
+frame_progress = 1.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CapsuleShape2D_pnk0x")

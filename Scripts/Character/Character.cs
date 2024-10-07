@@ -138,6 +138,14 @@ public abstract partial class Character : CharacterBody2D
     private void SetNewPostionRpc(Vector2 newPostion)
     {
         var velocity = newPostion - Position;
+
+        /* if far from the NewPostition, reset postion */
+        if (velocity.Abs() > new Vector2((float)30, (float)30))
+        {
+            Position = newPostion;
+            return;
+        }
+
         /* debouncing */
         if (velocity.Abs() > new Vector2((float)6, (float)6))
         {

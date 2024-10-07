@@ -28,7 +28,7 @@ public partial class FreezeThawButton : TouchScreenButton
 	{
         if (_uiContainer.character.GetType().BaseType == typeof(Monster) || _uiContainer.character.GetType().BaseType.BaseType == typeof(Monster))
         {
-            /* detective if there are freezing Survivors */
+            /* detective if there are freezed Survivors */
             if (_uiContainer.character.GetCurrentState() < CharacterStateEnum.Attack && ((Monster)_uiContainer.character).CheckFreezed() == true)
             {
                 CanBePressed = true;
@@ -36,6 +36,22 @@ public partial class FreezeThawButton : TouchScreenButton
             else
             {
                 CanBePressed = false;
+            }
+        }
+        else
+        {
+            /* detective if there are sealed Survivor */
+            if (_uiContainer.character.GetCurrentState() < CharacterStateEnum.Attack)
+            {
+                CanBePressed = true;
+                if (((Survivor)_uiContainer.character).CheckSealed() == true)
+                {
+                    /* change button sprinte */
+                }
+                else
+                {
+                    /* change button sprinte */
+                }
             }
         }
     }

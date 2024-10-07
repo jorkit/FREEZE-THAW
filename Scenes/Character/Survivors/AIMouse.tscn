@@ -109,6 +109,32 @@ animations = [{
 "texture": null
 }, {
 "duration": 1.0,
+"texture": SubResource("AtlasTexture_1fd28")
+}, {
+"duration": 1.0,
+"texture": null
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1fd28")
+}],
+"loop": false,
+"name": &"Freeing",
+"speed": 6.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jrik5")
+}, {
+"duration": 1.0,
+"texture": null
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1fd28")
+}, {
+"duration": 1.0,
+"texture": null
+}, {
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_tuslp")
 }, {
 "duration": 1.0,
@@ -227,6 +253,57 @@ animations = [{
 "loop": true,
 "name": &"Run",
 "speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_nxa7n")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jrik5")
+}],
+"loop": true,
+"name": &"Sealed",
+"speed": 3.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jrik5")
+}, {
+"duration": 1.0,
+"texture": null
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1fd28")
+}],
+"loop": false,
+"name": &"Thawing",
+"speed": 12.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jrik5")
+}, {
+"duration": 1.0,
+"texture": null
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1fd28")
+}, {
+"duration": 1.0,
+"texture": null
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1fd28")
+}, {
+"duration": 1.0,
+"texture": null
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1fd28")
+}],
+"loop": false,
+"name": &"Unsealing",
+"speed": 6.0
 }]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_pnk0x"]
@@ -253,10 +330,8 @@ polygon = PackedVector2Array(0, 0, 284.028, -8, 260.999, -16, 99.7938, -16, 260.
 position = Vector2(0, -4.76837e-07)
 scale = Vector2(0.112097, 0.117045)
 sprite_frames = SubResource("SpriteFrames_6o4j5")
-animation = &"Hurt"
+animation = &"Unsealing"
 autoplay = "Idle"
-frame = 4
-frame_progress = 1.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CapsuleShape2D_pnk0x")

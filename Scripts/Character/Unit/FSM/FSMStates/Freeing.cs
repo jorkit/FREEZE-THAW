@@ -17,7 +17,7 @@ public partial class Freeing : FSMState
 
     public override void Update(double delta)
     {
-        LogTool.DebugLogDump(Name + " play");
+        Fsm.character.SelfImage.Play("Freeing");
     }
 
     public override bool EnterCondition()
@@ -33,7 +33,39 @@ public partial class Freeing : FSMState
     public override void OnEnter()
     {
         LogTool.DebugLogDump(Name + " OnEnter!");
+        Fsm.character.AnimatitionFinishedHandleRegiste(this);
+
+        /* Freeing the first Sealed Survivor */
+        var radiusCheck = Fsm.character.GetNodeOrNull<RadiusCheck>("RadiusCheck");
+        if (radiusCheck == null)
+        {
+            LogTool.DebugLogDump("RadiusCheck not found!");
+            return;
+        }
+        if (radiusCheck.SurvivorsInArea == null)
+        {
+            LogTool.DebugLogDump("SurvivorsInArea not found!");
+            return;
+        }
+        foreach (var survivor in radiusCheck.SurvivorsInArea)
+        {
+            if (survivor.GetCurrentState() == CharacterStateEnum.Sealed)
+            {
+                survivor.Fsm.PreStateChange(CharacterStateEnum.Unsealing, false);
+                return;
+            }
+        }
     }
+
+    private void AnimationFinishedHandle()
+    {
+        if (Fsm.CurrentState != this)
+        {
+            return;
+        }
+        Fsm.PreStateChange(CharacterStateEnum.Idle, true);
+    }
+
     public override bool ExitCondition()
     {
         if (Fsm.PreState == CharacterStateEnum.Freeing)
