@@ -57,6 +57,7 @@ public abstract partial class Character : CharacterBody2D
             {
                 GetNode<UIContainer>("UIContainer").Visible = false;
                 RemoveChild(GetNode<Camera2D>("CharacterCamera"));
+                return;
             }
         }
     }

@@ -57,7 +57,7 @@ public abstract partial class Monster : Character
 
     public override void Attack()
     {
-        var direction = GetNodeOrNull<AttackButton>("UIContainer/AttackButton").direction;
+        var direction = GetNodeOrNull<AttackButton>("UIContainer/AttackButton").Direction;
         attackArea.Rotation = direction.Angle();
     }
 

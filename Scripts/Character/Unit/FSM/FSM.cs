@@ -250,8 +250,13 @@ public partial class FSM : Node
     [Rpc(mode: MultiplayerApi.RpcMode.AnyPeer, CallLocal = true, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
     private void CurrentStateChange(int stateIndex)
     {
+        var state = GetNodeOrNull<FSMState>(((CharacterStateEnum)stateIndex).ToString());
+        if (state == null)
+        {
+            return;
+        }    
         CurrentState.OnExit();
-        CurrentState = GetNode<FSMState>(((CharacterStateEnum)stateIndex).ToString());
+        CurrentState = state;
         CurrentState.OnEnter();
     }
 }

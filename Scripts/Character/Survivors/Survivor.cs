@@ -15,7 +15,7 @@ public abstract partial class Survivor : Character
     public override void Attack()
     {
         var bullet = Bullet.Instantiate<Bullet>();
-        var direction = GetNodeOrNull<AttackButton>("UIContainer/AttackButton").direction;
+        var direction = GetNodeOrNull<AttackButton>("UIContainer/AttackButton").Direction;
         bullet.Direction = direction;
         bullet.GlobalPosition = Position + direction * 60;
         bullet.OwnerId = Name;

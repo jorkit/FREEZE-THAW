@@ -40,11 +40,11 @@ public partial class ClientJoinButton : TouchScreenButton
         BigBro.Peer = new();
         /* Server event handle bind */
         BigBro.MultiplayerApi = Multiplayer;
-        if (BigBro.MultiplayerApi.IsConnected("connected_to_server", new Callable(this, "ConnectedToServerHandle")) == false)
+        if (BigBro.MultiplayerApi.IsConnected("connected_to_server", new Callable(this, "ConnectedToServerHandler")) == false)
         {
-            BigBro.MultiplayerApi.Connect("connected_to_server", new Callable(this, "ConnectedToServerHandle"));
-            BigBro.MultiplayerApi.Connect("connection_failed", new Callable(this, "ConnectedFailedHandle"));
-            BigBro.MultiplayerApi.Connect("server_disconnected", new Callable(this, "ServerDisconnectedHandle"));
+            BigBro.MultiplayerApi.Connect("connected_to_server", new Callable(this, "ConnectedToServerHandler"));
+            BigBro.MultiplayerApi.Connect("connection_failed", new Callable(this, "ConnectedFailedHandler"));
+            BigBro.MultiplayerApi.Connect("server_disconnected", new Callable(this, "ServerDisconnectedHandler"));
         }
         /* Create Client and Try to connect */
         var CreateClientResult = BigBro.Peer.CreateClient(ServerAddress.Text, 7788);
@@ -58,11 +58,14 @@ public partial class ClientJoinButton : TouchScreenButton
         BigBro.MultiplayerApi.MultiplayerPeer = BigBro.Peer;
     }
 
-    private void ServerDisconnectedHandle()
+    private void ServerDisconnectedHandler()
     {
-
+        LogTool.DebugLogDump("Server connect lost!");
+        BigBro.PlayerContainer.TimerStop();
+        BigBro.Peer.Close();
     }
-    private void ConnectedToServerHandle()
+
+    private void ConnectedToServerHandler()
     {
         /* Client connection successful */
         CanBePressed = false;
@@ -75,7 +78,7 @@ public partial class ClientJoinButton : TouchScreenButton
         SceneFSM.PreStateChange(BigBro.SceneFSM, SceneStateEnum.WaitingHall, true);
     }
 
-    private void ConnectedFailedHandle()
+    private void ConnectedFailedHandler()
     {
         LogTool.DebugLogDump("Client connect failed!");
         _optionContainer.GetNode<TextEdit>("ServerAddress").Text = "Please check server IP or Domain";

@@ -9,7 +9,7 @@ public partial class AttackButton : Sprite2D
     private int _maxlen;// 声明一个byte类型的私有变量maxlen并赋值为70
     private sbyte _index;
     private sbyte _ondraging;// 声明一个sbyte类型的私有变量并赋值为-1
-    public Vector2 direction;
+    public Vector2 Direction { get; set; }
     private UIContainer _uiContainer;
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
@@ -177,12 +177,12 @@ public partial class AttackButton : Sprite2D
                     return;
                 }
                 LogTool.DebugLogDump("ATB released!");
-                direction = (_point.GlobalPosition - Position).Normalized();
-                if (direction == Vector2.Zero)
+                Direction = (_point.GlobalPosition - Position).Normalized();
+                if (Direction == Vector2.Zero)
                 {
                     return;
                 }
-                var rpcRes = Rpc("ReleaseHandlerRpc");
+                var rpcRes = Rpc("ReleaseHandlerRpc", Direction);
                 if (rpcRes != Error.Ok)
                 {
                     LogTool.DebugLogDump("ReleaseHandlerRpc Failed! " + rpcRes.ToString());
@@ -190,10 +190,15 @@ public partial class AttackButton : Sprite2D
             }
             else if (BigBro.MultiplayerApi.IsServer() == true && IsMultiplayerAuthority() == true)
             {
-                direction = (_point.GlobalPosition - Position).Normalized();
-                if (direction == Vector2.Zero)
+                Direction = (_point.GlobalPosition - Position).Normalized();
+                if (Direction == Vector2.Zero)
                 {
                     return;
+                }
+                var rpcRes = Rpc("ReleaseHandlerRpc", Direction);
+                if (rpcRes != Error.Ok)
+                {
+                    LogTool.DebugLogDump("ReleaseHandlerRpc Failed! " + rpcRes.ToString());
                 }
                 _uiContainer.character.AttackButtonPressedHandle();
             }
@@ -205,8 +210,8 @@ public partial class AttackButton : Sprite2D
                 return;
             }
             LogTool.DebugLogDump("ATB released!");
-            direction = (_point.GlobalPosition - Position).Normalized();
-            if (direction == Vector2.Zero)
+            Direction = (_point.GlobalPosition - Position).Normalized();
+            if (Direction == Vector2.Zero)
             {
                 return;
             }
@@ -215,9 +220,10 @@ public partial class AttackButton : Sprite2D
     }
 
     [Rpc(mode: MultiplayerApi.RpcMode.Authority, CallLocal = false, TransferMode = MultiplayerPeer.TransferModeEnum.UnreliableOrdered)]
-    public void ReleaseHandlerRpc()
+    public void ReleaseHandlerRpc(Vector2 direction)
     {
         LogTool.DebugLogDump(GetMultiplayerAuthority().ToString() + " receive Attack CMD from " + BigBro.MultiplayerApi.GetRemoteSenderId());
+        Direction = direction;
         _uiContainer.character.AttackButtonPressedHandle();
     }
 }

@@ -40,6 +40,11 @@ public partial class PlayerContainer : Node
         }
 	}
 
+    public void TimerStop()
+    {
+        _timer.Stop();
+    }
+
     public void PlayerInit(string id)
 	{
         Player newPlayer = new()
@@ -68,19 +73,12 @@ public partial class PlayerContainer : Node
 
 	private void TimerTimeOutHandler()
 	{
-        if (BigBro.IsMultiplayer == true)
+        if (BigBro.IsMultiplayer == true && BigBro.MultiplayerApi.IsServer() == false)
         {
-            if (BigBro.MultiplayerApi.IsServer() == false)
+            var rpcRes = RpcId(MultiplayerPeer.TargetPeerServer, "RequestDataRpc");
+            if (rpcRes != Error.Ok)
             {
-                var rpcRes = RpcId(MultiplayerPeer.TargetPeerServer, "RequestDataRpc");
-                if (rpcRes != Error.Ok)
-                {
-                    LogTool.DebugLogDump("RequestDataRpc failed! " + rpcRes.ToString());
-                }
-            }
-            else
-            {
-                ScoreLabelUpdate();
+                LogTool.DebugLogDump("RequestDataRpc failed! " + rpcRes.ToString());
             }
         }
         else

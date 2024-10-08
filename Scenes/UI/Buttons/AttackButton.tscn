@@ -1,13 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://bikpmolu0bnwj"]
+[gd_scene load_steps=4 format=3 uid="uid://bikpmolu0bnwj"]
 
 [ext_resource type="Texture2D" uid="uid://cm57d6pgjj4kj" path="res://Static/UI/Joystick/摇杆2.webp" id="1_xgxev"]
 [ext_resource type="Script" path="res://Scripts/UI/Buttons/AttackButton.cs" id="2_lpxwr"]
 [ext_resource type="Texture2D" uid="uid://dl7f4lv0k4n05" path="res://Static/UI/Joystick/摇杆.webp" id="3_4wosr"]
-
-[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_kx35s"]
-properties/0/path = NodePath(".:direction")
-properties/0/spawn = true
-properties/0/replication_mode = 2
 
 [node name="AttackButton" type="Sprite2D"]
 texture = ExtResource("1_xgxev")
@@ -15,6 +10,3 @@ script = ExtResource("2_lpxwr")
 
 [node name="Point" type="Sprite2D" parent="."]
 texture = ExtResource("3_4wosr")
-
-[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
-replication_config = SubResource("SceneReplicationConfig_kx35s")
