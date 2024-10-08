@@ -67,6 +67,6 @@ public partial class Hurt : FSMState
         {
             return;
         }
-        BigBro.PlayerTranslate(Fsm.character.Name);
+        PlayerContainer.PlayerTranslate(Fsm.character.Name);
     }
 }

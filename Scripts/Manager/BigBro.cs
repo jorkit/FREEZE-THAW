@@ -93,7 +93,6 @@ public partial class BigBro : Node
                     return;
                 }
                 LogTool.DebugLogDump("Client[" + id + "]Connected!");
-                PlayerContainer.PlayerInit(id.ToString());
                 PlayerAdd(id.ToString(), Character.CharacterPathList[Character.CharacterTypeEnum.Mouse]);
                 return;
             }
@@ -120,6 +119,7 @@ public partial class BigBro : Node
 
     public static void PlayerAdd(string name, NodePath path)
     {
+        PlayerContainer.PlayerInit(name);
         var character = ResourceLoader.Load<PackedScene>(path).Instantiate();
         if (character == null)
         {
@@ -127,8 +127,10 @@ public partial class BigBro : Node
             return;
         }
         character.Name = name;
-        if (character.GetType() == typeof(Sandworm))
+        if (IsMultiplayer == false && character.Name == "1")
+        {
             BigBro.Player = (Character)character;
+        }
         BigBro.PlayerContainer.AddChild(character);
     }
 
@@ -147,37 +149,5 @@ public partial class BigBro : Node
                 }
             }
         }
-    }
-
-    public static void PlayerTranslate(string id)
-    {
-        if (BigBro.IsMultiplayer == true && BigBro.MultiplayerApi.IsServer() == false)
-        {
-            return;
-        }
-        for (int i = 0; i < BigBro.PlayerContainer.Players.Count; i++)
-        {
-            if (BigBro.PlayerContainer.Players[i].Id == id)
-            {
-                var player = BigBro.PlayerContainer.GetNodeOrNull<Survivor>(id);
-                if (player == null)
-                {
-                    LogTool.DebugLogDump("Survivor instance not found!");
-                    return;
-                }
-                var survivor = ResourceLoader.Load<PackedScene>(BigBro.PlayerContainer.Players[i].SurvivorPath).InstantiateOrNull<Survivor>();
-                var monster = ResourceLoader.Load<PackedScene>(BigBro.PlayerContainer.Players[i].MonsterPath).InstantiateOrNull<Monster>();
-                survivor.Name = BigBro.Monster.Name;
-                survivor.Position = BigBro.Monster.Position;
-                monster.Name = player.Name;
-                monster.Position = player.Position;
-                BigBro.Monster.Free();
-                player.Free();
-                BigBro.PlayerContainer.AddChild(survivor);
-                BigBro.PlayerContainer.AddChild(monster);
-                return;
-            }
-        }
-        LogTool.DebugLogDump("Player [" + id + "] not found!");
     }
 }

@@ -2,38 +2,44 @@
 
 [ext_resource type="Script" path="res://Scripts/UI/OptionContainer.cs" id="1_7ofxg"]
 [ext_resource type="PackedScene" uid="uid://buwh3iof1b8v7" path="res://Scenes/Terminal/OptionsInterface/Combo/OptionContainer/Unit/MatchStartButton.tscn" id="1_w3qgl"]
-[ext_resource type="PackedScene" path="res://Scenes/Terminal/OptionsInterface/Combo/OptionContainer/Unit/ServerCreateButton.tscn" id="3_jrum6"]
-[ext_resource type="PackedScene" path="res://Scenes/Terminal/OptionsInterface/Combo/OptionContainer/Unit/ClientJoinButton.tscn" id="4_vlxuc"]
+[ext_resource type="PackedScene" uid="uid://cfytds6iiwa01" path="res://Scenes/Terminal/OptionsInterface/Combo/OptionContainer/Unit/ServerCreateButton.tscn" id="3_jrum6"]
+[ext_resource type="PackedScene" uid="uid://cuvj2oo5u1fee" path="res://Scenes/Terminal/OptionsInterface/Combo/OptionContainer/Unit/ClientJoinButton.tscn" id="4_vlxuc"]
 
 [node name="OptionContainer" type="CanvasLayer"]
 script = ExtResource("1_7ofxg")
 
 [node name="MatchStartButton" parent="." instance=ExtResource("1_w3qgl")]
-position = Vector2(979, 138)
+position = Vector2(11, 9)
+scale = Vector2(5.01852, 1.99531)
 
 [node name="ServerCreateButton" parent="." instance=ExtResource("3_jrum6")]
-position = Vector2(983, 300)
+position = Vector2(12, 166)
+scale = Vector2(5.20371, 2.06894)
 
 [node name="ClientJoinButton" parent="." instance=ExtResource("4_vlxuc")]
-position = Vector2(985, 468)
+position = Vector2(14, 338)
+scale = Vector2(5.22222, 2.0763)
 
 [node name="Label_ServerCreate" type="Label" parent="."]
-offset_left = 1025.0
-offset_top = 318.0
-offset_right = 1111.0
-offset_bottom = 344.0
+offset_left = 34.0
+offset_top = 187.0
+offset_right = 117.0
+offset_bottom = 211.0
+scale = Vector2(3, 3)
 text = "创建服务器"
 
 [node name="Label_ClientJoin" type="Label" parent="."]
-offset_left = 1025.0
-offset_top = 488.0
-offset_right = 1115.0
-offset_bottom = 514.0
+offset_left = 34.0
+offset_top = 359.0
+offset_right = 124.0
+offset_bottom = 385.0
+scale = Vector2(3, 3)
 text = "加入服务器"
 
 [node name="Label_Single" type="Label" parent="."]
-offset_left = 1027.0
-offset_top = 157.0
-offset_right = 1091.0
-offset_bottom = 180.0
+offset_left = 52.0
+offset_top = 24.0
+offset_right = 116.0
+offset_bottom = 47.0
+scale = Vector2(3, 3)
 text = "单人游戏"

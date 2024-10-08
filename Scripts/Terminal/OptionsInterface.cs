@@ -8,11 +8,13 @@ public partial class OptionsInterface : Node
 	{
 		var optionContainer = GetNode<OptionContainer>("OptionContainer");
         var textEdit_IpInput = new TextEdit();
-        textEdit_IpInput.Position = optionContainer.GetNode<TouchScreenButton>("ClientJoinButton").Position + new Vector2(160, 20);
+        textEdit_IpInput.Position = optionContainer.GetNode<TouchScreenButton>("ClientJoinButton").Position + new Vector2(350, 30);
         textEdit_IpInput.Text = "192.168.1.68";
 		textEdit_IpInput.Size = new Vector2(300, 35);
 		textEdit_IpInput.Name = "ServerAddress";
+		textEdit_IpInput.Scale = new Vector2(2, 2);
         optionContainer.AddChild(textEdit_IpInput);
+		optionContainer.Offset = new Vector2(BigBro.WindowSize.X / 2, BigBro.WindowSize.Y / 4);
     }
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.

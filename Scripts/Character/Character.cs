@@ -8,12 +8,12 @@ public abstract partial class Character : CharacterBody2D
     public enum CharacterTypeEnum
     {
         /* Monster */
-        Sandworm,
         AISandworm,
+        Sandworm,
 
         /* Survivor */
-        Mouse,
-        AIMouse
+        AIMouse,
+        Mouse
     }
     public static readonly Godot.Collections.Dictionary<CharacterTypeEnum, string> CharacterPathList = new Godot.Collections.Dictionary<CharacterTypeEnum, string>()
     {
@@ -49,7 +49,10 @@ public abstract partial class Character : CharacterBody2D
         }
         else
         {
-            GlobalPosition = new Vector2(new Random().Next(1000), new Random().Next(1000));
+            if (Position == Vector2.Zero)
+            {
+                Position = new Vector2(new Random().Next(1000), new Random().Next(1000));
+            }
             var MultiplayerSynchronizer = GetNodeOrNull<MultiplayerSynchronizer>("MultiplayerSynchronizer");
             if (MultiplayerSynchronizer != null)
                 RemoveChild(MultiplayerSynchronizer);
@@ -120,29 +123,29 @@ public abstract partial class Character : CharacterBody2D
         /* Multiplayer and server do RPC call */
         if (BigBro.IsMultiplayer == true && BigBro.MultiplayerApi.IsServer() == true)
         {
-            SetNewPostion();
+            SetNewPosition();
         }
     }
 
-    private void SetNewPostion()
+    private void SetNewPosition()
     {
-        var rpcRes = Rpc("SetNewPostionRpc", Position);
+        var rpcRes = Rpc("SetNewPositionRpc", Position);
         if (rpcRes != Error.Ok)
         {
-            LogTool.DebugLogDump("SetNewPostionRpc failed! " + rpcRes.ToString());
+            LogTool.DebugLogDump("SetNewPositionRpc failed! " + rpcRes.ToString());
         }
     }
 
     /* AnyPeer means Calls can from any Peer, no matter if they are node's authority or not */
     [Rpc(mode: MultiplayerApi.RpcMode.AnyPeer, CallLocal = false, TransferMode = MultiplayerPeer.TransferModeEnum.UnreliableOrdered)]
-    private void SetNewPostionRpc(Vector2 newPostion)
+    private void SetNewPositionRpc(Vector2 newPosition)
     {
-        var velocity = newPostion - Position;
+        var velocity = newPosition - Position;
 
         /* if far from the NewPostition, reset postion */
-        if (velocity.Abs() > new Vector2((float)30, (float)30))
+        if (velocity.Abs() > new Vector2((float)60, (float)60))
         {
-            Position = newPostion;
+            Position = newPosition;
             return;
         }
 

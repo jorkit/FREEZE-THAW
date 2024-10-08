@@ -9,13 +9,13 @@
 script = ExtResource("1_ocmyj")
 
 [node name="Joystick" parent="." instance=ExtResource("2_ou5fb")]
-position = Vector2(181, 417)
-scale = Vector2(2.11429, 2.11429)
+position = Vector2(236.5, 472.5)
+scale = Vector2(2.90715, 2.90715)
 
 [node name="AttackButton" parent="." instance=ExtResource("3_4i54h")]
-position = Vector2(860, 474)
-scale = Vector2(1.84286, 1.84286)
+position = Vector2(913.5, 527.5)
+scale = Vector2(2.60714, 2.60714)
 
 [node name="FreezeThawButton" parent="." instance=ExtResource("4_fpbw7")]
-position = Vector2(899, 101)
-scale = Vector2(1.61429, 1.61429)
+position = Vector2(928, 72)
+scale = Vector2(2.15, 2.15)

@@ -9,9 +9,4 @@ public partial class AISandworm : Sandworm
         base._Ready();
         Speed = 400f;
     }
-
-    public override void Attack()
-    {
-        base.Attack();
-    }
 }

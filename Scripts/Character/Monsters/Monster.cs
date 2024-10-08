@@ -5,7 +5,7 @@ using System;
 public abstract partial class Monster : Character
 {
     private int ATTACK_SCORE = -20;
-    public Area2D attackArea { get; set; }
+    public Area2D AttackArea { get; set; }
     public bool Hurting { get; set; }
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
@@ -13,17 +13,17 @@ public abstract partial class Monster : Character
         base._Ready();
         Speed = 500f;
         BigBro.Monster = this;
-        attackArea = GetNodeOrNull<Area2D>("AttackArea");
-        if (attackArea == null)
+        AttackArea = GetNodeOrNull<Area2D>("AttackArea");
+        if (AttackArea == null)
         {
             LogTool.DebugLogDump("AttackArea not found!");
             return;
         }
-        if (attackArea.IsConnected("body_entered", new Callable(this, "BodyEnteredHandler")) == false)
+        if (AttackArea.IsConnected("body_entered", new Callable(this, "BodyEnteredHandler")) == false)
         {
-            attackArea.Connect("body_entered", new Callable(this, "BodyEnteredHandler"));
+            AttackArea.Connect("body_entered", new Callable(this, "BodyEnteredHandler"));
         }
-        attackArea.CollisionMask = 0;
+        AttackArea.CollisionMask = 0;
 
         if (SelfImage.IsConnected("frame_changed", new Callable(this, "FrameChangedHandler")) == false)
         {
@@ -50,7 +50,7 @@ public abstract partial class Monster : Character
             var frameIndex = SelfImage.Frame;
             if (frameIndex == 3)
             {
-                attackArea.CollisionMask = 4;
+                AttackArea.CollisionMask = 4;
             }
         }
     }
@@ -58,7 +58,7 @@ public abstract partial class Monster : Character
     public override void Attack()
     {
         var direction = GetNodeOrNull<AttackButton>("UIContainer/AttackButton").Direction;
-        attackArea.Rotation = direction.Angle();
+        AttackArea.Rotation = direction.Angle();
     }
 
     public void Sealing()

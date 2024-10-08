@@ -4,7 +4,7 @@ using FreezeThaw.Utils;
 using System.Reflection;
 public partial class AttackButton : Sprite2D
 {
-    private bool CanBePressed;
+    public bool CanBePressed;
     private Sprite2D _point;// 声明一个Sprite2D类型的私有变量_point（圆点）
     private int _maxlen;// 声明一个byte类型的私有变量maxlen并赋值为70
     private sbyte _index;
@@ -166,22 +166,29 @@ public partial class AttackButton : Sprite2D
         return false;
     }
 
+    public void SetNewPosition(Vector2 newPosition)
+    {
+        _point.Position = newPosition.Normalized();
+    }
+
     public void ReleaseHandle()
     {
+        if (!CanBePressed)
+        {
+            return;
+        }
+        LogTool.DebugLogDump("ATB released!");
+        Direction = _point.Position.Normalized();
+        if (Direction == Vector2.Zero)
+        {
+            LogTool.DebugLogDump("no direction");
+            return;
+        }
+        CanBePressed = false;
         if (BigBro.IsMultiplayer == true)
         {
             if (BigBro.MultiplayerApi.IsServer() == false && IsMultiplayerAuthority() == true)
             {
-                if (!CanBePressed)
-                {
-                    return;
-                }
-                LogTool.DebugLogDump("ATB released!");
-                Direction = (_point.GlobalPosition - Position).Normalized();
-                if (Direction == Vector2.Zero)
-                {
-                    return;
-                }
                 var rpcRes = Rpc("ReleaseHandlerRpc", Direction);
                 if (rpcRes != Error.Ok)
                 {
@@ -190,11 +197,6 @@ public partial class AttackButton : Sprite2D
             }
             else if (BigBro.MultiplayerApi.IsServer() == true && IsMultiplayerAuthority() == true)
             {
-                Direction = (_point.GlobalPosition - Position).Normalized();
-                if (Direction == Vector2.Zero)
-                {
-                    return;
-                }
                 var rpcRes = Rpc("ReleaseHandlerRpc", Direction);
                 if (rpcRes != Error.Ok)
                 {
@@ -205,16 +207,6 @@ public partial class AttackButton : Sprite2D
         }
         else
         {
-            if (!CanBePressed)
-            {
-                return;
-            }
-            LogTool.DebugLogDump("ATB released!");
-            Direction = (_point.GlobalPosition - Position).Normalized();
-            if (Direction == Vector2.Zero)
-            {
-                return;
-            }
             _uiContainer.character.AttackButtonPressedHandle();
         }
     }

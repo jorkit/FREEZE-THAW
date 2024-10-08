@@ -3,6 +3,7 @@ using Godot;
 using System.Collections.Generic;
 using Newtonsoft.Json;
 using static System.Formats.Asn1.AsnWriter;
+using static PlayerContainer;
 
 public partial class PlayerContainer : Node
 {
@@ -47,15 +48,42 @@ public partial class PlayerContainer : Node
 
     public void PlayerInit(string id)
 	{
-        Player newPlayer = new()
+        if (BigBro.IsMultiplayer == true)
         {
-            Id = id,
-            NickName = "",
-            Score = SCORE_INIT,
-            SurvivorPath = Character.CharacterPathList[Character.CharacterTypeEnum.Mouse],
-            MonsterPath = Character.CharacterPathList[Character.CharacterTypeEnum.Sandworm],
-        };
-        Players.Add(newPlayer);
+            Player newPlayer = new()
+            {
+                Id = id,
+                NickName = "",
+                Score = SCORE_INIT,
+                SurvivorPath = Character.CharacterPathList[Character.CharacterTypeEnum.Mouse],
+                MonsterPath = Character.CharacterPathList[Character.CharacterTypeEnum.Sandworm],
+            };
+            Players.Add(newPlayer);
+        }
+        else
+        {
+            string survivorPath;
+            string monsterPath;
+            if (id != "1")
+            {
+                survivorPath = Character.CharacterPathList[Character.CharacterTypeEnum.AIMouse];
+                monsterPath = Character.CharacterPathList[Character.CharacterTypeEnum.AISandworm];
+            }
+            else
+            {
+                survivorPath = Character.CharacterPathList[Character.CharacterTypeEnum.Mouse];
+                monsterPath = Character.CharacterPathList[Character.CharacterTypeEnum.Sandworm];
+            }
+            Player newPlayer = new()
+            {
+                Id = id,
+                NickName = "",
+                Score = SCORE_INIT,
+                SurvivorPath = survivorPath,
+                MonsterPath = monsterPath,
+            };
+            Players.Add(newPlayer);
+        }
 	}
 
 	public void ChangeScore(string id, int score)
@@ -123,5 +151,45 @@ public partial class PlayerContainer : Node
             }
             label.Text = Players[i].Score.ToString();
         }
+    }
+
+    public static void PlayerTranslate(string id)
+    {
+        if (BigBro.IsMultiplayer == true && BigBro.MultiplayerApi.IsServer() == false)
+        {
+            return;
+        }
+        Survivor player = null;
+        Survivor survivor = null;
+        Monster monster = null;
+        for (int i = 0; i < BigBro.PlayerContainer.Players.Count; i++)
+        {
+            if (BigBro.PlayerContainer.Players[i].Id == BigBro.Monster.Name)
+            {
+                survivor = ResourceLoader.Load<PackedScene>(BigBro.PlayerContainer.Players[i].SurvivorPath).InstantiateOrNull<Survivor>();
+                survivor.Name = BigBro.Monster.Name;
+                survivor.Position = BigBro.Monster.Position;
+                if (BigBro.IsMultiplayer == false && survivor.Name == "1")
+                    BigBro.Player = survivor;
+            }
+            else if (BigBro.PlayerContainer.Players[i].Id == id)
+            {
+                player = BigBro.PlayerContainer.GetNodeOrNull<Survivor>(id);
+                if (player == null)
+                {
+                    LogTool.DebugLogDump("Survivor instance not found!");
+                    return;
+                }
+                monster = ResourceLoader.Load<PackedScene>(BigBro.PlayerContainer.Players[i].MonsterPath).InstantiateOrNull<Monster>();
+                monster.Name = player.Name;
+                monster.Position = player.Position;
+                if (BigBro.IsMultiplayer == false && monster.Name == "1")
+                    BigBro.Player = monster;
+            }
+        }
+        BigBro.Monster?.Free();
+        player?.Free();
+        BigBro.PlayerContainer.AddChild(survivor);
+        BigBro.PlayerContainer.AddChild(monster);
     }
 }

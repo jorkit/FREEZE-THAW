@@ -46,7 +46,7 @@ public partial class Attack : FSMState
         }
         if (Fsm.character.GetType().BaseType == typeof(Monster) || Fsm.character.GetType().BaseType.BaseType == typeof(Monster))
         {
-            ((Monster)Fsm.character).attackArea.CollisionMask = 0;
+            ((Monster)Fsm.character).AttackArea.CollisionMask = 0;
         }
         Fsm.PreStateChange(CharacterStateEnum.Idle, true);
     }
@@ -64,5 +64,6 @@ public partial class Attack : FSMState
     public override void OnExit()
     {
         LogTool.DebugLogDump(Name + " OnExit!");
+        Fsm.character.GetNodeOrNull<AttackButton>("UIContainer/AttackButton").CanBePressed = true;
     }
 }

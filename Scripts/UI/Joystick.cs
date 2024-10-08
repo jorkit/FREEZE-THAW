@@ -188,11 +188,47 @@ public partial class Joystick : Sprite2D
         {
             if (_uiContainer.character.GetType().BaseType.BaseType == typeof(Monster))
             {
-                _point.Position = (BigBro.Player.Position - _uiContainer.character.Position).Normalized();
+                if (_uiContainer.character.Position.DistanceTo(BigBro.Player.Position) > 120)
+                {
+                    _point.Position = (BigBro.Player.Position - _uiContainer.character.Position).Normalized();
+                }
+                else
+                {
+                    _point.Position = Vector2.Zero;
+                    var attackButton = _uiContainer.GetNodeOrNull<AttackButton>("AttackButton");
+                    if (attackButton == null)
+                    {
+                        LogTool.DebugLogDump("AttackButton not found!");
+                        return;
+                    }
+                    attackButton.SetNewPosition((BigBro.Player.Position - _uiContainer.character.Position).Normalized());
+                    attackButton.ReleaseHandle();
+                }
             }
             else
             {
-                _point.Position = (BigBro.Monster.Position - _uiContainer.character.Position).Normalized();
+                /* control the distance to Monster large than 1000 */
+                if (_uiContainer.character.Position.DistanceTo(BigBro.Monster.Position) < 1000)
+                {
+                    _point.Position = (_uiContainer.character.Position - BigBro.Monster.Position).Normalized();
+                }
+                else if (_uiContainer.character.Position.DistanceTo(BigBro.Monster.Position) > 1100)
+                {
+                    _point.Position = (BigBro.Monster.Position - _uiContainer.character.Position).Normalized();
+                }
+                /* attack in safe distance */
+                else
+                {
+                    _point.Position = Vector2.Zero;
+                    var attackButton = _uiContainer.GetNodeOrNull<AttackButton>("AttackButton");
+                    if (attackButton == null)
+                    {
+                        LogTool.DebugLogDump("AttackButton not found!");
+                        return;
+                    }
+                    attackButton.SetNewPosition((BigBro.Monster.Position - _uiContainer.character.Position).Normalized());
+                    attackButton.ReleaseHandle();
+                }
             }
         }
     }

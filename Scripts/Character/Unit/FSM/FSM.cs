@@ -227,7 +227,12 @@ public partial class FSM : Node
             var count = GetChildCount();
             while (count > 0)
             {
-                FSMState state = GetChild<FSMState>(--count);
+                FSMState state = this?.GetChildOrNull<FSMState>(--count);
+                if (state == null)
+                {
+                    LogTool.DebugLogDump("FSMState not found!");
+                    return;
+                }
                 if (state == CurrentState)
                 {
                     continue;
