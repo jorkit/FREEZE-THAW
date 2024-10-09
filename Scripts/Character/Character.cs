@@ -143,14 +143,14 @@ public abstract partial class Character : CharacterBody2D
         var velocity = newPosition - Position;
 
         /* if far from the NewPostition, reset postion */
-        if (velocity.Abs() > new Vector2((float)60, (float)60))
+        if (velocity.Abs().X > 60 || velocity.Abs().Y > 60)
         {
             Position = newPosition;
             return;
         }
 
         /* debouncing */
-        if (velocity.Abs() > new Vector2((float)6, (float)6))
+        if (velocity.Abs().X > 6 || velocity.Abs().Y > 6)
         {
             Velocity = velocity.Normalized() * Speed;
         }

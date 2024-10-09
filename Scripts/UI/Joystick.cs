@@ -188,6 +188,17 @@ public partial class Joystick : Sprite2D
         {
             if (_uiContainer.character.GetType().BaseType.BaseType == typeof(Monster))
             {
+                var FTB = _uiContainer.GetNodeOrNull<FreezeThawButton>("FreezeThawButton");
+                if (FTB == null)
+                {
+                    LogTool.DebugLogDump("FTB not found!");
+                    return;
+                }
+                if (FTB.CanBePressed == true)
+                {
+                    FTB.PressedHandle();
+                    return;
+                }
                 if (_uiContainer.character.Position.DistanceTo(BigBro.Player.Position) > 120)
                 {
                     _point.Position = (BigBro.Player.Position - _uiContainer.character.Position).Normalized();
@@ -195,20 +206,54 @@ public partial class Joystick : Sprite2D
                 else
                 {
                     _point.Position = Vector2.Zero;
-                    var attackButton = _uiContainer.GetNodeOrNull<AttackButton>("AttackButton");
-                    if (attackButton == null)
+                    var ATB = _uiContainer.GetNodeOrNull<AttackButton>("AttackButton");
+                    if (ATB == null)
                     {
-                        LogTool.DebugLogDump("AttackButton not found!");
+                        LogTool.DebugLogDump("ATB not found!");
                         return;
                     }
-                    attackButton.SetNewPosition((BigBro.Player.Position - _uiContainer.character.Position).Normalized());
-                    attackButton.ReleaseHandle();
+                    if (ATB.CanBePressed == true && BigBro.Player.GetCurrentState() < CharacterStateEnum.Freezed)
+                    {
+                        ATB.SetNewPosition((BigBro.Player.Position - _uiContainer.character.Position).Normalized());
+                        ATB.ReleaseHandle();
+                    }
                 }
             }
+            /* AI Survivor */
             else
             {
+                /* Freezed state */
+                if (_uiContainer.character.GetCurrentState() == CharacterStateEnum.Freezed)
+                {
+                    var FTB = _uiContainer.GetNodeOrNull<FreezeThawButton>("FreezeThawButton");
+                    if (FTB == null)
+                    {
+                        LogTool.DebugLogDump("FTB not found!");
+                        return;
+                    }
+                    if (FTB.CanBePressed == true)
+                    {
+                        FTB.PressedHandle();
+                        return;
+                    }
+                }
+                /* not Freezed */
+                if (_uiContainer.character.Position.DistanceTo(BigBro.Monster.Position) < 120)
+                {
+                    var FTB = _uiContainer.GetNodeOrNull<FreezeThawButton>("FreezeThawButton");
+                    if (FTB == null)
+                    {
+                        LogTool.DebugLogDump("FTB not found!");
+                        return;
+                    }
+                    if (FTB.CanBePressed == true && _uiContainer.character.GetCurrentState() != CharacterStateEnum.Freezed)
+                    {
+                        FTB.PressedHandle();
+                        return;
+                    }
+                }
                 /* control the distance to Monster large than 1000 */
-                if (_uiContainer.character.Position.DistanceTo(BigBro.Monster.Position) < 1000)
+                else if (_uiContainer.character.Position.DistanceTo(BigBro.Monster.Position) < 1000)
                 {
                     _point.Position = (_uiContainer.character.Position - BigBro.Monster.Position).Normalized();
                 }
@@ -220,14 +265,17 @@ public partial class Joystick : Sprite2D
                 else
                 {
                     _point.Position = Vector2.Zero;
-                    var attackButton = _uiContainer.GetNodeOrNull<AttackButton>("AttackButton");
-                    if (attackButton == null)
+                    var ATB = _uiContainer.GetNodeOrNull<AttackButton>("AttackButton");
+                    if (ATB == null)
                     {
-                        LogTool.DebugLogDump("AttackButton not found!");
+                        LogTool.DebugLogDump("ATB not found!");
                         return;
                     }
-                    attackButton.SetNewPosition((BigBro.Monster.Position - _uiContainer.character.Position).Normalized());
-                    attackButton.ReleaseHandle();
+                    if (ATB.CanBePressed == true)
+                    {
+                        ATB.SetNewPosition((BigBro.Monster.Position - _uiContainer.character.Position).Normalized());
+                        ATB.ReleaseHandle();
+                    }
                 }
             }
         }

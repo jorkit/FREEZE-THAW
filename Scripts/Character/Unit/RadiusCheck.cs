@@ -15,11 +15,6 @@ public partial class RadiusCheck : Area2D
         BodyExited += BodyExitedHandler;
     }
 
-    // Called every frame. 'delta' is the elapsed time since the previous frame.
-    public override void _Process(double delta)
-    {
-    }
-
     private void BodyEnteredHandler(Node2D body)
     {
         if (body == null)
