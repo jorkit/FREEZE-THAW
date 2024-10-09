@@ -63,7 +63,6 @@ public partial class FreezeThawButton : TouchScreenButton
             return;
         }
         LogTool.DebugLogDump("FTB pressed!");
-        CanBePressed = false;
         if (BigBro.IsMultiplayer == true)
         {
             if (BigBro.MultiplayerApi.IsServer() == false)

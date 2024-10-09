@@ -33,6 +33,7 @@ public partial class Freezing : FSMState
     public override void OnEnter()
     {
         LogTool.DebugLogDump(Name + " OnEnter!");
+        Fsm.character.GetNodeOrNull<FreezeThawButton>("UIContainer/FreezeThawButton").CanBePressed = false;
         Fsm.character.AnimatitionFinishedHandleRegiste(this);
     }
 
