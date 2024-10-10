@@ -34,6 +34,7 @@ public partial class Sealing : FSMState
     {
         LogTool.DebugLogDump(Name + " OnEnter!");
         Fsm.character.AnimatitionFinishedHandleRegiste(this);
+        ((Monster)Fsm.character).Sealing();
     }
 
     private void AnimationFinishedHandle()
@@ -42,7 +43,6 @@ public partial class Sealing : FSMState
         {
             return;
         }
-        ((Monster)Fsm.character).Sealing();
         Fsm.PreStateChange(CharacterStateEnum.Idle, true);
     }
 

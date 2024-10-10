@@ -22,7 +22,8 @@ public partial class WaitingHall : Node
             BigBro.Spawner.SpawnPath = BigBro.PlayerContainer.GetPath();
             if (BigBro.MultiplayerApi.IsServer() == true)
             {
-                BigBro.PlayerAdd(GetMultiplayerAuthority().ToString(), Character.CharacterPathList[Character.CharacterTypeEnum.Sandworm]);
+                BigBro.PlayerAdd(((int)Character.CharacterTypeEnum.AISandworm).ToString(), Character.CharacterPathList[Character.CharacterTypeEnum.AISandworm]);
+                BigBro.PlayerAdd(((int)Character.CharacterTypeEnum.AIMouse).ToString(), Character.CharacterPathList[Character.CharacterTypeEnum.AIMouse]);
             }
         }
         else

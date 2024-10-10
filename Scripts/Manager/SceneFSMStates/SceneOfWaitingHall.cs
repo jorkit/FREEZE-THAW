@@ -21,7 +21,10 @@ public partial class SceneOfWaitingHall : SceneFSMState
                 BigBro.MultiplayerApi.MultiplayerPeer.RefuseNewConnections = true;
             }
         }
-        SceneFSM.PreStateChange(SceneFsm, SceneStateEnum.MatchStartLoading, true);
+        else
+        {
+            SceneFSM.PreStateChange(SceneFsm, SceneStateEnum.MatchStartLoading, true);
+        }
     }
     public override bool EnterCondition()
     {

@@ -33,10 +33,7 @@ public partial class Run : FSMState
             Fsm.character.Velocity = velocity.Normalized() * Fsm.character.Speed;
         }
 
-        if (Fsm.character.Velocity != Vector2.Zero)
-        {
-            Fsm.character.SelfImage.Play("Run");
-        }
+        Fsm.character.SelfImage.Play("Run");
     }
 
     public override bool EnterCondition()

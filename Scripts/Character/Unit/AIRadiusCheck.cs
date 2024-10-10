@@ -1,7 +1,8 @@
 using Godot;
 using System.Collections.Generic;
 using FreezeThaw.Utils;
-public partial class RadiusCheck : Area2D
+
+public partial class AIRadiusCheck : Area2D
 {
     public List<Survivor> SurvivorsInArea { set; get; }
 

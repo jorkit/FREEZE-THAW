@@ -10,4 +10,4 @@ script = ExtResource("1_mda46")
 [node name="Background" parent="." instance=ExtResource("1_7w3cf")]
 
 [node name="Map" parent="." instance=ExtResource("2_ocdbd")]
-position = Vector2(1229, 654)
+position = Vector2(1661, 1004)

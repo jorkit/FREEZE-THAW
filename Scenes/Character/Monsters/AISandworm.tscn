@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://dm1ffsfo41pbh"]
+[gd_scene load_steps=18 format=3 uid="uid://dm1ffsfo41pbh"]
 
 [ext_resource type="Script" path="res://Scripts/Character/Monsters/AISandworm.cs" id="1_aiku4"]
 [ext_resource type="Texture2D" uid="uid://cm57d6pgjj4kj" path="res://Static/UI/Joystick/摇杆2.webp" id="2_g414w"]
@@ -14,6 +14,7 @@
 [ext_resource type="PackedScene" uid="uid://cva2e1sardm5w" path="res://Scenes/Character/Unit/FSM/FSMStates/Run.tscn" id="12_t1la4"]
 [ext_resource type="PackedScene" uid="uid://p2rmwudi0j26" path="res://Scenes/Character/Unit/FSM/FSMStates/Sealing.tscn" id="13_i8cgc"]
 [ext_resource type="PackedScene" uid="uid://deqsnwihsugpv" path="res://Scenes/Character/Unit/RadiusCheck.tscn" id="14_ktpgs"]
+[ext_resource type="PackedScene" uid="uid://bi0satbrfpk4s" path="res://Scenes/Character/Unit/AIRadiusCheck.tscn" id="15_y0u4w"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_6o4j5"]
 animations = [{
@@ -159,4 +160,7 @@ shape = SubResource("CapsuleShape2D_pnk0x")
 [node name="Sealing" parent="FSM" instance=ExtResource("13_i8cgc")]
 
 [node name="RadiusCheck" parent="." instance=ExtResource("14_ktpgs")]
-collision_mask = 4
+collision_layer = 2
+collision_mask = 7
+
+[node name="AIRadiusCheck" parent="." instance=ExtResource("15_y0u4w")]

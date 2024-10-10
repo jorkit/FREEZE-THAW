@@ -7,7 +7,8 @@
 [node name="Map" type="Node2D"]
 
 [node name="StaticImage" parent="." instance=ExtResource("1_iubx4")]
-scale = Vector2(1.2, 1.2)
+position = Vector2(38, 147)
+scale = Vector2(1.35, 1.35)
 
 [node name="Boundary" parent="." instance=ExtResource("2_ysiwk")]
 position = Vector2(-1616, -944)

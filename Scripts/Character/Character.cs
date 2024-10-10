@@ -7,12 +7,13 @@ public abstract partial class Character : CharacterBody2D
 {
     public enum CharacterTypeEnum
     {
-        /* Monster */
-        AISandworm,
-        Sandworm,
-
-        /* Survivor */
+        /* AI */
+        AISandworm = -2,
         AIMouse,
+
+        /* Monster */
+        Sandworm,
+        /* Survivor */
         Mouse
     }
     public static readonly Godot.Collections.Dictionary<CharacterTypeEnum, string> CharacterPathList = new Godot.Collections.Dictionary<CharacterTypeEnum, string>()
@@ -42,6 +43,17 @@ public abstract partial class Character : CharacterBody2D
             if (IsMultiplayerAuthority() == false)
             {
                 /* hide the other clients' UIContainer and remove their Camera */
+                GetNode<UIContainer>("UIContainer").Visible = false;
+                RemoveChild(GetNode<Camera2D>("CharacterCamera"));
+                return;
+            }
+            /* AI in multiplayer */
+            if (GetType().BaseType.BaseType != typeof(Character))
+            {
+                var MultiplayerSynchronizer = GetNodeOrNull<MultiplayerSynchronizer>("MultiplayerSynchronizer");
+                if (MultiplayerSynchronizer != null)
+                    RemoveChild(MultiplayerSynchronizer);
+                /* hide the AIs' UIContainer and remove their Camera */
                 GetNode<UIContainer>("UIContainer").Visible = false;
                 RemoveChild(GetNode<Camera2D>("CharacterCamera"));
                 return;
@@ -165,7 +177,7 @@ public abstract partial class Character : CharacterBody2D
         if (BigBro.IsMultiplayer == true)
         {
             /* client do NOT receive the joystick info */
-            if (IsMultiplayerAuthority() == false && BigBro.MultiplayerApi.IsServer() == false)
+            if (BigBro.MultiplayerApi.IsServer() == false)
             {
                 return Vector2.Zero;
             }

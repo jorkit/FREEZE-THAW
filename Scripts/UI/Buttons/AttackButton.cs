@@ -51,7 +51,7 @@ public partial class AttackButton : Sprite2D
 
     public override void _Input(InputEvent @event)
     {
-        if (BigBro.IsMultiplayer == true)
+        if (BigBro.IsMultiplayer == true || _uiContainer.character.GetType().BaseType.BaseType != typeof(Character))
         {
             if (CanBePressed == false || IsMultiplayerAuthority() == false)
             {
@@ -204,6 +204,15 @@ public partial class AttackButton : Sprite2D
                 }
                 _uiContainer.character.AttackButtonPressedHandle();
             }
+            else if (_uiContainer.character.GetType().BaseType != typeof(Character))
+            {
+                var rpcRes = Rpc("ReleaseHandlerRpc", Direction);
+                if (rpcRes != Error.Ok)
+                {
+                    LogTool.DebugLogDump("ReleaseHandlerRpc Failed! " + rpcRes.ToString());
+                }
+                _uiContainer.character.AttackButtonPressedHandle();
+            }
         }
         else
         {
@@ -211,7 +220,7 @@ public partial class AttackButton : Sprite2D
         }
     }
 
-    [Rpc(mode: MultiplayerApi.RpcMode.Authority, CallLocal = false, TransferMode = MultiplayerPeer.TransferModeEnum.UnreliableOrdered)]
+    [Rpc(mode: MultiplayerApi.RpcMode.AnyPeer, CallLocal = false, TransferMode = MultiplayerPeer.TransferModeEnum.UnreliableOrdered)]
     public void ReleaseHandlerRpc(Vector2 direction)
     {
         LogTool.DebugLogDump(GetMultiplayerAuthority().ToString() + " receive Attack CMD from " + BigBro.MultiplayerApi.GetRemoteSenderId());

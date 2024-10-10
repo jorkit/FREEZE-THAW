@@ -41,6 +41,29 @@ public partial class PlayerContainer : Node
         }
 	}
 
+    public override void _PhysicsProcess(double delta)
+    {
+        var players = GetChildren();
+        foreach (var item in players)
+        {
+            if (item.GetType().BaseType == typeof(Survivor) || item.GetType().BaseType.BaseType == typeof(Survivor))
+            {
+                if (((Survivor)item).GetCurrentState() != CharacterStateEnum.Sealed)
+                {
+                    return;
+                }
+            }
+        }
+        /* all survivor sealed, reset state */
+        foreach (var item in players)
+        {
+            if (item.GetType().BaseType == typeof(Survivor) || item.GetType().BaseType.BaseType == typeof(Survivor))
+            {
+                ((Survivor)item).Fsm.PreStateChange(CharacterStateEnum.Idle, true);
+            }
+        }
+    }
+
     public void TimerStop()
     {
         _timer.Stop();
@@ -50,13 +73,25 @@ public partial class PlayerContainer : Node
 	{
         if (BigBro.IsMultiplayer == true)
         {
+            string survivorPath;
+            string monsterPath;
+            if (id.ToInt() < 0)
+            {
+                survivorPath = Character.CharacterPathList[Character.CharacterTypeEnum.AIMouse];
+                monsterPath = Character.CharacterPathList[Character.CharacterTypeEnum.AISandworm];
+            }
+            else
+            {
+                survivorPath = Character.CharacterPathList[Character.CharacterTypeEnum.Mouse];
+                monsterPath = Character.CharacterPathList[Character.CharacterTypeEnum.Sandworm];
+            }
             Player newPlayer = new()
             {
                 Id = id,
                 NickName = "",
                 Score = SCORE_INIT,
-                SurvivorPath = Character.CharacterPathList[Character.CharacterTypeEnum.Mouse],
-                MonsterPath = Character.CharacterPathList[Character.CharacterTypeEnum.Sandworm],
+                SurvivorPath = survivorPath,
+                MonsterPath = monsterPath,
             };
             Players.Add(newPlayer);
         }
