@@ -46,11 +46,11 @@ public partial class FreezeThawButton : TouchScreenButton
                 CanBePressed = true;
                 if (((Survivor)_uiContainer.character).CheckSealed() == true)
                 {
-                    /* change button sprinte */
+                    /* change button sprite */
                 }
                 else
                 {
-                    /* change button sprinte */
+                    /* change button sprite */
                 }
             }
         }

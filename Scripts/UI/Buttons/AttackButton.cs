@@ -51,7 +51,11 @@ public partial class AttackButton : Sprite2D
 
     public override void _Input(InputEvent @event)
     {
-        if (BigBro.IsMultiplayer == true || _uiContainer.character.GetType().BaseType.BaseType != typeof(Character))
+        if (_uiContainer.character.GetType().BaseType.BaseType != typeof(Character))
+        { 
+            return; 
+        }
+        if (BigBro.IsMultiplayer == true)
         {
             if (CanBePressed == false || IsMultiplayerAuthority() == false)
             {

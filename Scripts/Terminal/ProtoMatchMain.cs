@@ -4,29 +4,19 @@ using System;
 
 public partial class ProtoMatchMain : Node
 {
-	// Called when the node enters the scene tree for the first time.
-	public override void _Ready()
+    public override void _EnterTree()
+    {
+        var playerContainer = BigBro.PlayerContainer;
+        if (playerContainer == null)
+        {
+            LogTool.DebugLogDump("PlayerContainer not found!");
+            return;
+        }
+        BigBro.bigBro.MoveChild(playerContainer, -1);
+    }
+    // Called when the node enters the scene tree for the first time.
+    public override void _Ready()
 	{
-        if (BigBro.IsMultiplayer == true)
-        {
-            var playerContainer = BigBro.PlayerContainer;
-            if (playerContainer == null)
-            {
-                LogTool.DebugLogDump("PlayerContainer not found!");
-                return;
-            }
-            BigBro.bigBro.MoveChild(BigBro.bigBro.GetNodeOrNull<PlayerContainer>("PlayerContainer"), -1);
-        }
-        else
-        {
-            var playerContainer = BigBro.PlayerContainer;
-            if (playerContainer == null)
-            {
-                LogTool.DebugLogDump("PlayerContainer not found!");
-                return;
-            }
-            BigBro.bigBro.MoveChild(BigBro.bigBro.GetNodeOrNull<PlayerContainer>("PlayerContainer"), -1);
-        }
     }
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.

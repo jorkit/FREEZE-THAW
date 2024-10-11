@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://cm57d6pgjj4kj" path="res://Static/UI/Joystick/摇杆2.webp" id="2_0gd74"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_s0tml"]
-radius = 1006.42
+radius = 1731.52
 
 [node name="AIRadiusCheck" type="Area2D"]
 script = ExtResource("1_t8a4a")
@@ -14,5 +14,5 @@ shape = SubResource("CircleShape2D_s0tml")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 self_modulate = Color(1, 1, 1, 0.505882)
-scale = Vector2(14.4571, 14.0817)
+scale = Vector2(24.7143, 24.0725)
 texture = ExtResource("2_0gd74")
