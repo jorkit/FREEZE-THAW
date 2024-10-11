@@ -24,7 +24,7 @@ namespace FreezeThaw.Utils
             DateTime currentTime = DateTime.Now;
             string timeToSeconds = currentTime.ToString("yyyy-MM-dd HH:mm:ss");
             string local_log = "\r\n<" + timeToSeconds + ">\r\n" + log_package;
-            LocalLogHandle("debug_log", local_log);
+            //LocalLogHandle("debug_log", local_log);
         }
 
         /// <summary>

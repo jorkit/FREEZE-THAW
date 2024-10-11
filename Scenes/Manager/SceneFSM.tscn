@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://dv8l45lnqhcbi"]
+[gd_scene load_steps=8 format=3 uid="uid://dv8l45lnqhcbi"]
 
 [ext_resource type="Script" path="res://Scripts/Manager/SceneFSM.cs" id="1_c38ql"]
 [ext_resource type="PackedScene" uid="uid://0ipgu0xy4brf" path="res://Scenes/Manager/SceneFSMStates/SceneOfGameOpenLoading.tscn" id="2_hm63u"]
@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://b3n5c7a8du5s4" path="res://Scenes/Manager/SceneFSMStates/SceneOfMatchMain.tscn" id="3_y3qtw"]
 [ext_resource type="PackedScene" uid="uid://bcb2rvb0nbml7" path="res://Scenes/Manager/SceneFSMStates/SceneOfMatchStartLoading.tscn" id="4_ggn2n"]
 [ext_resource type="PackedScene" uid="uid://ceq5hg4xenaau" path="res://Scenes/Manager/SceneFSMStates/SceneOfWaitingHall.tscn" id="6_ypqel"]
+[ext_resource type="PackedScene" uid="uid://db3vbn02vf1ba" path="res://Scenes/Manager/SceneFSMStates/SceneOfMatchSettlement.tscn" id="7_wndqb"]
 
 [node name="SceneFSM" type="Node"]
 script = ExtResource("1_c38ql")
@@ -19,3 +20,5 @@ script = ExtResource("1_c38ql")
 [node name="SceneOfMatchStartLoading" parent="." instance=ExtResource("4_ggn2n")]
 
 [node name="SceneOfProtoMatchMain" parent="." instance=ExtResource("3_y3qtw")]
+
+[node name="SceneOfMatchSettlement" parent="." instance=ExtResource("7_wndqb")]

@@ -1,23 +1,22 @@
 using FreezeThaw.Utils;
 using Godot;
 using System;
+using System.IO;
 
-public partial class SceneOfMatchMain : SceneFSMState
+public partial class SceneOfMatchSettlement : SceneFSMState
 {
     public override void _Ready()
     {
         base._Ready();
-        Path = "res://Scenes/Terminal/MatchMain/ProtoMatchMain/ProtoMatchMain.tscn";
+        Path = "res://Scenes/Terminal/MatchSettlement/MatchSettlement.tscn";
     }
 
     public override void Update(double delta)
     {
-
     }
     public override bool EnterCondition()
     {
-        /* if MatchMain ready, return ture */
-        if (SceneFsm.PreState != SceneStateEnum.MatchMain)
+        if (SceneFsm.PreState != SceneStateEnum.MatchSettlement)
         {
             return false;
         }
@@ -28,7 +27,7 @@ public partial class SceneOfMatchMain : SceneFSMState
     public override void OnEnter()
     {
         LogTool.DebugLogDump(Name + " OnEnter");
-        var scene = ResourceLoader.Load<PackedScene>(Path).InstantiateOrNull<ProtoMatchMain>();
+        var scene = ResourceLoader.Load<PackedScene>(Path).InstantiateOrNull<MatchSettlement>();
         if (scene == null)
         {
             LogTool.DebugLogDump("Scene instantiate faild");
@@ -37,7 +36,7 @@ public partial class SceneOfMatchMain : SceneFSMState
     }
     public override bool ExitCondition()
     {
-        if (SceneFsm.PreState == SceneStateEnum.MatchMain)
+        if (SceneFsm.PreState == SceneStateEnum.MatchSettlement)
         {
             return false;
         }
@@ -48,9 +47,7 @@ public partial class SceneOfMatchMain : SceneFSMState
     public override void OnExit()
     {
         LogTool.DebugLogDump(Name + " OnExit");
-        BigBro.PlayerContainer.QueueFree();
-        //BigBro.bigBro.RemoveChild(BigBro.PlayerContainer);
-        var node = BigBro.bigBro.GetNodeOrNull<ProtoMatchMain>("ProtoMatchMain");
+        var node = BigBro.bigBro.GetNodeOrNull<MatchSettlement>("MatchSettlement");
         node?.QueueFree();
     }
 }

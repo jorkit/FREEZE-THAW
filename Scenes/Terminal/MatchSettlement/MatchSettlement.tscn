@@ -1,0 +1,103 @@
+[gd_scene load_steps=3 format=3 uid="uid://bjxnet5mkbxmt"]
+
+[ext_resource type="PackedScene" uid="uid://b0d8egdht26rb" path="res://Scenes/Terminal/OptionsInterface/Combo/Background/Background.tscn" id="1_7daee"]
+[ext_resource type="Script" path="res://Scripts/Terminal/MatchSettlement.cs" id="1_aiqtm"]
+
+[node name="MatchSettlement" type="Node"]
+script = ExtResource("1_aiqtm")
+
+[node name="Background" parent="." instance=ExtResource("1_7daee")]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="ID_Labels" type="Node2D" parent="CanvasLayer"]
+
+[node name="Label_head" type="Label" parent="CanvasLayer/ID_Labels"]
+offset_right = 40.0
+offset_bottom = 23.0
+scale = Vector2(3, 3)
+text = "ID"
+
+[node name="Label_NO1" type="Label" parent="CanvasLayer/ID_Labels"]
+offset_top = 88.0
+offset_right = 40.0
+offset_bottom = 111.0
+scale = Vector2(3, 3)
+text = "NO.1"
+
+[node name="Label_NO2" type="Label" parent="CanvasLayer/ID_Labels"]
+offset_top = 168.0
+offset_right = 40.0
+offset_bottom = 191.0
+scale = Vector2(3, 3)
+text = "NO.2"
+
+[node name="Label_NO3" type="Label" parent="CanvasLayer/ID_Labels"]
+offset_top = 248.0
+offset_right = 40.0
+offset_bottom = 271.0
+scale = Vector2(3, 3)
+text = "NO.3"
+
+[node name="Label_NO4" type="Label" parent="CanvasLayer/ID_Labels"]
+offset_top = 328.0
+offset_right = 40.0
+offset_bottom = 351.0
+scale = Vector2(3, 3)
+text = "NO.4"
+
+[node name="Label_NO5" type="Label" parent="CanvasLayer/ID_Labels"]
+offset_top = 408.0
+offset_right = 40.0
+offset_bottom = 431.0
+scale = Vector2(3, 3)
+text = "NO.5"
+
+[node name="Score_Labels" type="Node2D" parent="CanvasLayer"]
+
+[node name="Label_head" type="Label" parent="CanvasLayer/Score_Labels"]
+offset_left = 328.0
+offset_right = 368.0
+offset_bottom = 23.0
+scale = Vector2(3, 3)
+text = "积分"
+
+[node name="Label_NO1" type="Label" parent="CanvasLayer/Score_Labels"]
+offset_left = 320.0
+offset_top = 88.0
+offset_right = 360.0
+offset_bottom = 111.0
+scale = Vector2(3, 3)
+text = "NO.1"
+
+[node name="Label_NO2" type="Label" parent="CanvasLayer/Score_Labels"]
+offset_left = 320.0
+offset_top = 168.0
+offset_right = 360.0
+offset_bottom = 191.0
+scale = Vector2(3, 3)
+text = "NO.2"
+
+[node name="Label_NO3" type="Label" parent="CanvasLayer/Score_Labels"]
+offset_left = 320.0
+offset_top = 248.0
+offset_right = 360.0
+offset_bottom = 271.0
+scale = Vector2(3, 3)
+text = "NO.3"
+
+[node name="Label_NO4" type="Label" parent="CanvasLayer/Score_Labels"]
+offset_left = 320.0
+offset_top = 328.0
+offset_right = 360.0
+offset_bottom = 351.0
+scale = Vector2(3, 3)
+text = "NO.4"
+
+[node name="Label_NO5" type="Label" parent="CanvasLayer/Score_Labels"]
+offset_left = 320.0
+offset_top = 408.0
+offset_right = 360.0
+offset_bottom = 431.0
+scale = Vector2(3, 3)
+text = "NO.5"
