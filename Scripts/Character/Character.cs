@@ -27,6 +27,7 @@ public abstract partial class Character : CharacterBody2D
     public FSM Fsm;
     public float Speed;
     public AnimatedSprite2D SelfImage { get; set; }
+    public AudioStreamPlayer AttackAudio {  get; set; }
     // public const float JumpVelocity = -400.0f;
 
     public override void _EnterTree()
@@ -90,6 +91,12 @@ public abstract partial class Character : CharacterBody2D
         if (SelfImage == null)
         {
             LogTool.DebugLogDump("SelfImage not found!");
+            return;
+        }
+        AttackAudio = GetNodeOrNull<AudioStreamPlayer>("AttackAudio");
+        if (AttackAudio == null)
+        {
+            LogTool.DebugLogDump("AttackAudio not found!");
             return;
         }
         GetNodeOrNull<Polygon2D>("AttackDirection").Visible = false;
@@ -206,29 +213,16 @@ public abstract partial class Character : CharacterBody2D
 
     public void AnimatitionFinishedHandleRegiste(FSMState fsmState)
     {
-        if (BigBro.IsMultiplayer == true)
+        if (BigBro.IsMultiplayer == true && BigBro.MultiplayerApi.IsServer() != true)
         {
-            if (BigBro.MultiplayerApi.IsServer() == true)
-            {
-                if (SelfImage.IsConnected("animation_finished", new Callable(fsmState, "AnimationFinishedHandle")) == false)
-                {
-                    var connectRes = SelfImage.Connect("animation_finished", new Callable(fsmState, "AnimationFinishedHandle"));
-                    if (connectRes != Error.Ok)
-                    {
-                        LogTool.DebugLogDump("AnimationFinishedHandle connect to singal failed! " + connectRes.ToString());
-                    }
-                }
-            }
+            return;
         }
-        else
+        if (SelfImage.IsConnected("animation_finished", new Callable(fsmState, "AnimationFinishedHandler")) == false)
         {
-            if (SelfImage.IsConnected("animation_finished", new Callable(fsmState, "AnimationFinishedHandle")) == false)
+            var connectRes = SelfImage.Connect("animation_finished", new Callable(fsmState, "AnimationFinishedHandler"));
+            if (connectRes != Error.Ok)
             {
-                var connectRes = SelfImage.Connect("animation_finished", new Callable(fsmState, "AnimationFinishedHandle"));
-                if (connectRes != Error.Ok)
-                {
-                    LogTool.DebugLogDump("AnimationFinishedHandle connect to singal failed! " + connectRes.ToString());
-                }
+                LogTool.DebugLogDump("AnimationFinishedHandler connect to singal failed! " + connectRes.ToString());
             }
         }
     }

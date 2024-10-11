@@ -32,7 +32,7 @@ public partial class MatchSettlement : Node
         }
 
         /* sort the player by score */
-        var orderPlayers = BigBro.PlayerContainer.Players.OrderBy(player => player.Score);
+        var orderPlayers = BigBro.PlayerContainer.Players.OrderByDescending(player => player.Score);
 
         /* set the data */
         int i = 1;

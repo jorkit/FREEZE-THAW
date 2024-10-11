@@ -10,6 +10,10 @@ public abstract partial class Survivor : Character
     {
         base._Ready();
         Speed = 400f;
+        if (SelfImage.IsConnected("frame_changed", new Callable(this, "FrameChangedHandler")) == false)
+        {
+            SelfImage.Connect("frame_changed", new Callable(this, "FrameChangedHandler"));
+        }
     }
 
     public override void Attack()
@@ -20,6 +24,24 @@ public abstract partial class Survivor : Character
         bullet.GlobalPosition = Position + direction * 60;
         bullet.OwnerId = Name;
         BigBro.bigBro.AddChild(bullet);
+    }
+
+    private void FrameChangedHandler()
+    {
+        if (SelfImage.Animation == "Attack")
+        {
+            var frameIndex = SelfImage.Frame;
+            if (frameIndex == 3)
+            {
+                var attackAudio = GetNodeOrNull<AudioStreamPlayer>("AttackAudio");
+                if (attackAudio == null)
+                {
+                    LogTool.DebugLogDump("AttackAudio not found!");
+                    return;
+                }
+                attackAudio.Play();
+            }
+        }
     }
 
     public override void FreezeThawButtonPressedHandle()

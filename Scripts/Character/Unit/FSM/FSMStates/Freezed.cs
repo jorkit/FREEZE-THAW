@@ -33,7 +33,7 @@ public partial class Freezed : FSMState
     public override async void OnEnter()
     {
         LogTool.DebugLogDump(Name + " OnEnter!");
-        await ToSignal(GetTree().CreateTimer(1), SceneTreeTimer.SignalName.Timeout);
+        await ToSignal(GetTree().CreateTimer(1.5), SceneTreeTimer.SignalName.Timeout);
         var FTB = Fsm.character.GetNodeOrNull<FreezeThawButton>("UIContainer/FreezeThawButton");
         if (FTB == null)
         {

@@ -20,7 +20,7 @@ public partial class ProtoMatchMain : Node
         var _timer = new Timer();
         _timer.Timeout += TimerTimeOutHandler;
         BigBro.bigBro.AddChild(_timer);
-        _timer.Start(3);
+        _timer.Start(300);
     }
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.

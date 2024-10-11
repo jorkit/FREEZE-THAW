@@ -37,7 +37,7 @@ public partial class Sealing : FSMState
         ((Monster)Fsm.character).Sealing();
     }
 
-    private void AnimationFinishedHandle()
+    private void AnimationFinishedHandler()
     {
         if (Fsm.CurrentState != this)
         {

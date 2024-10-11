@@ -37,7 +37,7 @@ public partial class Freezing : FSMState
         Fsm.character.AnimatitionFinishedHandleRegiste(this);
     }
 
-    private void AnimationFinishedHandle()
+    private void AnimationFinishedHandler()
     {
         if (Fsm.CurrentState != this)
         {

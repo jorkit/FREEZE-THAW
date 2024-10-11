@@ -57,7 +57,7 @@ public partial class Freeing : FSMState
         }
     }
 
-    private void AnimationFinishedHandle()
+    private void AnimationFinishedHandler()
     {
         if (Fsm.CurrentState != this)
         {

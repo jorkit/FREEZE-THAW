@@ -1,6 +1,8 @@
 using FreezeThaw.Utils;
 using Godot;
 using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 public abstract partial class Bullet : Area2D
 {
@@ -13,6 +15,7 @@ public abstract partial class Bullet : Area2D
     // Called when the node enters the scene tree for the first time.
     public override async void _Ready()
 	{
+
         BodyEntered += new BodyEnteredEventHandler(BodyEnteredHandle);
         await ToSignal(GetTree().CreateTimer(5), SceneTreeTimer.SignalName.Timeout);
         QueueFree();
@@ -34,32 +37,34 @@ public abstract partial class Bullet : Area2D
         {
             return;
         }
-        if (BigBro.IsMultiplayer == true)
+        
+        if (body.GetType().BaseType == typeof(Monster) || body.GetType().BaseType.BaseType == typeof(Monster))
         {
-            if (body.GetType().BaseType == typeof(Monster) || body.GetType().BaseType.BaseType == typeof(Monster))
-            {
-                QueueFree();
-                if (BigBro.MultiplayerApi.IsServer() == true)
-                {
-                    var playerContainer = BigBro.PlayerContainer;
-                    if (playerContainer != null)
-                    {
-                        playerContainer.ChangeScore(OwnerId, HitScore);
-                    }
-                }
-            }
+            BulletHitHandler();
         }
-        else
+    }
+
+    private async void BulletHitHandler()
+    {
+        
+        var hitAudio = GetNodeOrNull<AudioStreamPlayer>("HitAudio");
+        if (hitAudio == null)
         {
-            if (body.GetType().BaseType == typeof(Monster) || body.GetType().BaseType.BaseType == typeof(Monster))
-            {
-                QueueFree();
-                var playerContainer = BigBro.PlayerContainer;
-                if (playerContainer != null)
-                {
-                    playerContainer.ChangeScore(OwnerId, HitScore);
-                }
-            }
+            LogTool.DebugLogDump("HitAudio not found!");
+            return;
+        }
+        hitAudio.Play();
+        Visible = false;
+        await ToSignal(GetTree().CreateTimer(0.5), SceneTreeTimer.SignalName.Timeout);
+        QueueFree();
+        if (BigBro.IsMultiplayer == true && BigBro.MultiplayerApi.IsServer() != true)
+        {
+            return;
+        }
+        var playerContainer = BigBro.PlayerContainer;
+        if (playerContainer != null)
+        {
+            playerContainer.ChangeScore(OwnerId, HitScore);
         }
     }
 }
