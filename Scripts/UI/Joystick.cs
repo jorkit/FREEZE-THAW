@@ -213,7 +213,7 @@ public partial class Joystick : Sprite2D
                 return;
             }
             /* chase the survivor */
-            if (_uiContainer.character.Position.DistanceTo(target.Position) > 120)
+            if (_uiContainer.character.Position.DistanceTo(target.Position) > 150)
             {
                 _point.Position = (target.Position - _uiContainer.character.Position).Normalized();
             }
@@ -221,7 +221,12 @@ public partial class Joystick : Sprite2D
             else
             {
                 _point.Position = Vector2.Zero;
-                AiATBTrigger((target.Position - _uiContainer.character.Position).Normalized());
+                var attackDirection = (target.Position - _uiContainer.character.Position).Normalized();
+                if (attackDirection == Vector2.Zero)
+                {
+                    return;
+                }
+                AiATBTrigger(attackDirection);
             }
         }
         /* AI Survivor */
@@ -246,7 +251,7 @@ public partial class Joystick : Sprite2D
                 return;
             }
             /* Freezing to protect self */
-            if (_uiContainer.character?.Position.DistanceTo(PlayerControler.Monster.Position) < 120)
+            if (_uiContainer.character?.Position.DistanceTo(PlayerControler.Monster.Position) < 150)
             {
                 AiFTBTrigger();
                 return;
@@ -264,7 +269,12 @@ public partial class Joystick : Sprite2D
             else
             {
                 _point.Position = Vector2.Zero;
-                AiATBTrigger((PlayerControler.Monster.Position - _uiContainer.character.Position).Normalized());
+                var attackDirection = (PlayerControler.Monster.Position - _uiContainer.character.Position).Normalized();
+                if (attackDirection == Vector2.Zero)
+                {
+                    return;
+                }
+                AiATBTrigger(attackDirection);
             }
         }
     }

@@ -20,6 +20,10 @@ public abstract partial class Survivor : Character
     {
         var bullet = Bullet.Instantiate<Bullet>();
         var direction = GetNodeOrNull<AttackButton>("UIContainer/AttackButton").Direction;
+        if (direction == Vector2.Zero)
+        {
+            return;
+        }
         bullet.Direction = direction;
         bullet.GlobalPosition = Position + direction * 60;
         bullet.Owner = this;

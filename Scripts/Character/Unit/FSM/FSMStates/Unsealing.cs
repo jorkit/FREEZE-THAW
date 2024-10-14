@@ -60,5 +60,12 @@ public partial class Unsealing : FSMState
     public override void OnExit()
     {
         LogTool.DebugLogDump(Name + " OnExit!");
+        var FTB = Fsm.character.GetNodeOrNull<FreezeThawButton>("UIContainer/FreezeThawButton");
+        if (FTB == null)
+        {
+            LogTool.DebugLogDump("FTB not found!");
+            return;
+        }
+        FTB.CanBePressed = true;
     }
 }
