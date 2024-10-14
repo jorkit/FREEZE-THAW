@@ -14,7 +14,7 @@ public partial class OptionsInterface : Node
 		textEdit_IpInput.Name = "ServerAddress";
 		textEdit_IpInput.Scale = new Vector2(2, 2);
         optionContainer.AddChild(textEdit_IpInput);
-		optionContainer.Offset = new Vector2(BigBro.WindowSize.X / 2, BigBro.WindowSize.Y / 4);
+		optionContainer.Offset = new Vector2(UIControler.WindowSize.X / 2, UIControler.WindowSize.Y / 4);
     }
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.

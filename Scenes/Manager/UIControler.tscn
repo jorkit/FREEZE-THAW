@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://cssrjm07bqjav"]
+
+[ext_resource type="Script" path="res://Scripts/Manager/UIControler.cs" id="1_xo44p"]
+
+[node name="UIControler" type="Node"]
+script = ExtResource("1_xo44p")

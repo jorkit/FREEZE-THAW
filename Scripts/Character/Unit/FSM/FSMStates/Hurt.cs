@@ -20,7 +20,7 @@ public partial class Hurt : FSMState
         Fsm.character.SelfImage.Play("Hurt");
         if (Fsm.character.GetType().BaseType == typeof(Survivor) || Fsm.character.GetType().BaseType.BaseType == typeof(Survivor))
         {
-            var hurtDirection = BigBro.Monster.Position.DirectionTo(Fsm.character.Position).Normalized() * _knockbackSpeed;
+            var hurtDirection = PlayerControler.Monster.Position.DirectionTo(Fsm.character.Position).Normalized() * _knockbackSpeed;
             Fsm.character.Position += hurtDirection;
         }
     }
@@ -63,10 +63,10 @@ public partial class Hurt : FSMState
     public override void OnExit()
     {
         LogTool.DebugLogDump(Name + " OnExit!");
-        if (BigBro.IsMultiplayer == true && BigBro.MultiplayerApi.IsServer() == false)
+        if (NetworkControler.IsMultiplayer == true && NetworkControler.MultiplayerApi.IsServer() == false)
         {
             return;
         }
-        PlayerContainer.PlayerTranslate(Fsm.character.Name);
+        PlayerControler.PlayerTranslate(Fsm.character.Name);
     }
 }

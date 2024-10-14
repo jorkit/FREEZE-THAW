@@ -37,17 +37,17 @@ public partial class ClientJoinButton : TouchScreenButton
             ServerAddress.Text = "Please input server IP or Domain";
             return;
         }
-        BigBro.Peer = new();
+        NetworkControler.Peer = new();
         /* Server event handle bind */
-        BigBro.MultiplayerApi = Multiplayer;
-        if (BigBro.MultiplayerApi.IsConnected("connected_to_server", new Callable(this, "ConnectedToServerHandler")) == false)
+        NetworkControler.MultiplayerApi = Multiplayer;
+        if (NetworkControler.MultiplayerApi.IsConnected("connected_to_server", new Callable(this, "ConnectedToServerHandler")) == false)
         {
-            BigBro.MultiplayerApi.Connect("connected_to_server", new Callable(this, "ConnectedToServerHandler"));
-            BigBro.MultiplayerApi.Connect("connection_failed", new Callable(this, "ConnectedFailedHandler"));
-            BigBro.MultiplayerApi.Connect("server_disconnected", new Callable(this, "ServerDisconnectedHandler"));
+            NetworkControler.MultiplayerApi.Connect("connected_to_server", new Callable(this, "ConnectedToServerHandler"));
+            NetworkControler.MultiplayerApi.Connect("connection_failed", new Callable(this, "ConnectedFailedHandler"));
+            NetworkControler.MultiplayerApi.Connect("server_disconnected", new Callable(this, "ServerDisconnectedHandler"));
         }
         /* Create Client and Try to connect */
-        var CreateClientResult = BigBro.Peer.CreateClient(ServerAddress.Text, 7788);
+        var CreateClientResult = NetworkControler.Peer.CreateClient(ServerAddress.Text, 7788);
         if (CreateClientResult != Error.Ok)
         {
             LogTool.DebugLogDump("Client create failed!");
@@ -55,25 +55,25 @@ public partial class ClientJoinButton : TouchScreenButton
             return;
         }
         /* Peer must be added to MultiplayerPeer (must in connecting state), or the status will never be Connected */
-        BigBro.MultiplayerApi.MultiplayerPeer = BigBro.Peer;
+        NetworkControler.MultiplayerApi.MultiplayerPeer = NetworkControler.Peer;
     }
 
     private void ServerDisconnectedHandler()
     {
         LogTool.DebugLogDump("Server connect lost!");
-        BigBro.PlayerContainer.TimerStop();
-        BigBro.Peer.Close();
+        PlayerControler.PlayerContainer.TimerStop();
+        NetworkControler.Peer.Close();
     }
 
     private void ConnectedToServerHandler()
     {
         /* Client connection successful */
         CanBePressed = false;
-        BigBro.IsMultiplayer = true;
+        NetworkControler.IsMultiplayer = true;
         /* set the client sceneTree auth */
-        GetTree().Root.SetMultiplayerAuthority(BigBro.Peer.GetUniqueId(), true);
+        GetTree().Root.SetMultiplayerAuthority(NetworkControler.Peer.GetUniqueId(), true);
         /* Set the RPC target server */
-        BigBro.Peer.SetTargetPeer((int)MultiplayerPeer.TargetPeerServer);
+        NetworkControler.Peer.SetTargetPeer((int)MultiplayerPeer.TargetPeerServer);
         /* Scene change */
         SceneFSM.PreStateChange(BigBro.SceneFSM, SceneStateEnum.WaitingHall, true);
     }
@@ -82,6 +82,6 @@ public partial class ClientJoinButton : TouchScreenButton
     {
         LogTool.DebugLogDump("Client connect failed!");
         _optionContainer.GetNode<TextEdit>("ServerAddress").Text = "Please check server IP or Domain";
-        BigBro.Peer.Close();
+        NetworkControler.Peer.Close();
     }
 }

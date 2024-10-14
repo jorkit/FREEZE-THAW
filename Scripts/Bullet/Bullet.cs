@@ -51,11 +51,11 @@ public abstract partial class Bullet : Area2D
         Visible = false;
         await ToSignal(GetTree().CreateTimer(0.5), SceneTreeTimer.SignalName.Timeout);
         QueueFree();
-        if (BigBro.IsMultiplayer == true && BigBro.MultiplayerApi.IsServer() != true)
+        if (NetworkControler.IsMultiplayer == true && NetworkControler.MultiplayerApi.IsServer() != true)
         {
             return;
         }
-        var playerContainer = BigBro.PlayerContainer;
+        var playerContainer = PlayerControler.PlayerContainer;
         if (playerContainer != null)
         {
             playerContainer.ChangeScore(OwnerId, HitScore);

@@ -31,7 +31,7 @@ public abstract partial class Character : CharacterBody2D
 
     public override void _EnterTree()
     {
-        if (BigBro.IsMultiplayer == true)
+        if (NetworkControler.IsMultiplayer == true)
         {
             /* Set the authority of this node */
             SetMultiplayerAuthority(Name.ToString().ToInt(), true);
@@ -68,7 +68,7 @@ public abstract partial class Character : CharacterBody2D
             var MultiplayerSynchronizer = GetNodeOrNull<MultiplayerSynchronizer>("MultiplayerSynchronizer");
             if (MultiplayerSynchronizer != null)
                 RemoveChild(MultiplayerSynchronizer);
-            if (this != BigBro.Player)
+            if (this != PlayerControler.Player)
             {
                 GetNode<UIContainer>("UIContainer").Visible = false;
                 RemoveChild(GetNode<Camera2D>("CharacterCamera"));
@@ -111,7 +111,7 @@ public abstract partial class Character : CharacterBody2D
             LogTool.DebugLogDump("Character not found");
             return;
         }
-        if (BigBro.IsMultiplayer != true)
+        if (NetworkControler.IsMultiplayer != true)
         {
             if (GetCurrentState() != CharacterStateEnum.Run && GetCurrentState() != CharacterStateEnum.Hurt)
             {
@@ -133,7 +133,7 @@ public abstract partial class Character : CharacterBody2D
             }
         }
         /* Multiplayer and server do RPC call */
-        if (BigBro.IsMultiplayer == true && BigBro.MultiplayerApi.IsServer() == true)
+        if (NetworkControler.IsMultiplayer == true && NetworkControler.MultiplayerApi.IsServer() == true)
         {
             SetNewPosition();
         }
@@ -174,10 +174,10 @@ public abstract partial class Character : CharacterBody2D
 
     public Vector2 GetDirection()
     {
-        if (BigBro.IsMultiplayer == true)
+        if (NetworkControler.IsMultiplayer == true)
         {
             /* client do NOT receive the joystick info */
-            if (BigBro.MultiplayerApi.IsServer() == false)
+            if (NetworkControler.MultiplayerApi.IsServer() == false)
             {
                 return Vector2.Zero;
             }
@@ -206,7 +206,7 @@ public abstract partial class Character : CharacterBody2D
 
     public void AnimatitionFinishedHandleRegiste(FSMState fsmState)
     {
-        if (BigBro.IsMultiplayer == true && BigBro.MultiplayerApi.IsServer() != true)
+        if (NetworkControler.IsMultiplayer == true && NetworkControler.MultiplayerApi.IsServer() != true)
         {
             return;
         }

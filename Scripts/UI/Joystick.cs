@@ -41,7 +41,7 @@ public partial class Joystick : Sprite2D
 
 	public override void _Input(InputEvent @event)
 	{
-        if (BigBro.IsMultiplayer == true)
+        if (NetworkControler.IsMultiplayer == true)
         {
             if (IsMultiplayerAuthority() == false || _uiContainer.character.GetType().BaseType.BaseType != typeof(Character))
             {
@@ -50,7 +50,7 @@ public partial class Joystick : Sprite2D
         }
         else
         {
-            if (_uiContainer.character != BigBro.Player)
+            if (_uiContainer.character != PlayerControler.Player)
             {
                 return;
             }
@@ -98,8 +98,8 @@ public partial class Joystick : Sprite2D
         if (@event is InputEventScreenTouch && @event.IsPressed() && _ondraging == -1)
         {
             Vector2 tmp_vec = (Vector2)@event.Get("position");
-            if (tmp_vec.X > BigBro.WindowSize.X/2 || tmp_vec.X < BigBro.WindowSize.X/15
-                || tmp_vec.Y < BigBro.WindowSize.Y/8 || tmp_vec.Y > BigBro.WindowSize.Y * 9/10)
+            if (tmp_vec.X > UIControler.WindowSize.X/2 || tmp_vec.X < UIControler.WindowSize.X/15
+                || tmp_vec.Y < UIControler.WindowSize.Y/8 || tmp_vec.Y > UIControler.WindowSize.Y * 9/10)
             {
                 return;
             }
@@ -188,11 +188,11 @@ public partial class Joystick : Sprite2D
 
     private void AIRunning()
     {
-        if (BigBro.IsMultiplayer == true && BigBro.MultiplayerApi.IsServer() == false)
+        if (NetworkControler.IsMultiplayer == true && NetworkControler.MultiplayerApi.IsServer() == false)
         {
             return;
         }
-        if (BigBro.Monster == null || _uiContainer.character == null)
+        if (PlayerControler.Monster == null || _uiContainer.character == null)
         {
             LogTool.DebugLogDump("Translating");
             return;
@@ -246,25 +246,25 @@ public partial class Joystick : Sprite2D
                 return;
             }
             /* Freezing to protect self */
-            if (_uiContainer.character?.Position.DistanceTo(BigBro.Monster.Position) < 120)
+            if (_uiContainer.character?.Position.DistanceTo(PlayerControler.Monster.Position) < 120)
             {
                 AiFTBTrigger();
                 return;
             }
             /* control the distance to Monster large than 1000 */
-            else if (_uiContainer.character?.Position.DistanceTo(BigBro.Monster.Position) < 1000)
+            else if (_uiContainer.character?.Position.DistanceTo(PlayerControler.Monster.Position) < 1000)
             {
-                _point.Position = (_uiContainer.character.Position - BigBro.Monster.Position).Normalized();
+                _point.Position = (_uiContainer.character.Position - PlayerControler.Monster.Position).Normalized();
             }
-            else if (_uiContainer.character?.Position.DistanceTo(BigBro.Monster.Position) > 1100)
+            else if (_uiContainer.character?.Position.DistanceTo(PlayerControler.Monster.Position) > 1100)
             {
-                _point.Position = (BigBro.Monster.Position - _uiContainer.character.Position).Normalized();
+                _point.Position = (PlayerControler.Monster.Position - _uiContainer.character.Position).Normalized();
             }
             /* attack in safe distance */
             else
             {
                 _point.Position = Vector2.Zero;
-                AiATBTrigger((BigBro.Monster.Position - _uiContainer.character.Position).Normalized());
+                AiATBTrigger((PlayerControler.Monster.Position - _uiContainer.character.Position).Normalized());
             }
         }
     }

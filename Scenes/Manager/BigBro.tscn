@@ -1,12 +1,26 @@
-[gd_scene load_steps=4 format=3 uid="uid://bj88ufb5nedfg"]
+[gd_scene load_steps=9 format=3 uid="uid://bj88ufb5nedfg"]
 
 [ext_resource type="Script" path="res://Scripts/Manager/BigBro.cs" id="1_piypy"]
 [ext_resource type="PackedScene" uid="uid://dv8l45lnqhcbi" path="res://Scenes/Manager/SceneFSM.tscn" id="2_htbdh"]
 [ext_resource type="PackedScene" uid="uid://dyfku58l8y4wa" path="res://Scenes/Manager/AudioControler.tscn" id="3_g08qv"]
+[ext_resource type="PackedScene" uid="uid://d2fx63eewhnja" path="res://Scenes/Manager/NetworkControler.tscn" id="4_i8cve"]
+[ext_resource type="PackedScene" uid="uid://c82irg0puyrdn" path="res://Scenes/Manager/SettingControler.tscn" id="5_dxltn"]
+[ext_resource type="PackedScene" uid="uid://btjnexg0li7ls" path="res://Scenes/Manager/PlayerControler.tscn" id="6_2b163"]
+[ext_resource type="Script" path="res://Scripts/Manager/PlayerControler.cs" id="7_mi8ul"]
+[ext_resource type="PackedScene" uid="uid://cssrjm07bqjav" path="res://Scenes/Manager/UIControler.tscn" id="8_a8l0a"]
 
 [node name="BigBro" type="Node"]
 script = ExtResource("1_piypy")
 
 [node name="SceneFSM" parent="." instance=ExtResource("2_htbdh")]
 
+[node name="UIControler" parent="." instance=ExtResource("8_a8l0a")]
+
+[node name="SettingControler" parent="." instance=ExtResource("5_dxltn")]
+
+[node name="PlayerControler" parent="." instance=ExtResource("6_2b163")]
+script = ExtResource("7_mi8ul")
+
 [node name="AudioControler" parent="." instance=ExtResource("3_g08qv")]
+
+[node name="NetworkControler" parent="." instance=ExtResource("4_i8cve")]

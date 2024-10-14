@@ -31,9 +31,11 @@ public partial class SceneOfMatchMain : SceneFSMState
         var scene = ResourceLoader.Load<PackedScene>(Path).InstantiateOrNull<ProtoMatchMain>();
         if (scene == null)
         {
-            LogTool.DebugLogDump("Scene instantiate faild");
+            LogTool.DebugLogDump("Scene instantiate faild!");
+            return;
         }
         BigBro.bigBro.AddChild(scene);
+        BigBro.bigBro.MoveChild(scene, 0);
     }
     public override bool ExitCondition()
     {
@@ -48,7 +50,7 @@ public partial class SceneOfMatchMain : SceneFSMState
     public override void OnExit()
     {
         LogTool.DebugLogDump(Name + " OnExit");
-        BigBro.PlayerContainer.QueueFree();
+        PlayerControler.PlayerContainer.QueueFree();
         //BigBro.bigBro.RemoveChild(BigBro.PlayerContainer);
         var node = BigBro.bigBro.GetNodeOrNull<ProtoMatchMain>("ProtoMatchMain");
         node?.QueueFree();

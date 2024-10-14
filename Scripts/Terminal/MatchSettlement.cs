@@ -15,7 +15,7 @@ public partial class MatchSettlement : Node
             return;
         }
         /* set the ui postion */
-        uiContainer.Offset = new Vector2(BigBro.WindowSize.X / 3, BigBro.WindowSize.Y / 4);
+        uiContainer.Offset = new Vector2(UIControler.WindowSize.X / 3, UIControler.WindowSize.Y / 4);
 
         /* get id and score ui components */
         var ID_Labels = uiContainer.GetNodeOrNull<Node2D>("ID_Labels");
@@ -32,7 +32,7 @@ public partial class MatchSettlement : Node
         }
 
         /* sort the player by score */
-        var orderPlayers = BigBro.PlayerContainer.Players.OrderByDescending(player => player.Score);
+        var orderPlayers = PlayerControler.PlayerContainer.Players.OrderByDescending(player => player.Score);
 
         /* set the data */
         int i = 1;

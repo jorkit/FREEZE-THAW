@@ -30,9 +30,11 @@ public partial class SceneOfMatchSettlement : SceneFSMState
         var scene = ResourceLoader.Load<PackedScene>(Path).InstantiateOrNull<MatchSettlement>();
         if (scene == null)
         {
-            LogTool.DebugLogDump("Scene instantiate faild");
+            LogTool.DebugLogDump("Scene instantiate faild!");
+            return;
         }
         BigBro.bigBro.AddChild(scene);
+        BigBro.bigBro.MoveChild(scene, 0);
     }
     public override bool ExitCondition()
     {

@@ -19,21 +19,14 @@ public partial class SceneFSM : Node
     public SceneFSMState CurrentState { set; get; }
     public SceneStateEnum PreState { set; get; }
 
-    public BigBro bigbro;
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
 	{
-        bigbro = GetParent<BigBro>();
-        if (bigbro == null)
-        {
-            LogTool.DebugLogDump("BigBro not found!");
-            return;
-        }
         InitState = SceneStateEnum.GameOpenLoading;
         PreState = SceneStateEnum.GameOpenLoading;
     }
 
-    public void SetInitState()
+    public bool SetInitState()
     {
         var count = GetChildCount();
         while (count > 0)
@@ -43,10 +36,11 @@ public partial class SceneFSM : Node
             {
                 CurrentState = state;
                 CurrentState.OnEnter();
-                return;
+                return true;
             }
         }
         LogTool.DebugLogDump("No init state found!");
+        return false;
     }
 
     /* Prestate change, wait for CurrentState change */

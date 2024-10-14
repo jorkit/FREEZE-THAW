@@ -6,13 +6,12 @@ public partial class ProtoMatchMain : Node
 {
     public override void _EnterTree()
     {
-        var playerContainer = BigBro.PlayerContainer;
+        var playerContainer = PlayerControler.PlayerContainer;
         if (playerContainer == null)
         {
             LogTool.DebugLogDump("PlayerContainer not found!");
             return;
         }
-        BigBro.bigBro.MoveChild(playerContainer, -1);
     }
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()

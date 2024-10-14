@@ -20,7 +20,7 @@ public partial class FreezeThawButton : TouchScreenButton
         Pressed += PressedHandle;
 
         /* set the position according to WindowSize */
-        Position = new Vector2(BigBro.WindowSize.X * 13 / 15, BigBro.WindowSize.Y * 1 / 2);
+        Position = new Vector2(UIControler.WindowSize.X * 13 / 15, UIControler.WindowSize.Y * 1 / 2);
     }
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -63,9 +63,9 @@ public partial class FreezeThawButton : TouchScreenButton
             return;
         }
         LogTool.DebugLogDump("FTB pressed!");
-        if (BigBro.IsMultiplayer == true)
+        if (NetworkControler.IsMultiplayer == true)
         {
-            if (BigBro.MultiplayerApi.IsServer() == false)
+            if (NetworkControler.MultiplayerApi.IsServer() == false)
             {
                 var rpcRes = Rpc("PressedHandleRpc");
                 if (rpcRes != Error.Ok)
@@ -87,7 +87,7 @@ public partial class FreezeThawButton : TouchScreenButton
     [Rpc(mode: MultiplayerApi.RpcMode.Authority, CallLocal = false, TransferMode = MultiplayerPeer.TransferModeEnum.UnreliableOrdered)]
     private void PressedHandleRpc()
     {
-        LogTool.DebugLogDump(GetMultiplayerAuthority().ToString() + " receive FreezeThaw CMD from " + BigBro.MultiplayerApi.GetRemoteSenderId());
+        LogTool.DebugLogDump(GetMultiplayerAuthority().ToString() + " receive FreezeThaw CMD from " + NetworkControler.MultiplayerApi.GetRemoteSenderId());
         _uiContainer.character.FreezeThawButtonPressedHandle();
     }
 }

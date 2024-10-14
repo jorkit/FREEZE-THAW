@@ -32,8 +32,8 @@ public partial class ServerCreateButton : TouchScreenButton
             return;
         }
         LogTool.DebugLogDump(Name + " pressed!");
-        BigBro.MultiplayerApi = Multiplayer;
-        if (BigBro.MultiplayerServerInit() == false)
+        NetworkControler.MultiplayerApi = Multiplayer;
+        if (NetworkControler.MultiplayerServerInit() == false)
         {
             LogTool.DebugLogDump("MultiplayerServerInit faild!");
             return;

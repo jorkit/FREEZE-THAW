@@ -25,7 +25,7 @@ public partial class PlayerContainer : Node
         SCORE_INIT = 300;
 		Players = new List<Player>();
         //ChildEnteredTree += new ChildEnteredTreeEventHandler(ChildEnterTreeHandler);
-		if (BigBro.IsMultiplayer == true)
+		if (NetworkControler.IsMultiplayer == true)
 		{
             _timer = new();
             _timer.Timeout += TimerTimeOutHandler;
@@ -71,7 +71,7 @@ public partial class PlayerContainer : Node
 
     public void PlayerInit(string id)
 	{
-        if (BigBro.IsMultiplayer == true)
+        if (NetworkControler.IsMultiplayer == true)
         {
             string survivorPath;
             string monsterPath;
@@ -136,7 +136,7 @@ public partial class PlayerContainer : Node
 
 	private void TimerTimeOutHandler()
 	{
-        if (BigBro.IsMultiplayer == true && BigBro.MultiplayerApi.IsServer() == false)
+        if (NetworkControler.IsMultiplayer == true && NetworkControler.MultiplayerApi.IsServer() == false)
         {
             var rpcRes = RpcId(MultiplayerPeer.TargetPeerServer, "RequestDataRpc");
             if (rpcRes != Error.Ok)
@@ -154,7 +154,7 @@ public partial class PlayerContainer : Node
     public void RequestDataRpc()
 	{
         var playersJson = JsonConvert.SerializeObject(Players);
-        var rpcRes = RpcId(BigBro.MultiplayerApi.GetRemoteSenderId(), "ResponseDataRpc", playersJson);
+        var rpcRes = RpcId(NetworkControler.MultiplayerApi.GetRemoteSenderId(), "ResponseDataRpc", playersJson);
         if (rpcRes != Error.Ok)
         {
             LogTool.DebugLogDump("ResponseDataRpc failed! " + rpcRes.ToString());
@@ -186,45 +186,5 @@ public partial class PlayerContainer : Node
             }
             label.Text = Players[i].Score.ToString();
         }
-    }
-
-    public static void PlayerTranslate(string id)
-    {
-        if (BigBro.IsMultiplayer == true && BigBro.MultiplayerApi.IsServer() == false)
-        {
-            return;
-        }
-        Survivor player = null;
-        Survivor survivor = null;
-        Monster monster = null;
-        for (int i = 0; i < BigBro.PlayerContainer.Players.Count; i++)
-        {
-            if (BigBro.PlayerContainer.Players[i].Id == BigBro.Monster.Name)
-            {
-                survivor = ResourceLoader.Load<PackedScene>(BigBro.PlayerContainer.Players[i].SurvivorPath).InstantiateOrNull<Survivor>();
-                survivor.Name = BigBro.Monster.Name;
-                survivor.Position = BigBro.Monster.Position;
-                if (BigBro.IsMultiplayer == false && survivor.Name == "1")
-                    BigBro.Player = survivor;
-            }
-            else if (BigBro.PlayerContainer.Players[i].Id == id)
-            {
-                player = BigBro.PlayerContainer.GetNodeOrNull<Survivor>(id);
-                if (player == null)
-                {
-                    LogTool.DebugLogDump("Survivor instance not found!");
-                    return;
-                }
-                monster = ResourceLoader.Load<PackedScene>(BigBro.PlayerContainer.Players[i].MonsterPath).InstantiateOrNull<Monster>();
-                monster.Name = player.Name;
-                monster.Position = player.Position;
-                if (BigBro.IsMultiplayer == false && monster.Name == "1")
-                    BigBro.Player = monster;
-            }
-        }
-        BigBro.Monster?.Free();
-        player?.Free();
-        BigBro.PlayerContainer.AddChild(survivor);
-        BigBro.PlayerContainer.AddChild(monster);
     }
 }

@@ -94,9 +94,9 @@ public partial class FSM : Node
     /* Prestate change, wait for CurrentState change */
     public void PreStateChange(CharacterStateEnum newPreState, bool force)
     {
-        if (BigBro.IsMultiplayer == true)
+        if (NetworkControler.IsMultiplayer == true)
         {
-            if (BigBro.MultiplayerApi.IsServer() == false)
+            if (NetworkControler.MultiplayerApi.IsServer() == false)
             { 
                 return;
             }
@@ -192,9 +192,9 @@ public partial class FSM : Node
     /// </summary>
     private void CheckStateTransition()
     {
-        if (BigBro.IsMultiplayer == true)
+        if (NetworkControler.IsMultiplayer == true)
         {
-            if (BigBro.MultiplayerApi.IsServer() == true)
+            if (NetworkControler.MultiplayerApi.IsServer() == true)
             {
                 var count = GetChildCount();
                 while (count > 0)

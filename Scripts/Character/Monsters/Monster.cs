@@ -12,7 +12,7 @@ public abstract partial class Monster : Character
     {
         base._Ready();
         Speed = 500f;
-        BigBro.Monster = this;
+        PlayerControler.Monster = this;
         AttackArea = GetNodeOrNull<Area2D>("AttackArea");
         if (AttackArea == null)
         {
@@ -38,7 +38,7 @@ public abstract partial class Monster : Character
             if (((Survivor)body).GetCurrentState() < CharacterStateEnum.Hurt)
             {
                 ((Survivor)body).Fsm.PreStateChange(CharacterStateEnum.Hurt, false);
-                BigBro.PlayerContainer.ChangeScore(body.Name, ATTACK_SCORE);
+                PlayerControler.PlayerContainer.ChangeScore(body.Name, ATTACK_SCORE);
             }
         }
     }

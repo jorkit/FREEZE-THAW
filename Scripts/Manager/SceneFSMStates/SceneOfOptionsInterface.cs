@@ -27,19 +27,14 @@ public partial class SceneOfOptionsInterface : SceneFSMState
     public override void OnEnter()
     {
         //LogTool.DebugLogDump(Name + " OnEnter");
-        var source = ResourceLoader.Load<PackedScene>(Path);
-        if (source == null)
-        {
-            LogTool.DebugLogDump("source not found");
-            return;
-        }
-        var scene = source.InstantiateOrNull<OptionsInterface>();
+        var scene = ResourceLoader.Load<PackedScene>(Path).InstantiateOrNull<OptionsInterface>();
         if (scene == null)
         {
-            LogTool.DebugLogDump("scene not found");
+            LogTool.DebugLogDump("Scene instantiate faild!");
             return;
         }
         BigBro.bigBro.AddChild(scene);
+        BigBro.bigBro.MoveChild(scene, 0);
     }
     public override bool ExitCondition()
     {
@@ -50,7 +45,6 @@ public partial class SceneOfOptionsInterface : SceneFSMState
         //LogTool.DebugLogDump(Name + " ExitCondition");
 
         return true;
-
     }
     public override void OnExit()
     {

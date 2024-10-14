@@ -13,12 +13,12 @@ public partial class SceneOfWaitingHall : SceneFSMState
 
     public override void Update(double delta)
     {
-        if (BigBro.IsMultiplayer == true)
+        if (NetworkControler.IsMultiplayer == true)
         {
-            if (BigBro.PlayerContainer.Players.Count == 3)
+            if (PlayerControler.PlayerContainer.Players.Count == 3)
             {
                 SceneFSM.PreStateChange(SceneFsm, SceneStateEnum.MatchStartLoading, true);
-                BigBro.MultiplayerApi.MultiplayerPeer.RefuseNewConnections = true;
+                NetworkControler.MultiplayerApi.MultiplayerPeer.RefuseNewConnections = true;
             }
         }
         else
@@ -43,9 +43,11 @@ public partial class SceneOfWaitingHall : SceneFSMState
         var scene = ResourceLoader.Load<PackedScene>(Path).InstantiateOrNull<WaitingHall>();
         if (scene == null)
         {
-            LogTool.DebugLogDump("Scene instantiate faild");
+            LogTool.DebugLogDump("Scene instantiate faild!");
+            return;
         }
         BigBro.bigBro.AddChild(scene);
+        BigBro.bigBro.MoveChild(scene, 0);
     }
     public override bool ExitCondition()
     {

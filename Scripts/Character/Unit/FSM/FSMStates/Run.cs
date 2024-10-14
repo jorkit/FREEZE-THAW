@@ -12,9 +12,9 @@ public partial class Run : FSMState
 
     public override void Update(double delta)
     {
-        if (BigBro.IsMultiplayer == true)
+        if (NetworkControler.IsMultiplayer == true)
         {
-            if (BigBro.MultiplayerApi.IsServer() == true)
+            if (NetworkControler.MultiplayerApi.IsServer() == true)
             {
                 var velocity = Fsm.character.GetDirection();
                 if (velocity == Vector2.Zero)
