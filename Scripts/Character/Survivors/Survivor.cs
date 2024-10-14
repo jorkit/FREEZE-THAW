@@ -22,7 +22,7 @@ public abstract partial class Survivor : Character
         var direction = GetNodeOrNull<AttackButton>("UIContainer/AttackButton").Direction;
         bullet.Direction = direction;
         bullet.GlobalPosition = Position + direction * 60;
-        bullet.OwnerId = Name;
+        bullet.Owner = this;
         BigBro.bigBro.AddChild(bullet);
     }
 
@@ -33,7 +33,7 @@ public abstract partial class Survivor : Character
             var frameIndex = SelfImage.Frame;
             if (frameIndex == 3)
             {
-                BigBro.AudioControler.Attack("MouseAttackAudio");
+                BigBro.AudioControler.Attack(this, "MouseAttackAudio");
             }
         }
     }

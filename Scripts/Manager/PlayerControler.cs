@@ -16,7 +16,9 @@ public partial class PlayerControler : Node
         if (CreatePlayerContainer() == false)
         {
             LogTool.DebugLogDump("PlayerContainer create failed!");
+            return;
         }
+        AddChild(PlayerContainer);
     }
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.

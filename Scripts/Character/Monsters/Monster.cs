@@ -51,13 +51,7 @@ public abstract partial class Monster : Character
             if (frameIndex == 3)
             {
                 AttackArea.CollisionMask = 4;
-                var attackAudio = GetNodeOrNull<AudioStreamPlayer>("AttackAudio");
-                if (attackAudio == null)
-                {
-                    LogTool.DebugLogDump("AttackAudio not found!");
-                    return;
-                }
-                attackAudio.Play();
+                BigBro.AudioControler.Attack(this, "SandwormAttackAudio");
             }
         }
     }

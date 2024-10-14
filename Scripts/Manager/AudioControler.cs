@@ -14,25 +14,27 @@ public partial class AudioControler : Node
 	{
 	}
 
-	public void Attack(string audioName)
+	public void Attack(Node2D node, string audioName)
 	{
-		var audio = GetNodeOrNull<AudioStreamPlayer>("Attack/" + audioName);
+		var audio = GetNodeOrNull<AudioStreamPlayer2D>("Attack/" + audioName);
 		if (audio == null)
 		{
 			LogTool.DebugLogDump("audio not found!");
 			return;
 		}
-		audio.Play();
+        audio.Position = node.Position;
+        audio.Play();
 	}
 
-	public void Hit(string audioName)
+	public void Hit(Node2D node, string audioName)
 	{
-        var audio = GetNodeOrNull<AudioStreamPlayer>("Hit/" + audioName);
+        var audio = GetNodeOrNull<AudioStreamPlayer2D>("Hit/" + audioName);
         if (audio == null)
         {
             LogTool.DebugLogDump("audio not found!");
             return;
         }
+		audio.Position = node.Position;
         audio.Play();
     }
 }

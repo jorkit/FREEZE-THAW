@@ -10,14 +10,13 @@ public partial class WaitingHall : Node
     {
         if (NetworkControler.IsMultiplayer == true)
         {
-            /* Spawner must add first before playerContainer add and then set the SpawnPath */
+            /* Spawner must be added before playerContainer and then set the SpawnPath */
             NetworkControler.Spawner = new();
             BigBro.NetworkControler.AddChild(NetworkControler.Spawner);
             foreach (var path in Character.CharacterPathList)
             {
                 NetworkControler.Spawner.AddSpawnableScene(path.Value);
             }
-            BigBro.PlayerControler.AddChild(PlayerControler.PlayerContainer);
             NetworkControler.Spawner.SpawnPath = PlayerControler.PlayerContainer.GetPath();
             if (NetworkControler.MultiplayerApi.IsServer() == true)
             {
@@ -27,7 +26,6 @@ public partial class WaitingHall : Node
         }
         else
         {
-            BigBro.bigBro.AddChild(PlayerControler.PlayerContainer);
             //BigBro.PlayerAdd(((int)Character.CharacterTypeEnum.AISandworm).ToString(), Character.CharacterPathList[Character.CharacterTypeEnum.AISandworm]);
             PlayerControler.PlayerAdd("1", Character.CharacterPathList[Character.CharacterTypeEnum.Sandworm]);
             //BigBro.PlayerAdd(((int)Character.CharacterTypeEnum.Mouse).ToString(), Character.CharacterPathList[Character.CharacterTypeEnum.Mouse]);

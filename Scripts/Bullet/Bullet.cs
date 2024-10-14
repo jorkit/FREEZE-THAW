@@ -11,11 +11,10 @@ public abstract partial class Bullet : Area2D
     public Vector2 Direction { get; set; }
     private int HitScore = 5;
 
-    public string OwnerId {  get; set; }
+    public Survivor Owner {  get; set; }
     // Called when the node enters the scene tree for the first time.
     public override async void _Ready()
 	{
-
         BodyEntered += new BodyEnteredEventHandler(BodyEnteredHandle);
         await ToSignal(GetTree().CreateTimer(5), SceneTreeTimer.SignalName.Timeout);
         QueueFree();
@@ -46,8 +45,7 @@ public abstract partial class Bullet : Area2D
 
     private async void BulletHitHandler()
     {
-
-        BigBro.AudioControler.Hit("SlingshotHitAudio");
+        BigBro.AudioControler.Hit(this, "SlingshotHitAudio");
         Visible = false;
         await ToSignal(GetTree().CreateTimer(0.5), SceneTreeTimer.SignalName.Timeout);
         QueueFree();
@@ -58,7 +56,7 @@ public abstract partial class Bullet : Area2D
         var playerContainer = PlayerControler.PlayerContainer;
         if (playerContainer != null)
         {
-            playerContainer.ChangeScore(OwnerId, HitScore);
+            playerContainer.ChangeScore(Owner.Name, HitScore);
         }
     }
 }

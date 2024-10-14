@@ -9,16 +9,19 @@ script = ExtResource("1_8066x")
 
 [node name="Attack" type="Node" parent="."]
 
-[node name="MouseAttackAudio" type="AudioStreamPlayer" parent="Attack"]
+[node name="MouseAttackAudio" type="AudioStreamPlayer2D" parent="Attack"]
 stream = ExtResource("1_25tfn")
+max_distance = 1200.0
 bus = &"Effects"
 
-[node name="SandwormAttackAudio" type="AudioStreamPlayer" parent="Attack"]
+[node name="SandwormAttackAudio" type="AudioStreamPlayer2D" parent="Attack"]
 stream = ExtResource("1_25tfn")
+max_distance = 1200.0
 bus = &"Effects"
 
 [node name="Hit" type="Node" parent="."]
 
-[node name="SlingshotHitAudio" type="AudioStreamPlayer" parent="Hit"]
+[node name="SlingshotHitAudio" type="AudioStreamPlayer2D" parent="Hit"]
 stream = ExtResource("2_m3yu7")
+max_distance = 1200.0
 bus = &"Effects"
