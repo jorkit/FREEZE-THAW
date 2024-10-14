@@ -35,7 +35,6 @@ public partial class Unsealing : FSMState
     {
         LogTool.DebugLogDump(Name + " OnEnter!");
         Fsm.character.AnimatitionFinishedHandleRegiste(this);
-        Fsm.character.Attack();
     }
 
     private void AnimationFinishedHandler()

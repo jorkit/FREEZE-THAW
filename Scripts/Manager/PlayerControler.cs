@@ -1,6 +1,8 @@
 using FreezeThaw.Utils;
 using Godot;
 using Godot.Collections;
+using System.IO;
+using System.Xml.Linq;
 using static PlayerContainer;
 
 public partial class PlayerControler : Node
@@ -118,22 +120,47 @@ public partial class PlayerControler : Node
 
     public static void PlayerTranslateToAI(string id)
     {
-        var quittedClient = PlayerContainer.GetNodeOrNull(id.ToString());
+        var quittedClient = PlayerContainer.GetNodeOrNull<Character>(id);
         if (quittedClient == null)
         {
             LogTool.DebugLogDump("QuittedClient not found!");
             return;
         }
         string AIPath;
+        Player quittedPlayer;
+        int i;
+        for (i = 0; i < PlayerContainer.Players.Count; i++)
+        {
+            if (PlayerContainer.Players[i].Id == id)
+            {
+                break;
+            }
+        }
+        quittedPlayer = PlayerContainer.Players[i];
         if (quittedClient.GetType().BaseType == typeof(Monster))
         {
-            AIPath = PlayerContainer.Players.Find(character => character.Id == id.ToString()).AIMonsterPath;
+            AIPath = quittedPlayer.AIMonsterPath;
         }
         else
         {
-            AIPath = PlayerContainer.Players.Find(character => character.Id == id.ToString()).AISurvivorPath;
+            AIPath = quittedPlayer.AISurvivorPath;
         }
-        PlayerRemove(id.ToString());
-        PlayerAdd(id.ToString(), AIPath);
+        /* replace the Path */
+        quittedPlayer.SurvivorPath = quittedPlayer.AISurvivorPath;
+        quittedPlayer.MonsterPath = quittedPlayer.AIMonsterPath;
+        PlayerContainer.Players[i] = quittedPlayer;
+
+        /* instantiate AI */
+        var AI = ResourceLoader.Load<PackedScene>(AIPath).Instantiate<Character>();
+        if (AI == null)
+        {
+            LogTool.DebugLogDump("AI Instantiate faild!");
+            return;
+        }
+        AI.Name = id;
+        AI.Position = quittedClient.Position;
+        /* Translate */
+        quittedClient.Free();
+        PlayerContainer.AddChild(AI);
     }
 }

@@ -197,6 +197,7 @@ public partial class Joystick : Sprite2D
             LogTool.DebugLogDump("Translating");
             return;
         }
+        /* AI Monster */
         if (_uiContainer.character.GetType().BaseType.BaseType == typeof(Monster))
         {
             AiFTBTrigger();
