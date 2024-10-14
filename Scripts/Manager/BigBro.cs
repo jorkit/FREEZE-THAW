@@ -12,11 +12,13 @@ public partial class BigBro : Node
     public static Vector2I ScreenSize {  set; get; }
     public static Vector2I WindowSize { set; get; }
 
+    /* Multiplayer */
     public static bool IsMultiplayer { set; get; }
     public static MultiplayerApi MultiplayerApi { set; get; }
     public static ENetMultiplayerPeer Peer { set; get; }
     public static MultiplayerSpawner Spawner { set; get; }
     
+    /* Player */
     public static Character Player { set; get; }
     public static Monster Monster { set; get; }
     public static PlayerContainer PlayerContainer { set; get; }
@@ -24,6 +26,9 @@ public partial class BigBro : Node
     public static Godot.Collections.Array<Survivor> Survivors { set; get; }
     
     public static SceneFSM SceneFSM { set; get; }
+
+    /* Audio */
+    public static AudioControler AudioControler { set; get; }
 
     public override void _EnterTree()
     {
@@ -54,7 +59,19 @@ public partial class BigBro : Node
 	{
         BigBro.bigBro = this;
         SceneFSM = GetNodeOrNull<SceneFSM>("SceneFSM");
+        if (SceneFSM == null)
+        {
+            LogTool.DebugLogDump("SceneFSM not found!");
+            return;
+        }
         SceneFSM.SetInitState();
+
+        AudioControler = GetNodeOrNull<AudioControler>("AudioControler");
+        if (AudioControler == null)
+        {
+            LogTool.DebugLogDump("AudioControler not found!");
+            return;
+        }
     }
 
     public static bool MultiplayerServerInit()

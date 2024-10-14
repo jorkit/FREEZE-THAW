@@ -61,9 +61,8 @@ public partial class Attack : FSMState
 
         return true;
     }
-    public override void OnExit()
+    public override async void OnExit()
     {
         LogTool.DebugLogDump(Name + " OnExit!");
-        Fsm.character.GetNodeOrNull<AttackButton>("UIContainer/AttackButton").CanBePressed = true;
     }
 }

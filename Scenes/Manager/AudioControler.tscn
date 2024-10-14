@@ -1,0 +1,24 @@
+[gd_scene load_steps=4 format=3 uid="uid://dyfku58l8y4wa"]
+
+[ext_resource type="AudioStream" uid="uid://b74xihelyqfiy" path="res://Static/Audio/弹弓.wav" id="1_25tfn"]
+[ext_resource type="Script" path="res://Scripts/Manager/AudioControler.cs" id="1_8066x"]
+[ext_resource type="AudioStream" uid="uid://biarchsgxq2l1" path="res://Static/Audio/弹弓击中.mp3" id="2_m3yu7"]
+
+[node name="AudioControler" type="Node"]
+script = ExtResource("1_8066x")
+
+[node name="Attack" type="Node" parent="."]
+
+[node name="MouseAttackAudio" type="AudioStreamPlayer" parent="Attack"]
+stream = ExtResource("1_25tfn")
+bus = &"Effects"
+
+[node name="SandwormAttackAudio" type="AudioStreamPlayer" parent="Attack"]
+stream = ExtResource("1_25tfn")
+bus = &"Effects"
+
+[node name="Hit" type="Node" parent="."]
+
+[node name="SlingshotHitAudio" type="AudioStreamPlayer" parent="Hit"]
+stream = ExtResource("2_m3yu7")
+bus = &"Effects"

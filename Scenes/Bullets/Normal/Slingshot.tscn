@@ -1,8 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://4teylv6inl7"]
+[gd_scene load_steps=4 format=3 uid="uid://4teylv6inl7"]
 
 [ext_resource type="Texture2D" uid="uid://dl7f4lv0k4n05" path="res://Static/UI/Joystick/摇杆.webp" id="1_hw8fj"]
 [ext_resource type="Script" path="res://Scripts/Bullet/Normal/Slingshot.cs" id="1_pc3pw"]
-[ext_resource type="AudioStream" uid="uid://biarchsgxq2l1" path="res://Static/Audio/弹弓击中.mp3" id="3_s2bri"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_mey84"]
 radius = 27.0185
@@ -17,6 +16,3 @@ texture = ExtResource("1_hw8fj")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_mey84")
-
-[node name="HitAudio" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("3_s2bri")

@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://dm1ffsfo41pbh"]
+[gd_scene load_steps=18 format=3 uid="uid://dm1ffsfo41pbh"]
 
 [ext_resource type="Script" path="res://Scripts/Character/Monsters/AISandworm.cs" id="1_aiku4"]
 [ext_resource type="Texture2D" uid="uid://cm57d6pgjj4kj" path="res://Static/UI/Joystick/摇杆2.webp" id="2_g414w"]
@@ -15,7 +15,6 @@
 [ext_resource type="PackedScene" uid="uid://p2rmwudi0j26" path="res://Scenes/Character/Unit/FSM/FSMStates/Sealing.tscn" id="13_i8cgc"]
 [ext_resource type="PackedScene" uid="uid://deqsnwihsugpv" path="res://Scenes/Character/Unit/RadiusCheck.tscn" id="14_ktpgs"]
 [ext_resource type="PackedScene" uid="uid://bi0satbrfpk4s" path="res://Scenes/Character/Unit/AIRadiusCheck.tscn" id="15_y0u4w"]
-[ext_resource type="AudioStream" uid="uid://b74xihelyqfiy" path="res://Static/Audio/弹弓.wav" id="16_f736v"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_6o4j5"]
 animations = [{
@@ -165,6 +164,3 @@ collision_layer = 2
 collision_mask = 7
 
 [node name="AIRadiusCheck" parent="." instance=ExtResource("15_y0u4w")]
-
-[node name="AttackAudio" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("16_f736v")

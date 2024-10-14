@@ -46,14 +46,8 @@ public abstract partial class Bullet : Area2D
 
     private async void BulletHitHandler()
     {
-        
-        var hitAudio = GetNodeOrNull<AudioStreamPlayer>("HitAudio");
-        if (hitAudio == null)
-        {
-            LogTool.DebugLogDump("HitAudio not found!");
-            return;
-        }
-        hitAudio.Play();
+
+        BigBro.AudioControler.Hit("SlingshotHitAudio");
         Visible = false;
         await ToSignal(GetTree().CreateTimer(0.5), SceneTreeTimer.SignalName.Timeout);
         QueueFree();

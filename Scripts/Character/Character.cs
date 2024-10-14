@@ -27,7 +27,6 @@ public abstract partial class Character : CharacterBody2D
     public FSM Fsm;
     public float Speed;
     public AnimatedSprite2D SelfImage { get; set; }
-    public AudioStreamPlayer AttackAudio {  get; set; }
     // public const float JumpVelocity = -400.0f;
 
     public override void _EnterTree()
@@ -91,12 +90,6 @@ public abstract partial class Character : CharacterBody2D
         if (SelfImage == null)
         {
             LogTool.DebugLogDump("SelfImage not found!");
-            return;
-        }
-        AttackAudio = GetNodeOrNull<AudioStreamPlayer>("AttackAudio");
-        if (AttackAudio == null)
-        {
-            LogTool.DebugLogDump("AttackAudio not found!");
             return;
         }
         GetNodeOrNull<Polygon2D>("AttackDirection").Visible = false;

@@ -36,19 +36,6 @@ public partial class AttackButton : Sprite2D
  
     }
 
-    // Called every frame. 'delta' is the elapsed time since the previous frame.
-    public override void _Process(double delta)
-    {
-        if (_uiContainer.character.GetCurrentState() >= CharacterStateEnum.Attack)
-        {
-            CanBePressed = false;
-        }
-        else
-        {
-            CanBePressed = true;
-        }
-    }
-
     public override void _Input(InputEvent @event)
     {
         if (_uiContainer.character.GetType().BaseType.BaseType != typeof(Character))
@@ -175,7 +162,7 @@ public partial class AttackButton : Sprite2D
         _point.Position = newPosition.Normalized();
     }
 
-    public void ReleaseHandle()
+    public async void ReleaseHandle()
     {
         if (!CanBePressed)
         {
@@ -222,6 +209,10 @@ public partial class AttackButton : Sprite2D
         {
             _uiContainer.character.AttackButtonPressedHandle();
         }
+
+        /* Post-cast Delay */
+        await ToSignal(GetTree().CreateTimer(1), SceneTreeTimer.SignalName.Timeout);
+        CanBePressed = true;
     }
 
     [Rpc(mode: MultiplayerApi.RpcMode.AnyPeer, CallLocal = false, TransferMode = MultiplayerPeer.TransferModeEnum.UnreliableOrdered)]

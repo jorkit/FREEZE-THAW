@@ -33,13 +33,7 @@ public abstract partial class Survivor : Character
             var frameIndex = SelfImage.Frame;
             if (frameIndex == 3)
             {
-                var attackAudio = GetNodeOrNull<AudioStreamPlayer>("AttackAudio");
-                if (attackAudio == null)
-                {
-                    LogTool.DebugLogDump("AttackAudio not found!");
-                    return;
-                }
-                attackAudio.Play();
+                BigBro.AudioControler.Attack("MouseAttackAudio");
             }
         }
     }

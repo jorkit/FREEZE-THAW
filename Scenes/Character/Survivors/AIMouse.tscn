@@ -1,4 +1,4 @@
-[gd_scene load_steps=37 format=3 uid="uid://5st7jatbl5gx"]
+[gd_scene load_steps=36 format=3 uid="uid://5st7jatbl5gx"]
 
 [ext_resource type="Script" path="res://Scripts/Character/Survivors/AIMouse.cs" id="1_y1ag0"]
 [ext_resource type="Texture2D" uid="uid://cm57d6pgjj4kj" path="res://Static/UI/Joystick/摇杆2.webp" id="2_pcfnb"]
@@ -20,7 +20,6 @@
 [ext_resource type="PackedScene" uid="uid://djtg8ri6l5pcg" path="res://Scenes/Character/Unit/FSM/FSMStates/Freeing.tscn" id="18_i1u18"]
 [ext_resource type="PackedScene" uid="uid://n0sxm7qpqn70" path="res://Scenes/Character/Unit/FSM/FSMStates/Die.tscn" id="19_ft1qv"]
 [ext_resource type="PackedScene" uid="uid://deqsnwihsugpv" path="res://Scenes/Character/Unit/RadiusCheck.tscn" id="20_lud6g"]
-[ext_resource type="AudioStream" uid="uid://b74xihelyqfiy" path="res://Static/Audio/弹弓.wav" id="21_p6x2d"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_jrik5"]
 atlas = ExtResource("4_r4k35")
@@ -368,6 +367,3 @@ shape = SubResource("CapsuleShape2D_pnk0x")
 [node name="Die" parent="FSM" instance=ExtResource("19_ft1qv")]
 
 [node name="RadiusCheck" parent="." instance=ExtResource("20_lud6g")]
-
-[node name="AttackAudio" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("21_p6x2d")

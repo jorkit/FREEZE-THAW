@@ -1,4 +1,4 @@
-[gd_scene load_steps=37 format=3 uid="uid://cb64aufhpklb2"]
+[gd_scene load_steps=36 format=3 uid="uid://cb64aufhpklb2"]
 
 [ext_resource type="Script" path="res://Scripts/Character/Survivors/Mouse.cs" id="1_4hk77"]
 [ext_resource type="Texture2D" uid="uid://cm57d6pgjj4kj" path="res://Static/UI/Joystick/摇杆2.webp" id="2_734kd"]
@@ -20,7 +20,6 @@
 [ext_resource type="PackedScene" uid="uid://b2sbowkq3x7lb" path="res://Scenes/Character/Unit/FSM/FSMStates/Sealed.tscn" id="14_ayw1b"]
 [ext_resource type="PackedScene" uid="uid://dqra8hoygdbsh" path="res://Scenes/Character/Unit/FSM/FSMStates/Thawing.tscn" id="15_5aps4"]
 [ext_resource type="PackedScene" uid="uid://de877pbxdenht" path="res://Scenes/Character/Unit/FSM/FSMStates/Unsealing.tscn" id="16_y0esc"]
-[ext_resource type="AudioStream" uid="uid://b74xihelyqfiy" path="res://Static/Audio/弹弓.wav" id="21_m4100"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_jrik5"]
 atlas = ExtResource("2_ye2ph")
@@ -365,6 +364,3 @@ shape = SubResource("CapsuleShape2D_pnk0x")
 [node name="Die" parent="FSM" instance=ExtResource("7_dwbw4")]
 
 [node name="RadiusCheck" parent="." instance=ExtResource("5_xjjew")]
-
-[node name="AttackAudio" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("21_m4100")
