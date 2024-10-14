@@ -65,6 +65,6 @@ public partial class NetworkControler : Node
     public static void PeerDisConnectHandle(long id)
     {
         LogTool.DebugLogDump("Client[" + id + "]Disconnected!");
-        PlayerControler.PlayerRemove(id.ToString());
+        PlayerControler.PlayerTranslateToAI(id.ToString());
     }
 }

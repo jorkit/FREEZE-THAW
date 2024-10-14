@@ -2,8 +2,6 @@ using FreezeThaw.Utils;
 using Godot;
 using System.Collections.Generic;
 using Newtonsoft.Json;
-using static System.Formats.Asn1.AsnWriter;
-using static PlayerContainer;
 
 public partial class PlayerContainer : Node
 {
@@ -13,8 +11,10 @@ public partial class PlayerContainer : Node
 		public string NickName;
 		public int Score;
         public string SurvivorPath;
+        public string AISurvivorPath;
         public string MonsterPath;
-	}
+        public string AIMonsterPath;
+    }
     public List<Player> Players { set; get; }
 	public int SCORE_INIT { set; get; }
 
@@ -64,58 +64,78 @@ public partial class PlayerContainer : Node
         }
     }
 
-    public void TimerStop()
+    public static void TimerStop()
     {
         _timer.Stop();
     }
 
     public void PlayerInit(string id)
 	{
+        string SurvivorPath;
+        string AISurvivorPath;
+        string MonsterPath;
+        string AIMonsterPath;
         if (NetworkControler.IsMultiplayer == true)
         {
-            string survivorPath;
-            string monsterPath;
+            /* if player exist */
+            var player = Players.Find(character => character.Id == id);
+            if (player.Id == id)
+            {
+                return;
+            }
+
             if (id.ToInt() < 0)
             {
-                survivorPath = Character.CharacterPathList[Character.CharacterTypeEnum.AIMouse];
-                monsterPath = Character.CharacterPathList[Character.CharacterTypeEnum.AISandworm];
+                SurvivorPath = Character.CharacterPathList[Character.CharacterTypeEnum.AIMouse];
+                AISurvivorPath = SurvivorPath;
+                MonsterPath = Character.CharacterPathList[Character.CharacterTypeEnum.AISandworm];
+                AIMonsterPath = MonsterPath;
             }
             else
             {
-                survivorPath = Character.CharacterPathList[Character.CharacterTypeEnum.Mouse];
-                monsterPath = Character.CharacterPathList[Character.CharacterTypeEnum.Sandworm];
+                SurvivorPath = Character.CharacterPathList[Character.CharacterTypeEnum.Mouse];
+                AISurvivorPath = Character.CharacterPathList[Character.CharacterTypeEnum.AIMouse];
+                MonsterPath = Character.CharacterPathList[Character.CharacterTypeEnum.Sandworm];
+                AIMonsterPath = Character.CharacterPathList[Character.CharacterTypeEnum.AISandworm];
             }
-            Player newPlayer = new()
+             Player newPlayer = new()
             {
                 Id = id,
                 NickName = "",
                 Score = SCORE_INIT,
-                SurvivorPath = survivorPath,
-                MonsterPath = monsterPath,
-            };
+                SurvivorPath = SurvivorPath,
+                AISurvivorPath = AISurvivorPath,
+                MonsterPath = MonsterPath,
+                AIMonsterPath = AIMonsterPath
+
+             };
             Players.Add(newPlayer);
         }
         else
         {
-            string survivorPath;
-            string monsterPath;
             if (id != "1")
             {
-                survivorPath = Character.CharacterPathList[Character.CharacterTypeEnum.AIMouse];
-                monsterPath = Character.CharacterPathList[Character.CharacterTypeEnum.AISandworm];
+                SurvivorPath = Character.CharacterPathList[Character.CharacterTypeEnum.AIMouse];
+                AISurvivorPath = SurvivorPath;
+                MonsterPath = Character.CharacterPathList[Character.CharacterTypeEnum.AISandworm];
+                AIMonsterPath = MonsterPath;
             }
             else
             {
-                survivorPath = Character.CharacterPathList[Character.CharacterTypeEnum.Mouse];
-                monsterPath = Character.CharacterPathList[Character.CharacterTypeEnum.Sandworm];
+                SurvivorPath = Character.CharacterPathList[Character.CharacterTypeEnum.Mouse];
+                AISurvivorPath = SurvivorPath;
+                MonsterPath = Character.CharacterPathList[Character.CharacterTypeEnum.Sandworm];
+                AIMonsterPath = MonsterPath;
             }
             Player newPlayer = new()
             {
                 Id = id,
                 NickName = "",
                 Score = SCORE_INIT,
-                SurvivorPath = survivorPath,
-                MonsterPath = monsterPath,
+                SurvivorPath = SurvivorPath,
+                AISurvivorPath = AISurvivorPath,
+                MonsterPath = MonsterPath,
+                AIMonsterPath = AIMonsterPath
             };
             Players.Add(newPlayer);
         }

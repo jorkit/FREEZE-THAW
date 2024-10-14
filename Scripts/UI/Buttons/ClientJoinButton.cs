@@ -61,7 +61,7 @@ public partial class ClientJoinButton : TouchScreenButton
     private void ServerDisconnectedHandler()
     {
         LogTool.DebugLogDump("Server connect lost!");
-        PlayerControler.PlayerContainer.TimerStop();
+        PlayerContainer.TimerStop();
         NetworkControler.Peer.Close();
     }
 

@@ -1,6 +1,7 @@
 using FreezeThaw.Utils;
 using Godot;
 using Godot.Collections;
+using static PlayerContainer;
 
 public partial class PlayerControler : Node
 {
@@ -61,7 +62,8 @@ public partial class PlayerControler : Node
         var quittedClient = PlayerContainer.GetNodeOrNull(id.ToString());
         if (quittedClient != null)
         {
-            quittedClient.QueueFree();
+            quittedClient.Free();
+            /*
             for (int i = 0; i < PlayerContainer.Players.Count; i++)
             {
                 if (PlayerContainer.Players[i].Id == id)
@@ -70,6 +72,7 @@ public partial class PlayerControler : Node
                     break;
                 }
             }
+            */
         }
     }
 
@@ -111,5 +114,26 @@ public partial class PlayerControler : Node
         player?.Free();
         PlayerContainer.AddChild(survivor);
         PlayerContainer.AddChild(monster);
+    }
+
+    public static void PlayerTranslateToAI(string id)
+    {
+        var quittedClient = PlayerContainer.GetNodeOrNull(id.ToString());
+        if (quittedClient == null)
+        {
+            LogTool.DebugLogDump("QuittedClient not found!");
+            return;
+        }
+        string AIPath;
+        if (quittedClient.GetType().BaseType == typeof(Monster))
+        {
+            AIPath = PlayerContainer.Players.Find(character => character.Id == id.ToString()).AIMonsterPath;
+        }
+        else
+        {
+            AIPath = PlayerContainer.Players.Find(character => character.Id == id.ToString()).AISurvivorPath;
+        }
+        PlayerRemove(id.ToString());
+        PlayerAdd(id.ToString(), AIPath);
     }
 }
