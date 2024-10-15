@@ -1,0 +1,47 @@
+[gd_scene load_steps=4 format=3 uid="uid://dgi563jch1l4r"]
+
+[ext_resource type="Texture2D" uid="uid://dbprk6mu0s3cp" path="res://Static/UI/Setting/SettingBackground.webp" id="1_v6pvd"]
+[ext_resource type="Script" path="res://Scripts/UI/Setting/HSliderEffectsAudio.cs" id="2_sixmk"]
+[ext_resource type="Script" path="res://Scripts/UI/Setting/HSliderMasterAudio.cs" id="2_snju4"]
+
+[node name="SettingContainer" type="CanvasLayer"]
+
+[node name="Background" type="Sprite2D" parent="."]
+position = Vector2(376, 248)
+texture = ExtResource("1_v6pvd")
+
+[node name="LabelMaterAudio" type="Label" parent="."]
+offset_left = 136.0
+offset_top = 128.0
+offset_right = 184.0
+offset_bottom = 151.0
+scale = Vector2(2, 2)
+text = "主音量"
+
+[node name="HSliderMasterAudio" type="HSlider" parent="."]
+offset_left = 256.0
+offset_top = 136.0
+offset_right = 440.0
+offset_bottom = 160.0
+scale = Vector2(1.5, 1.5)
+max_value = 1.0
+step = 0.1
+script = ExtResource("2_snju4")
+
+[node name="LabelEffectsAudio" type="Label" parent="."]
+offset_left = 168.0
+offset_top = 200.0
+offset_right = 208.0
+offset_bottom = 223.0
+scale = Vector2(2, 2)
+text = "音效"
+
+[node name="HSliderEffectsAudio" type="HSlider" parent="."]
+offset_left = 256.0
+offset_top = 208.0
+offset_right = 440.0
+offset_bottom = 232.0
+scale = Vector2(1.5, 1.5)
+max_value = 1.0
+step = 0.1
+script = ExtResource("2_sixmk")

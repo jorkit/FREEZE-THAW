@@ -14,13 +14,13 @@ script = ExtResource("1_piypy")
 
 [node name="SceneFSM" parent="." instance=ExtResource("2_htbdh")]
 
-[node name="UIControler" parent="." instance=ExtResource("8_a8l0a")]
-
 [node name="SettingControler" parent="." instance=ExtResource("5_dxltn")]
+
+[node name="AudioControler" parent="." instance=ExtResource("3_g08qv")]
+
+[node name="UIControler" parent="." instance=ExtResource("8_a8l0a")]
 
 [node name="PlayerControler" parent="." instance=ExtResource("6_2b163")]
 script = ExtResource("7_mi8ul")
-
-[node name="AudioControler" parent="." instance=ExtResource("3_g08qv")]
 
 [node name="NetworkControler" parent="." instance=ExtResource("4_i8cve")]

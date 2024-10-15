@@ -1,6 +1,9 @@
-[gd_scene load_steps=2 format=3 uid="uid://cssrjm07bqjav"]
+[gd_scene load_steps=3 format=3 uid="uid://cssrjm07bqjav"]
 
 [ext_resource type="Script" path="res://Scripts/Manager/UIControler.cs" id="1_xo44p"]
+[ext_resource type="PackedScene" uid="uid://dgi563jch1l4r" path="res://Scenes/UI/Setting/SettingContainer.tscn" id="2_xb0xo"]
 
 [node name="UIControler" type="Node"]
 script = ExtResource("1_xo44p")
+
+[node name="SettingContainer" parent="." instance=ExtResource("2_xb0xo")]
