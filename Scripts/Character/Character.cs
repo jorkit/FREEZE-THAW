@@ -1,6 +1,7 @@
 using FreezeThaw.Utils;
 using Godot;
 using System;
+using System.ComponentModel;
 using System.Threading;
 
 public abstract partial class Character : CharacterBody2D
@@ -50,9 +51,6 @@ public abstract partial class Character : CharacterBody2D
             /* AI in multiplayer */
             if (GetType().BaseType.BaseType != typeof(Character))
             {
-                var MultiplayerSynchronizer = GetNodeOrNull<MultiplayerSynchronizer>("MultiplayerSynchronizer");
-                if (MultiplayerSynchronizer != null)
-                    RemoveChild(MultiplayerSynchronizer);
                 /* hide the AIs' UIContainer and remove their Camera */
                 GetNode<UIContainer>("UIContainer").Visible = false;
                 RemoveChild(GetNode<Camera2D>("CharacterCamera"));
@@ -65,9 +63,6 @@ public abstract partial class Character : CharacterBody2D
             {
                 Position = new Vector2(new Random().Next(1000), new Random().Next(1000));
             }
-            var MultiplayerSynchronizer = GetNodeOrNull<MultiplayerSynchronizer>("MultiplayerSynchronizer");
-            if (MultiplayerSynchronizer != null)
-                RemoveChild(MultiplayerSynchronizer);
             if (this != PlayerControler.Player)
             {
                 GetNode<UIContainer>("UIContainer").Visible = false;
@@ -106,11 +101,11 @@ public abstract partial class Character : CharacterBody2D
 
     public override void _PhysicsProcess(double delta)
     {
-        if (Fsm == null)
+        if (GetType().BaseType.BaseType != typeof(Character))
         {
-            LogTool.DebugLogDump("Character not found");
-            return;
+            AIRunning();
         }
+
         if (NetworkControler.IsMultiplayer != true)
         {
             if (GetCurrentState() != CharacterStateEnum.Run && GetCurrentState() != CharacterStateEnum.Hurt)
@@ -118,6 +113,7 @@ public abstract partial class Character : CharacterBody2D
                 return;
             }
         }
+        
         /* get Collide info */
         if (Fsm.character.MoveAndSlide() == true)
         {
@@ -217,6 +213,138 @@ public abstract partial class Character : CharacterBody2D
             {
                 LogTool.DebugLogDump("AnimationFinishedHandler connect to singal failed! " + connectRes.ToString());
             }
+        }
+    }
+
+    /* AI related */
+    private void AIRunning()
+    {
+        if (NetworkControler.IsMultiplayer == true && NetworkControler.MultiplayerApi.IsServer() == false)
+        {
+            return;
+        }
+        if (PlayerControler.Monster == null)
+        {
+            LogTool.DebugLogDump("Wait for Translating");
+            return;
+        }
+        var point = GetNodeOrNull<Sprite2D>("UIContainer/Joystick/Point");
+        if (point == null)
+        {
+            LogTool.DebugLogDump("Joystick point not found!");
+            return;
+        }
+        /* AI Monster */
+        if (GetType().BaseType.BaseType == typeof(Monster))
+        {
+            AiFTBTrigger();
+            /* Detect the survivor */
+            if (GetNodeOrNull<AIRadiusCheck>("AIRadiusCheck").SurvivorsInArea.Count <= 0)
+            {
+                point.Position = Vector2.Zero;
+                return;
+            }
+            var target = GetNodeOrNull<AIRadiusCheck>("AIRadiusCheck").SurvivorsInArea.Find(survivor => survivor.GetCurrentState() != CharacterStateEnum.Sealed);
+            if (target == null)
+            {
+                point.Position = Vector2.Zero;
+                return;
+            }
+            /* chase the survivor */
+            if (Position.DistanceTo(target.Position) > 150)
+            {
+                point.Position = (target.Position - Position).Normalized();
+            }
+            /* attach the survivor */
+            else
+            {
+                point.Position = Vector2.Zero;
+                var attackDirection = (target.Position - Position).Normalized();
+                if (attackDirection == Vector2.Zero)
+                {
+                    return;
+                }
+                AiATBTrigger(attackDirection);
+            }
+        }
+        /* AI Survivor */
+        else
+        {
+            /* Freezing or Sealed can do Nothing */
+            if (GetCurrentState() == CharacterStateEnum.Freezing || GetCurrentState() > CharacterStateEnum.Freezed)
+            {
+                return;
+            }
+            /* Freeing other survivor */
+            var survivor = GetNodeOrNull<RadiusCheck>("RadiusCheck").SurvivorsInArea.Find(survivor => survivor.GetCurrentState() == CharacterStateEnum.Sealed);
+            if (survivor != null)
+            {
+                AiFTBTrigger();
+                return;
+            }
+            /* Freezed state */
+            if (GetCurrentState() == CharacterStateEnum.Freezed)
+            {
+                AiFTBTrigger();
+                return;
+            }
+            /* Freezing to protect self */
+            if (Position.DistanceTo(PlayerControler.Monster.Position) < 150)
+            {
+                AiFTBTrigger();
+                return;
+            }
+            /* control the distance to Monster large than 1000 */
+            else if (Position.DistanceTo(PlayerControler.Monster.Position) < 1000)
+            {
+                point.Position = (Position - PlayerControler.Monster.Position).Normalized();
+            }
+            else if (Position.DistanceTo(PlayerControler.Monster.Position) > 1100)
+            {
+                point.Position = (PlayerControler.Monster.Position - Position).Normalized();
+            }
+            /* attack in safe distance */
+            else
+            {
+                point.Position = Vector2.Zero;
+                var attackDirection = (PlayerControler.Monster.Position - Position).Normalized();
+                if (attackDirection == Vector2.Zero)
+                {
+                    return;
+                }
+                AiATBTrigger(attackDirection);
+            }
+        }
+    }
+
+
+    private void AiFTBTrigger()
+    {
+        var FTB = GetNodeOrNull<FreezeThawButton>("UIContainer/FreezeThawButton");
+        if (FTB == null)
+        {
+            LogTool.DebugLogDump("FTB not found!");
+            return;
+        }
+        if (FTB.CanBePressed == true)
+        {
+            FTB.PressedHandle();
+            return;
+        }
+    }
+
+    private void AiATBTrigger(Vector2 direction)
+    {
+        var ATB = GetNodeOrNull<AttackButton>("UIContainer/AttackButton");
+        if (ATB == null)
+        {
+            LogTool.DebugLogDump("ATB not found!");
+            return;
+        }
+        if (ATB.CanBePressed == true)
+        {
+            ATB.SetNewPosition(direction);
+            ATB.ReleaseHandle();
         }
     }
 }

@@ -38,23 +38,9 @@ public partial class AttackButton : Sprite2D
 
     public override void _Input(InputEvent @event)
     {
-        if (_uiContainer.character.GetType().BaseType.BaseType != typeof(Character))
-        { 
-            return; 
-        }
-        if (NetworkControler.IsMultiplayer == true)
+        if (CanBePressed == false)
         {
-            if (CanBePressed == false || IsMultiplayerAuthority() == false)
-            {
-                return;
-            }
-        }
-        else
-        {
-            if (CanBePressed == false || _uiContainer.character != PlayerControler.Player)
-            {
-                return;
-            }
+            return;
         }
         
         if (XBOXJoystickHandle(@event) == true)

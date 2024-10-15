@@ -14,6 +14,14 @@ public partial class UIContainer : CanvasLayer
             LogTool.DebugLogDump("Character not found!");
             return;
         }
+        if (character.GetType().BaseType.BaseType != typeof(Character) || IsMultiplayerAuthority() == false)
+        {
+            var children = GetChildren();
+            foreach (var child in children)
+            {
+                child.SetProcessInput(false);
+            }
+        }
     }
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.

@@ -56,16 +56,6 @@ public partial class FSM : Node
         LogTool.DebugLogDump("No init state found!");
     }
 
-    private void RemoveSelf()
-    {
-        GetParent().RemoveChild(this);
-    }
-
-    // Called every frame. 'delta' is the elapsed time since the previous frame.
-    public override void _Process(double delta)
-    {
-    }
-
     public override void _PhysicsProcess(double delta)
     {
         if (CurrentState != null)
@@ -227,12 +217,7 @@ public partial class FSM : Node
             var count = GetChildCount();
             while (count > 0)
             {
-                FSMState state = this?.GetChildOrNull<FSMState>(--count);
-                if (state == null)
-                {
-                    LogTool.DebugLogDump("FSMState not found!");
-                    return;
-                }
+                FSMState state = GetChild<FSMState>(--count);
                 if (state == CurrentState)
                 {
                     continue;

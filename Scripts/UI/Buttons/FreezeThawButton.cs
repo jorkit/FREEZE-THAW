@@ -58,7 +58,7 @@ public partial class FreezeThawButton : TouchScreenButton
 
 	public void PressedHandle()
 	{
-        if (CanBePressed == false  || (IsMultiplayerAuthority() == false && _uiContainer.character.GetType().BaseType.BaseType == typeof(Character)))
+        if (CanBePressed == false)
         {
             return;
         }
