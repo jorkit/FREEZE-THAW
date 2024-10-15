@@ -8,6 +8,7 @@ public partial class AudioControler : Node
 	{
 		Master = 0,
 		Effects,
+		BGM,
 		MAX
 	}
 
