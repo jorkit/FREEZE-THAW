@@ -24,6 +24,6 @@ public partial class SettingOpenButton : TouchScreenButton
         {
             return;
         }
-        UIControler.SettingContainer.Popup();
+        UIControler.SettingContainer.Visible = true;
     }
 }

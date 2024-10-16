@@ -1,7 +1,7 @@
 using FreezeThaw.Utils;
 using Godot;
 
-public partial class ClientJoinButton : TouchScreenButton
+public partial class ClientJoinButton : Button
 {
     private bool CanBePressed;
     private OptionContainer _optionContainer;

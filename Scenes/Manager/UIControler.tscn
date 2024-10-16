@@ -1,18 +1,173 @@
-[gd_scene load_steps=5 format=3 uid="uid://cssrjm07bqjav"]
+[gd_scene load_steps=11 format=3 uid="uid://cssrjm07bqjav"]
 
 [ext_resource type="Script" path="res://Scripts/Manager/UIControler.cs" id="1_xo44p"]
-[ext_resource type="PackedScene" uid="uid://dgi563jch1l4r" path="res://Scenes/UI/Setting/SettingContainer.tscn" id="2_xb0xo"]
+[ext_resource type="Texture2D" uid="uid://dbprk6mu0s3cp" path="res://Static/UI/Setting/SettingBackground.webp" id="2_qy7aa"]
 [ext_resource type="Texture2D" uid="uid://dl7f4lv0k4n05" path="res://Static/UI/Joystick/摇杆.webp" id="3_sdru5"]
 [ext_resource type="Script" path="res://Scripts/UI/Buttons/SettingOpenButton.cs" id="4_7a5o1"]
+[ext_resource type="Script" path="res://Scripts/UI/Setting/SettingContainer.cs" id="4_e3i8k"]
+[ext_resource type="Script" path="res://Scripts/UI/Buttons/SettingCloseButton.cs" id="6_pkdq2"]
+[ext_resource type="Script" path="res://Scripts/UI/Setting/SettingTabContainer.cs" id="7_2ouvd"]
+[ext_resource type="Script" path="res://Scripts/UI/Setting/HSliderMasterAudio.cs" id="7_8rtm1"]
+[ext_resource type="Script" path="res://Scripts/UI/Setting/HSliderEffectsAudio.cs" id="8_svfiy"]
+[ext_resource type="Script" path="res://Scripts/UI/Setting/HSliderBGMAudio.cs" id="9_aolpi"]
 
 [node name="UIControler" type="Node"]
 script = ExtResource("1_xo44p")
 
-[node name="SettingContainer" parent="." instance=ExtResource("2_xb0xo")]
-
 [node name="UserInterfaceContainer" type="CanvasLayer" parent="."]
 
 [node name="SettingOpenButton" type="TouchScreenButton" parent="UserInterfaceContainer"]
-position = Vector2(1648, 88)
+position = Vector2(1592, 136)
 texture_normal = ExtResource("3_sdru5")
 script = ExtResource("4_7a5o1")
+
+[node name="SettingContainer" type="CanvasLayer" parent="."]
+layer = 2
+script = ExtResource("4_e3i8k")
+
+[node name="BackBoard" type="Sprite2D" parent="SettingContainer"]
+position = Vector2(968, 552)
+texture = ExtResource("2_qy7aa")
+
+[node name="SettingCloseButton" type="TouchScreenButton" parent="SettingContainer"]
+position = Vector2(1176, 360)
+texture_normal = ExtResource("3_sdru5")
+script = ExtResource("6_pkdq2")
+
+[node name="SettingTabContainer" type="TabContainer" parent="SettingContainer"]
+self_modulate = Color(1, 1, 1, 0)
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -220.0
+offset_top = -115.0
+offset_right = 210.0
+offset_bottom = 117.0
+grow_horizontal = 2
+grow_vertical = 2
+tab_alignment = 1
+current_tab = 0
+script = ExtResource("7_2ouvd")
+
+[node name="AudioScrollContainer" type="ScrollContainer" parent="SettingContainer/SettingTabContainer"]
+layout_mode = 2
+metadata/_tab_index = 0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="SettingContainer/SettingTabContainer/AudioScrollContainer"]
+custom_minimum_size = Vector2(420, 200)
+layout_mode = 2
+alignment = 1
+
+[node name="LabelMaterAudio" type="Label" parent="SettingContainer/SettingTabContainer/AudioScrollContainer/VBoxContainer"]
+layout_mode = 2
+text = "主音量"
+
+[node name="HSliderMasterAudio" type="HSlider" parent="SettingContainer/SettingTabContainer/AudioScrollContainer/VBoxContainer"]
+layout_mode = 2
+max_value = 1.0
+step = 0.1
+script = ExtResource("7_8rtm1")
+
+[node name="LabelEffectsAudio" type="Label" parent="SettingContainer/SettingTabContainer/AudioScrollContainer/VBoxContainer"]
+layout_mode = 2
+text = "音效"
+
+[node name="HSliderEffectsAudio" type="HSlider" parent="SettingContainer/SettingTabContainer/AudioScrollContainer/VBoxContainer"]
+layout_mode = 2
+max_value = 1.0
+step = 0.1
+script = ExtResource("8_svfiy")
+
+[node name="LabelBGMAudio" type="Label" parent="SettingContainer/SettingTabContainer/AudioScrollContainer/VBoxContainer"]
+layout_mode = 2
+text = "BGM
+"
+
+[node name="HSliderBGMAudio" type="HSlider" parent="SettingContainer/SettingTabContainer/AudioScrollContainer/VBoxContainer"]
+layout_mode = 2
+max_value = 1.0
+step = 0.1
+script = ExtResource("9_aolpi")
+
+[node name="ScrollContainer2" type="ScrollContainer" parent="SettingContainer/SettingTabContainer"]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="SettingContainer/SettingTabContainer/ScrollContainer2"]
+custom_minimum_size = Vector2(380, 200)
+layout_mode = 2
+alignment = 1
+
+[node name="LabelMaterAudio" type="Label" parent="SettingContainer/SettingTabContainer/ScrollContainer2/VBoxContainer"]
+layout_mode = 2
+text = "主音量"
+
+[node name="HSliderMasterAudio" type="HSlider" parent="SettingContainer/SettingTabContainer/ScrollContainer2/VBoxContainer"]
+layout_mode = 2
+max_value = 1.0
+step = 0.1
+script = ExtResource("7_8rtm1")
+
+[node name="LabelEffectsAudio" type="Label" parent="SettingContainer/SettingTabContainer/ScrollContainer2/VBoxContainer"]
+layout_mode = 2
+text = "音效"
+
+[node name="HSliderEffectsAudio" type="HSlider" parent="SettingContainer/SettingTabContainer/ScrollContainer2/VBoxContainer"]
+layout_mode = 2
+max_value = 1.0
+step = 0.1
+script = ExtResource("8_svfiy")
+
+[node name="LabelBGMAudio" type="Label" parent="SettingContainer/SettingTabContainer/ScrollContainer2/VBoxContainer"]
+layout_mode = 2
+text = "BGM
+"
+
+[node name="HSliderBGMAudio" type="HSlider" parent="SettingContainer/SettingTabContainer/ScrollContainer2/VBoxContainer"]
+layout_mode = 2
+max_value = 1.0
+step = 0.1
+script = ExtResource("9_aolpi")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="SettingContainer/SettingTabContainer/ScrollContainer2/VBoxContainer"]
+custom_minimum_size = Vector2(420, 200)
+layout_mode = 2
+alignment = 1
+
+[node name="SettingCloseButton" type="TouchScreenButton" parent="SettingContainer/SettingTabContainer/ScrollContainer2/VBoxContainer/VBoxContainer"]
+position = Vector2(448, -64)
+texture_normal = ExtResource("3_sdru5")
+script = ExtResource("6_pkdq2")
+
+[node name="LabelMaterAudio" type="Label" parent="SettingContainer/SettingTabContainer/ScrollContainer2/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+text = "主音量"
+
+[node name="HSliderMasterAudio" type="HSlider" parent="SettingContainer/SettingTabContainer/ScrollContainer2/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+max_value = 1.0
+step = 0.1
+script = ExtResource("7_8rtm1")
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="SettingContainer/SettingTabContainer/ScrollContainer2/VBoxContainer"]
+custom_minimum_size = Vector2(420, 200)
+layout_mode = 2
+alignment = 1
+
+[node name="SettingCloseButton" type="TouchScreenButton" parent="SettingContainer/SettingTabContainer/ScrollContainer2/VBoxContainer/VBoxContainer2"]
+position = Vector2(448, -64)
+texture_normal = ExtResource("3_sdru5")
+script = ExtResource("6_pkdq2")
+
+[node name="LabelMaterAudio" type="Label" parent="SettingContainer/SettingTabContainer/ScrollContainer2/VBoxContainer/VBoxContainer2"]
+layout_mode = 2
+text = "主音量"
+
+[node name="HSliderMasterAudio" type="HSlider" parent="SettingContainer/SettingTabContainer/ScrollContainer2/VBoxContainer/VBoxContainer2"]
+layout_mode = 2
+max_value = 1.0
+step = 0.1
+script = ExtResource("7_8rtm1")

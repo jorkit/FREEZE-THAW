@@ -1,45 +1,29 @@
 [gd_scene load_steps=5 format=3 uid="uid://bea0a7i6incm1"]
 
 [ext_resource type="Script" path="res://Scripts/UI/OptionContainer.cs" id="1_7ofxg"]
-[ext_resource type="PackedScene" uid="uid://buwh3iof1b8v7" path="res://Scenes/Terminal/OptionsInterface/Combo/OptionContainer/Unit/MatchStartButton.tscn" id="1_w3qgl"]
-[ext_resource type="PackedScene" uid="uid://cfytds6iiwa01" path="res://Scenes/Terminal/OptionsInterface/Combo/OptionContainer/Unit/ServerCreateButton.tscn" id="3_jrum6"]
-[ext_resource type="PackedScene" uid="uid://cuvj2oo5u1fee" path="res://Scenes/Terminal/OptionsInterface/Combo/OptionContainer/Unit/ClientJoinButton.tscn" id="4_vlxuc"]
+[ext_resource type="Script" path="res://Scripts/UI/Buttons/MatchStartButton.cs" id="2_wossc"]
+[ext_resource type="Script" path="res://Scripts/UI/Buttons/ServerCreateButton.cs" id="3_a45p3"]
+[ext_resource type="Script" path="res://Scripts/UI/Buttons/ClientJoinButton.cs" id="4_us7ga"]
 
 [node name="OptionContainer" type="CanvasLayer"]
 script = ExtResource("1_7ofxg")
 
-[node name="MatchStartButton" parent="." instance=ExtResource("1_w3qgl")]
-position = Vector2(11, 9)
-scale = Vector2(5.01852, 1.99531)
-
-[node name="ServerCreateButton" parent="." instance=ExtResource("3_jrum6")]
-position = Vector2(12, 166)
-scale = Vector2(5.20371, 2.06894)
-
-[node name="ClientJoinButton" parent="." instance=ExtResource("4_vlxuc")]
-position = Vector2(14, 338)
-scale = Vector2(5.22222, 2.0763)
-
-[node name="Label_ServerCreate" type="Label" parent="."]
-offset_left = 34.0
-offset_top = 187.0
-offset_right = 117.0
-offset_bottom = 211.0
-scale = Vector2(3, 3)
-text = "创建服务器"
-
-[node name="Label_ClientJoin" type="Label" parent="."]
-offset_left = 34.0
-offset_top = 359.0
-offset_right = 124.0
-offset_bottom = 385.0
-scale = Vector2(3, 3)
-text = "加入服务器"
-
-[node name="Label_Single" type="Label" parent="."]
-offset_left = 52.0
-offset_top = 24.0
-offset_right = 116.0
-offset_bottom = 47.0
-scale = Vector2(3, 3)
+[node name="MatchStartButton" type="Button" parent="."]
+offset_right = 150.0
+offset_bottom = 70.0
 text = "单人游戏"
+script = ExtResource("2_wossc")
+
+[node name="ServerCreateButton" type="Button" parent="."]
+offset_top = 90.0
+offset_right = 150.0
+offset_bottom = 160.0
+text = "创建服务器"
+script = ExtResource("3_a45p3")
+
+[node name="ClientJoinButton" type="Button" parent="."]
+offset_top = 181.0
+offset_right = 150.0
+offset_bottom = 251.0
+text = "加入服务器"
+script = ExtResource("4_us7ga")

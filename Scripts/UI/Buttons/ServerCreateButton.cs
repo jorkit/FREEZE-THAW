@@ -3,7 +3,7 @@ using Godot;
 using System;
 using System.IO;
 
-public partial class ServerCreateButton : TouchScreenButton
+public partial class ServerCreateButton : Button
 {
     private bool CanBePressed;
     private OptionContainer _optionContainer;

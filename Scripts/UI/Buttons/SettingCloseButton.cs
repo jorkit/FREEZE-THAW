@@ -22,6 +22,6 @@ public partial class SettingCloseButton : TouchScreenButton
         {
             return;
         }
-        UIControler.SettingContainer.Hide();
+        UIControler.SettingContainer.Visible = false;
     }
 }

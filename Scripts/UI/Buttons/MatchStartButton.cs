@@ -3,7 +3,7 @@ using Godot;
 using System;
 using System.IO;
 
-public partial class MatchStartButton : TouchScreenButton
+public partial class MatchStartButton : Button
 {
     private bool CanBePressed;
     private OptionContainer _optionContainer;

@@ -7,7 +7,7 @@ public partial class UIControler : Node
     public static Vector2I ScreenSize { set; get; }
     public static Vector2I WindowSize { set; get; }
 
-    public static Window SettingContainer { set; get; }
+    public static CanvasLayer SettingContainer { set; get; }
 
     public static CanvasLayer UserInterfaceContainer { set; get; }
 
@@ -34,7 +34,7 @@ public partial class UIControler : Node
             LogTool.DebugLogDump(WindowSize.ToString());
         }
 
-        SettingContainer = GetNodeOrNull<Window>("SettingContainer");
+        SettingContainer = GetNodeOrNull<CanvasLayer>("SettingContainer");
         if (SettingContainer == null)
         {
             LogTool.DebugLogDump("SettingContainer not found!");
