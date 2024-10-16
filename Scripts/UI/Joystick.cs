@@ -74,8 +74,8 @@ public partial class Joystick : Sprite2D
         if (@event is InputEventScreenTouch && @event.IsPressed() && _ondraging == -1)
         {
             Vector2 tmp_vec = (Vector2)@event.Get("position");
-            if (tmp_vec.X > UIControler.WindowSize.X/2 || tmp_vec.X < UIControler.WindowSize.X/15
-                || tmp_vec.Y < UIControler.WindowSize.Y/8 || tmp_vec.Y > UIControler.WindowSize.Y * 9/10)
+            if (tmp_vec.X > UIControler.WindowSize.X / 2 || tmp_vec.X < UIControler.WindowSize.X / 15
+                || tmp_vec.Y < UIControler.WindowSize.Y * 2/15 || tmp_vec.Y > UIControler.WindowSize.Y * 13/15)
             {
                 return;
             }

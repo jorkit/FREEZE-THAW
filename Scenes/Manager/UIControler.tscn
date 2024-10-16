@@ -26,27 +26,20 @@ layer = 2
 script = ExtResource("4_e3i8k")
 
 [node name="BackBoard" type="Sprite2D" parent="SettingContainer"]
-position = Vector2(968, 552)
+position = Vector2(15, 18)
 texture = ExtResource("2_qy7aa")
 
 [node name="SettingCloseButton" type="TouchScreenButton" parent="SettingContainer"]
-position = Vector2(1176, 360)
+position = Vector2(224, -168)
 texture_normal = ExtResource("3_sdru5")
 script = ExtResource("6_pkdq2")
 
 [node name="SettingTabContainer" type="TabContainer" parent="SettingContainer"]
 self_modulate = Color(1, 1, 1, 0)
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -220.0
-offset_top = -115.0
-offset_right = 210.0
-offset_bottom = 117.0
-grow_horizontal = 2
-grow_vertical = 2
+offset_left = -216.0
+offset_top = -144.0
+offset_right = 216.0
+offset_bottom = 96.0
 tab_alignment = 1
 current_tab = 0
 script = ExtResource("7_2ouvd")

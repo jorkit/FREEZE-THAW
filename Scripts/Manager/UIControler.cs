@@ -41,6 +41,9 @@ public partial class UIControler : Node
             return;
         }
         SettingContainer.Visible = false;
+        xStart = WindowSize.X / 2;
+        yStart = WindowSize.Y / 2;
+        SettingContainer.Offset = new Vector2I(xStart, yStart);
 
         UserInterfaceContainer = GetNodeOrNull<CanvasLayer>("UserInterfaceContainer");
         if (UserInterfaceContainer == null)
@@ -48,7 +51,7 @@ public partial class UIControler : Node
             LogTool.DebugLogDump("UserInterfaceContainer not found!");
             return;
         }
-        UserInterfaceContainer.GetNodeOrNull<TouchScreenButton>("SettingOpenButton").Position = new Vector2(WindowSize.X / 10 * 9, WindowSize.Y / 10);
+        UserInterfaceContainer.GetNodeOrNull<TouchScreenButton>("SettingOpenButton").Position = new Vector2(WindowSize.X  * 13/15, WindowSize.Y * 2/15);
     }
 
     // Called when the node enters the scene tree for the first time.
