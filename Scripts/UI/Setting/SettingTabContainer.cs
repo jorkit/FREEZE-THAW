@@ -16,6 +16,7 @@ public partial class SettingTabContainer : TabContainer
 
     public override void _GuiInput(InputEvent @event)
     {
+		/* Consume the input event */
 		if (@event.IsPressed())
 		{
             GetViewport().SetInputAsHandled();

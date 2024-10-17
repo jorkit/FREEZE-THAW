@@ -30,8 +30,9 @@ public partial class Joystick : Sprite2D
         }
     }
 
-	public override void _Input(InputEvent @event)
-	{   
+    /* Only respond to events that have not been consumed */
+    public override void _UnhandledInput(InputEvent @event)
+    {
         if (XBOXJoystickHandle(@event) == true)
         {
             return;
