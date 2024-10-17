@@ -10,7 +10,7 @@ public partial class WaitingHall : Node
     {
         if (NetworkControler.IsMultiplayer == true)
         {
-            /* Spawner must be added before playerContainer and then set the SpawnPath */
+            /* Spawner must be added before playerContainer? and then set the SpawnPath */
             NetworkControler.Spawner = new();
             BigBro.NetworkControler.AddChild(NetworkControler.Spawner);
             foreach (var path in Character.CharacterPathList)

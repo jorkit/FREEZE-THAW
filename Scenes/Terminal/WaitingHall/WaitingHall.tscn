@@ -1,13 +1,17 @@
-[gd_scene load_steps=4 format=3 uid="uid://ci2v2sfddya6q"]
+[gd_scene load_steps=5 format=3 uid="uid://ci2v2sfddya6q"]
 
 [ext_resource type="Script" path="res://Scripts/Terminal/WaitingHall.cs" id="1_cbfkb"]
 [ext_resource type="PackedScene" uid="uid://dkpnbojv31njx" path="res://Scenes/Terminal/WaitingHall/Background/Background.tscn" id="2_3gath"]
-[ext_resource type="PackedScene" uid="uid://p2nwib3tqoel" path="res://Scenes/Terminal/MatchMain/ProtoMatchMain/Combo/Map/Map.tscn" id="3_jdh0y"]
+[ext_resource type="PackedScene" uid="uid://b6v3vmvhke41d" path="res://Scenes/Terminal/WaitingHall/SelectedArea/SelectedArea.tscn" id="3_b87ag"]
+[ext_resource type="PackedScene" uid="uid://ct3sr3pvonwd4" path="res://Scenes/Terminal/WaitingHall/PreparedArea/PreparedArea.tscn" id="4_da5g6"]
 
 [node name="WaitingHall" type="Node"]
 script = ExtResource("1_cbfkb")
 
 [node name="Background" parent="." instance=ExtResource("2_3gath")]
 
-[node name="Map" parent="." instance=ExtResource("3_jdh0y")]
-position = Vector2(1643, 978)
+[node name="SelectedArea" parent="." instance=ExtResource("3_b87ag")]
+position = Vector2(359, 532)
+
+[node name="PreparedArea" parent="." instance=ExtResource("4_da5g6")]
+position = Vector2(1287, 559)

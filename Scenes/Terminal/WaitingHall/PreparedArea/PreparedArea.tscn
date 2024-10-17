@@ -1,0 +1,42 @@
+[gd_scene load_steps=4 format=3 uid="uid://ct3sr3pvonwd4"]
+
+[ext_resource type="Texture2D" uid="uid://cmoc021nqrsly" path="res://Static/StaticImages/Map/江南白景图.png" id="1_qgr0x"]
+[ext_resource type="Texture2D" uid="uid://cm57d6pgjj4kj" path="res://Static/UI/Joystick/摇杆2.webp" id="2_g30ek"]
+[ext_resource type="Texture2D" uid="uid://dl7f4lv0k4n05" path="res://Static/UI/Joystick/摇杆.webp" id="3_pb22d"]
+
+[node name="PreparedArea" type="Node2D"]
+
+[node name="Border" type="Sprite2D" parent="."]
+position = Vector2(0, -12)
+scale = Vector2(0.375, 0.388043)
+texture = ExtResource("1_qgr0x")
+
+[node name="ReadyButton" type="Sprite2D" parent="."]
+position = Vector2(-13, -1)
+scale = Vector2(2.12857, 2.12857)
+texture = ExtResource("2_g30ek")
+
+[node name="Player1" type="Sprite2D" parent="."]
+position = Vector2(-339, -4)
+scale = Vector2(3.22222, 3.22222)
+texture = ExtResource("3_pb22d")
+
+[node name="Player2" type="Sprite2D" parent="."]
+position = Vector2(-130, -266)
+scale = Vector2(3.55556, 3.55556)
+texture = ExtResource("3_pb22d")
+
+[node name="Player3" type="Sprite2D" parent="."]
+position = Vector2(221, -208)
+scale = Vector2(3.48148, 3.48148)
+texture = ExtResource("3_pb22d")
+
+[node name="Player4" type="Sprite2D" parent="."]
+position = Vector2(-90, 255)
+scale = Vector2(3.22222, 3.22222)
+texture = ExtResource("3_pb22d")
+
+[node name="Player5" type="Sprite2D" parent="."]
+position = Vector2(296, 99)
+scale = Vector2(3.33333, 3.33333)
+texture = ExtResource("3_pb22d")

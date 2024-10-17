@@ -25,20 +25,9 @@ public partial class PlayerContainer : Node
         SCORE_INIT = 300;
 		Players = new List<Player>();
         //ChildEnteredTree += new ChildEnteredTreeEventHandler(ChildEnterTreeHandler);
-		if (NetworkControler.IsMultiplayer == true)
-		{
-            _timer = new();
-            _timer.Timeout += TimerTimeOutHandler;
-            GetParent().AddChild(_timer);
-            _timer.Start(1);
-		}
-        else
-        {
-            _timer = new();
-            _timer.Timeout += TimerTimeOutHandler;
-            GetParent().AddChild(_timer);
-            _timer.Start(1);
-        }
+        _timer = new();
+        _timer.Timeout += TimerTimeOutHandler;
+        GetParent().AddChild(_timer);
 	}
 
     public override void _PhysicsProcess(double delta)
@@ -62,6 +51,11 @@ public partial class PlayerContainer : Node
                 ((Survivor)item).Fsm.PreStateChange(CharacterStateEnum.Idle, true);
             }
         }
+    }
+
+    public static void TimerStart()
+    {
+        _timer.Start(1);
     }
 
     public static void TimerStop()
@@ -98,18 +92,6 @@ public partial class PlayerContainer : Node
                 MonsterPath = Character.CharacterPathList[Character.CharacterTypeEnum.Sandworm];
                 AIMonsterPath = Character.CharacterPathList[Character.CharacterTypeEnum.AISandworm];
             }
-             Player newPlayer = new()
-            {
-                Id = id,
-                NickName = "",
-                Score = SCORE_INIT,
-                SurvivorPath = SurvivorPath,
-                AISurvivorPath = AISurvivorPath,
-                MonsterPath = MonsterPath,
-                AIMonsterPath = AIMonsterPath
-
-             };
-            Players.Add(newPlayer);
         }
         else
         {
@@ -127,19 +109,19 @@ public partial class PlayerContainer : Node
                 MonsterPath = Character.CharacterPathList[Character.CharacterTypeEnum.Sandworm];
                 AIMonsterPath = MonsterPath;
             }
-            Player newPlayer = new()
-            {
-                Id = id,
-                NickName = "",
-                Score = SCORE_INIT,
-                SurvivorPath = SurvivorPath,
-                AISurvivorPath = AISurvivorPath,
-                MonsterPath = MonsterPath,
-                AIMonsterPath = AIMonsterPath
-            };
-            Players.Add(newPlayer);
         }
-	}
+        Player newPlayer = new()
+        {
+            Id = id,
+            NickName = "",
+            Score = SCORE_INIT,
+            SurvivorPath = SurvivorPath,
+            AISurvivorPath = AISurvivorPath,
+            MonsterPath = MonsterPath,
+            AIMonsterPath = AIMonsterPath
+        };
+        Players.Add(newPlayer);
+    }
 
 	public void ChangeScore(string id, int score)
 	{

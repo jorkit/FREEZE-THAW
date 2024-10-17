@@ -1,0 +1,35 @@
+[gd_scene load_steps=7 format=3 uid="uid://b6v3vmvhke41d"]
+
+[ext_resource type="Texture2D" uid="uid://kqvvh5odcvn8" path="res://Static/Animations/Character/Survivors/Mouse/MouseSelected.png" id="1_a00ct"]
+[ext_resource type="Texture2D" uid="uid://cmoc021nqrsly" path="res://Static/StaticImages/Map/江南白景图.png" id="1_c3bx1"]
+[ext_resource type="Script" path="res://Scripts/UI/SelectedArea.cs" id="1_rcpku"]
+[ext_resource type="Texture2D" uid="uid://cf0adrmuibiil" path="res://Static/Animations/Character/Monsters/Sandworm/Adonis_boss.png" id="2_ktjhh"]
+[ext_resource type="Script" path="res://Scripts/UI/Selecting/SurvivorMask.cs" id="3_svghq"]
+[ext_resource type="Script" path="res://Scripts/UI/Selecting/MonsterMask.cs" id="5_wkmt5"]
+
+[node name="SelectedArea" type="Node2D"]
+script = ExtResource("1_rcpku")
+
+[node name="Border" type="Sprite2D" parent="."]
+scale = Vector2(0.214286, 0.343478)
+texture = ExtResource("1_c3bx1")
+
+[node name="SurvivorMask" type="Polygon2D" parent="."]
+clip_children = 1
+polygon = PackedVector2Array(72, -256, -104, 248, -248, 248, -248, -256)
+script = ExtResource("3_svghq")
+
+[node name="SurvivorSelectedImage" type="Sprite2D" parent="SurvivorMask"]
+position = Vector2(-96, 40)
+scale = Vector2(0.928, 0.928)
+texture = ExtResource("1_a00ct")
+
+[node name="MonsterMask" type="Polygon2D" parent="."]
+clip_children = 1
+polygon = PackedVector2Array(72, -256, -104, 248, 256, 248, 248, -256)
+script = ExtResource("5_wkmt5")
+
+[node name="MonsterSelectedImage" type="Sprite2D" parent="MonsterMask"]
+position = Vector2(120, 8)
+scale = Vector2(0.431672, 0.431672)
+texture = ExtResource("2_ktjhh")

@@ -8,6 +8,7 @@ using static PlayerContainer;
 public partial class PlayerControler : Node
 {
     public static Character Player { set; get; }
+    public static Array<Character> Players { set; get; }
     public static Monster Monster { set; get; }
     public static PlayerContainer PlayerContainer { set; get; }
     public static readonly string PlayerContainerPath = "res://Scenes/Manager/PlayerContainer.tscn";
@@ -22,6 +23,8 @@ public partial class PlayerControler : Node
             return;
         }
         AddChild(PlayerContainer);
+
+        Players = new Array<Character>();
     }
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -56,7 +59,8 @@ public partial class PlayerControler : Node
         {
             Player = (Character)character;
         }
-        PlayerContainer.AddChild(character);
+        Players.Add((Character)character);
+        //PlayerContainer.AddChild(character);
     }
 
     public static void PlayerRemove(string id)

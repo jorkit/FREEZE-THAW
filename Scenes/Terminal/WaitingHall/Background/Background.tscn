@@ -6,7 +6,7 @@
 [node name="Background" type="Node"]
 
 [node name="StaticImage" parent="." instance=ExtResource("1_8erct")]
-position = Vector2(2268, 1386)
+position = Vector2(978, 474)
 scale = Vector2(1.73261, 1.73261)
 
 [node name="Dynamic" parent="." instance=ExtResource("2_1jlm2")]
