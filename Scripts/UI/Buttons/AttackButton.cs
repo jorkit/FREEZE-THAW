@@ -42,7 +42,21 @@ public partial class AttackButton : Sprite2D
         {
             return;
         }
-        
+        if (NetworkControler.IsMultiplayer == true)
+        {
+            if (IsMultiplayerAuthority() == false)
+            {
+                return;
+            }
+        }
+        else
+        {
+            if (_uiContainer.character != PlayerControler.Player)
+            {
+                return;
+            }
+        }
+
         if (XBOXJoystickHandle(@event) == true)
         {
             return;

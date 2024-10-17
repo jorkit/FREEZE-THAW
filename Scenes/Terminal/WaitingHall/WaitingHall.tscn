@@ -11,7 +11,7 @@ script = ExtResource("1_cbfkb")
 [node name="Background" parent="." instance=ExtResource("2_3gath")]
 
 [node name="SelectedArea" parent="." instance=ExtResource("3_b87ag")]
-position = Vector2(359, 532)
+position = Vector2(390, 530)
 
 [node name="PreparedArea" parent="." instance=ExtResource("4_da5g6")]
-position = Vector2(1287, 559)
+position = Vector2(1292, 543)

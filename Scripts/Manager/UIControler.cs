@@ -2,7 +2,7 @@ using FreezeThaw.Utils;
 using Godot;
 using System;
 
-public partial class UIControler : Node
+public partial class UIControler : Node2D
 {
     public static Vector2I ScreenSize { set; get; }
     public static Vector2I WindowSize { set; get; }
@@ -30,7 +30,7 @@ public partial class UIControler : Node
         else if (osName == "Android")
         {
             DisplayServer.WindowSetMode(DisplayServer.WindowMode.Fullscreen);
-            WindowSize = DisplayServer.WindowGetSize();
+            WindowSize = (Vector2I)GetViewportRect().End;
             LogTool.DebugLogDump(WindowSize.ToString());
         }
 

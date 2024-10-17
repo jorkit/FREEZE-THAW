@@ -60,7 +60,7 @@ public partial class PlayerControler : Node
             Player = (Character)character;
         }
         Players.Add((Character)character);
-        //PlayerContainer.AddChild(character);
+        PlayerContainer.AddChild(character);
     }
 
     public static void PlayerRemove(string id)
