@@ -37,7 +37,7 @@ public abstract partial class Bullet : Area2D
             return;
         }
         
-        if (body.GetType().BaseType == typeof(Monster) || body.GetType().BaseType.BaseType == typeof(Monster))
+        if (body.GetType().BaseType == typeof(Monster))
         {
             BulletHitHandler();
         }

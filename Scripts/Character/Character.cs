@@ -8,26 +8,21 @@ public abstract partial class Character : CharacterBody2D
 {
     public enum CharacterTypeEnum
     {
-        /* AI */
-        AISandworm = -2,
-        AIMouse,
-
-        /* Monster */
-        Sandworm,
         /* Survivor */
-        Mouse
+        Mouse,
+        /* Monster */
+        Sandworm
     }
     public static readonly Godot.Collections.Dictionary<CharacterTypeEnum, string> CharacterPathList = new Godot.Collections.Dictionary<CharacterTypeEnum, string>()
     {
-        [CharacterTypeEnum.Sandworm] = "res://Scenes/Character/Monsters/Sandworm.tscn",
-        [CharacterTypeEnum.AISandworm] = "res://Scenes/Character/Monsters/AISandworm.tscn",
         [CharacterTypeEnum.Mouse] = "res://Scenes/Character/Survivors/Mouse.tscn",
-        [CharacterTypeEnum.AIMouse] = "res://Scenes/Character/Survivors/AIMouse.tscn"
+        [CharacterTypeEnum.Sandworm] = "res://Scenes/Character/Monsters/Sandworm.tscn",
     };
 
     public FSM Fsm;
     public float Speed;
     public AnimatedSprite2D SelfImage { get; set; }
+    public bool Hosting;
     // public const float JumpVelocity = -400.0f;
 
     public override void _EnterTree()
@@ -49,7 +44,7 @@ public abstract partial class Character : CharacterBody2D
                 return;
             }
             /* AI in multiplayer */
-            if (GetType().BaseType.BaseType != typeof(Character))
+            if (Hosting)
             {
                 /* hide the AIs' UIContainer and remove their Camera */
                 GetNode<UIContainer>("UIContainer").Visible = false;
@@ -101,7 +96,7 @@ public abstract partial class Character : CharacterBody2D
 
     public override void _PhysicsProcess(double delta)
     {
-        if (GetType().BaseType.BaseType != typeof(Character))
+        if (Hosting)
         {
             AIRunning();
         }
@@ -235,7 +230,7 @@ public abstract partial class Character : CharacterBody2D
             return;
         }
         /* AI Monster */
-        if (GetType().BaseType.BaseType == typeof(Monster))
+        if (GetType().BaseType == typeof(Monster))
         {
             AiFTBTrigger();
             /* Detect the survivor */

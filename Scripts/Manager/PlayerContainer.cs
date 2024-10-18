@@ -8,12 +8,11 @@ public partial class PlayerContainer : Node
 	public struct Player
 	{
 		public string Id;
+        public bool Hosting;
 		public string NickName;
 		public int Score;
         public string SurvivorPath;
-        public string AISurvivorPath;
         public string MonsterPath;
-        public string AIMonsterPath;
     }
     public List<Player> Players { set; get; }
 	public int SCORE_INIT { set; get; }
@@ -35,7 +34,7 @@ public partial class PlayerContainer : Node
         var players = GetChildren();
         foreach (var item in players)
         {
-            if (item.GetType().BaseType == typeof(Survivor) || item.GetType().BaseType.BaseType == typeof(Survivor))
+            if (item.GetType().BaseType == typeof(Survivor))
             {
                 if (((Survivor)item).GetCurrentState() != CharacterStateEnum.Sealed)
                 {
@@ -46,7 +45,7 @@ public partial class PlayerContainer : Node
         /* all survivor sealed, reset state */
         foreach (var item in players)
         {
-            if (item.GetType().BaseType == typeof(Survivor) || item.GetType().BaseType.BaseType == typeof(Survivor))
+            if (item.GetType().BaseType == typeof(Survivor))
             {
                 ((Survivor)item).Fsm.PreStateChange(CharacterStateEnum.Idle, true);
             }
@@ -66,9 +65,7 @@ public partial class PlayerContainer : Node
     public void PlayerInit(string id)
 	{
         string SurvivorPath;
-        string AISurvivorPath;
         string MonsterPath;
-        string AIMonsterPath;
         if (NetworkControler.IsMultiplayer == true)
         {
             /* if player exist */
@@ -77,38 +74,13 @@ public partial class PlayerContainer : Node
             {
                 return;
             }
-
-            if (id.ToInt() < 0)
-            {
-                SurvivorPath = Character.CharacterPathList[Character.CharacterTypeEnum.AIMouse];
-                AISurvivorPath = SurvivorPath;
-                MonsterPath = Character.CharacterPathList[Character.CharacterTypeEnum.AISandworm];
-                AIMonsterPath = MonsterPath;
-            }
-            else
-            {
-                SurvivorPath = Character.CharacterPathList[Character.CharacterTypeEnum.Mouse];
-                AISurvivorPath = Character.CharacterPathList[Character.CharacterTypeEnum.AIMouse];
-                MonsterPath = Character.CharacterPathList[Character.CharacterTypeEnum.Sandworm];
-                AIMonsterPath = Character.CharacterPathList[Character.CharacterTypeEnum.AISandworm];
-            }
+            SurvivorPath = Character.CharacterPathList[Character.CharacterTypeEnum.Mouse];
+            MonsterPath = Character.CharacterPathList[Character.CharacterTypeEnum.Sandworm];
         }
         else
         {
-            if (id != "1")
-            {
-                SurvivorPath = Character.CharacterPathList[Character.CharacterTypeEnum.AIMouse];
-                AISurvivorPath = SurvivorPath;
-                MonsterPath = Character.CharacterPathList[Character.CharacterTypeEnum.AISandworm];
-                AIMonsterPath = MonsterPath;
-            }
-            else
-            {
-                SurvivorPath = Character.CharacterPathList[Character.CharacterTypeEnum.Mouse];
-                AISurvivorPath = SurvivorPath;
-                MonsterPath = Character.CharacterPathList[Character.CharacterTypeEnum.Sandworm];
-                AIMonsterPath = MonsterPath;
-            }
+            SurvivorPath = Character.CharacterPathList[Character.CharacterTypeEnum.Mouse];
+            MonsterPath = Character.CharacterPathList[Character.CharacterTypeEnum.Sandworm];
         }
         Player newPlayer = new()
         {
@@ -116,9 +88,7 @@ public partial class PlayerContainer : Node
             NickName = "",
             Score = SCORE_INIT,
             SurvivorPath = SurvivorPath,
-            AISurvivorPath = AISurvivorPath,
             MonsterPath = MonsterPath,
-            AIMonsterPath = AIMonsterPath
         };
         Players.Add(newPlayer);
     }

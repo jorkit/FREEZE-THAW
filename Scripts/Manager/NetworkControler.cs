@@ -55,7 +55,7 @@ public partial class NetworkControler : Node
                     return;
                 }
                 LogTool.DebugLogDump("Client[" + id + "]Connected!");
-                PlayerControler.PlayerAdd(id.ToString(), Character.CharacterPathList[Character.CharacterTypeEnum.Mouse]);
+                PlayerControler.PlayerAdd(id.ToString(), Character.CharacterPathList[Character.CharacterTypeEnum.Mouse], false);
                 return;
             }
         }

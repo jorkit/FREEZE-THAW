@@ -45,21 +45,22 @@ public partial class PlayerControler : Node
         return true;
     }
 
-    public static void PlayerAdd(string name, NodePath path)
+    public static void PlayerAdd(string name, NodePath path, bool hosting)
     {
         PlayerContainer.PlayerInit(name);
-        var character = ResourceLoader.Load<PackedScene>(path).Instantiate();
+        var character = (Character)ResourceLoader.Load<PackedScene>(path).Instantiate();
         if (character == null)
         {
             LogTool.DebugLogDump("Character Instantiate faild!");
             return;
         }
         character.Name = name;
+        character.Hosting = hosting;
         if (NetworkControler.IsMultiplayer == false && character.Name == "1")
         {
-            Player = (Character)character;
+            Player = character;
         }
-        Players.Add((Character)character);
+        Players.Add(character);
         PlayerContainer.AddChild(character);
     }
 
@@ -98,6 +99,7 @@ public partial class PlayerControler : Node
                 survivor = ResourceLoader.Load<PackedScene>(PlayerContainer.Players[i].SurvivorPath).InstantiateOrNull<Survivor>();
                 survivor.Name = Monster.Name;
                 survivor.Position = Monster.Position;
+                survivor.Hosting = Monster.Hosting;
                 if (NetworkControler.IsMultiplayer == false && survivor.Name == "1")
                     Player = survivor;
             }
@@ -112,8 +114,9 @@ public partial class PlayerControler : Node
                 monster = ResourceLoader.Load<PackedScene>(PlayerContainer.Players[i].MonsterPath).InstantiateOrNull<Monster>();
                 monster.Name = player.Name;
                 monster.Position = player.Position;
+                monster.Hosting = player.Hosting;
                 if (NetworkControler.IsMultiplayer == false && monster.Name == "1")
-                    PlayerControler.Player = monster;
+                    Player = monster;
             }
         }
         Monster?.Free();
@@ -130,41 +133,6 @@ public partial class PlayerControler : Node
             LogTool.DebugLogDump("QuittedClient not found!");
             return;
         }
-        string AIPath;
-        Player quittedPlayer;
-        int i;
-        for (i = 0; i < PlayerContainer.Players.Count; i++)
-        {
-            if (PlayerContainer.Players[i].Id == id)
-            {
-                break;
-            }
-        }
-        quittedPlayer = PlayerContainer.Players[i];
-        if (quittedClient.GetType().BaseType == typeof(Monster))
-        {
-            AIPath = quittedPlayer.AIMonsterPath;
-        }
-        else
-        {
-            AIPath = quittedPlayer.AISurvivorPath;
-        }
-        /* replace the Path */
-        quittedPlayer.SurvivorPath = quittedPlayer.AISurvivorPath;
-        quittedPlayer.MonsterPath = quittedPlayer.AIMonsterPath;
-        PlayerContainer.Players[i] = quittedPlayer;
-
-        /* instantiate AI */
-        var AI = ResourceLoader.Load<PackedScene>(AIPath).Instantiate<Character>();
-        if (AI == null)
-        {
-            LogTool.DebugLogDump("AI Instantiate faild!");
-            return;
-        }
-        AI.Name = id;
-        AI.Position = quittedClient.Position;
-        /* Translate */
-        quittedClient.Free();
-        PlayerContainer.AddChild(AI);
+        quittedClient.Hosting = true;
     }
 }

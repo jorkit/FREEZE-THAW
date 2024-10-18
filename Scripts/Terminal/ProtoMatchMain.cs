@@ -20,6 +20,9 @@ public partial class ProtoMatchMain : Node
         _timer.Timeout += TimerTimeOutHandler;
         BigBro.bigBro.AddChild(_timer);
         _timer.Start(300);
+        var player = PlayerControler.PlayerContainer.Players.Find(item=>item.Id == "1");
+        player.Hosting = true;
+        PlayerControler.PlayerContainer.Players[0] = player;
     }
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.

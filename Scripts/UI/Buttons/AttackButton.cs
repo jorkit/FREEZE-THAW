@@ -186,16 +186,7 @@ public partial class AttackButton : Sprite2D
                     LogTool.DebugLogDump("ReleaseHandlerRpc Failed! " + rpcRes.ToString());
                 }
             }
-            else if (NetworkControler.MultiplayerApi.IsServer() == true && IsMultiplayerAuthority() == true)
-            {
-                var rpcRes = Rpc("ReleaseHandlerRpc", Direction);
-                if (rpcRes != Error.Ok)
-                {
-                    LogTool.DebugLogDump("ReleaseHandlerRpc Failed! " + rpcRes.ToString());
-                }
-                _uiContainer.character.AttackButtonPressedHandle();
-            }
-            else if (_uiContainer.character.GetType().BaseType != typeof(Character))
+            else if (NetworkControler.MultiplayerApi.IsServer() == true)
             {
                 var rpcRes = Rpc("ReleaseHandlerRpc", Direction);
                 if (rpcRes != Error.Ok)

@@ -44,7 +44,7 @@ public partial class Attack : FSMState
         {
             return;
         }
-        if (Fsm.character.GetType().BaseType == typeof(Monster) || Fsm.character.GetType().BaseType.BaseType == typeof(Monster))
+        if (Fsm.character.GetType().BaseType == typeof(Monster))
         {
             ((Monster)Fsm.character).AttackArea.CollisionMask = 0;
         }

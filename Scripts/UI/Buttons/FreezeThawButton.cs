@@ -26,7 +26,7 @@ public partial class FreezeThawButton : TouchScreenButton
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
-        if (_uiContainer.character.GetType().BaseType == typeof(Monster) || _uiContainer.character.GetType().BaseType.BaseType == typeof(Monster))
+        if (_uiContainer.character.GetType().BaseType == typeof(Monster))
         {
             /* detective if there are freezed Survivors */
             if (_uiContainer.character.GetCurrentState() < CharacterStateEnum.Attack && ((Monster)_uiContainer.character).CheckFreezed() == true)

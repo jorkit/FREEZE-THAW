@@ -13,7 +13,7 @@ public partial class SceneOfWaitingHall : SceneFSMState
 
     public override void Update(double delta)
     {
-        if (NetworkControler.IsMultiplayer == true)
+        if (NetworkControler.IsMultiplayer == true && NetworkControler.MultiplayerApi.IsServer())
         {
             if (PlayerControler.PlayerContainer.Players.Count == 3)
             {

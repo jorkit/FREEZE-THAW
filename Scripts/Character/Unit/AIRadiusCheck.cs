@@ -24,7 +24,7 @@ public partial class AIRadiusCheck : Area2D
             return;
         }
         LogTool.DebugLogDump(body.GetType() + " enter!!!!!!");
-        if (body.GetType().BaseType == typeof(Survivor) || body.GetType().BaseType.BaseType == typeof(Survivor))
+        if (body.GetType().BaseType == typeof(Survivor))
         {
             SurvivorsInArea.Add((Survivor)body);
         }
@@ -38,7 +38,7 @@ public partial class AIRadiusCheck : Area2D
             return;
         }
         LogTool.DebugLogDump(body.GetType() + " exit!!!!!!");
-        if (body.GetType().BaseType == typeof(Survivor) || body.GetType().BaseType.BaseType == typeof(Survivor))
+        if (body.GetType().BaseType == typeof(Survivor))
         {
             SurvivorsInArea.Remove((Survivor)body);
         }

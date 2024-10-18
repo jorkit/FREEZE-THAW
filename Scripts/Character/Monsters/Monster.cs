@@ -33,7 +33,7 @@ public abstract partial class Monster : Character
 
     private void BodyEnteredHandler(Node2D body)
     {
-        if (body.GetType().BaseType == typeof(Survivor) || body.GetType().BaseType.BaseType == typeof(Survivor))
+        if (body.GetType().BaseType == typeof(Survivor))
         {
             if (((Survivor)body).GetCurrentState() < CharacterStateEnum.Hurt)
             {
