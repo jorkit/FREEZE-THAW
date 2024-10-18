@@ -4,12 +4,14 @@ using System;
 
 public partial class CharacterItem : Sprite2D
 {
-    private static bool Draging { get; set; }
-    private static float DragStart { get; set; }
+    public Character.CharacterTypeEnum Type { get; set; }
+    private bool Draging { get; set; }
+    private float DragStart { get; set; }
   
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
 	{
+        Type = (Character.CharacterTypeEnum)GetParent().GetIndex();
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -23,24 +25,48 @@ public partial class CharacterItem : Sprite2D
         {
             return;
         }
+        if (Position.X < -500)
+        {
+            Position = new Vector2(1500, 0);
+            DragStart -= 2000;
+        }
+        if (Position.X > 1500)
+        {
+            Position = new Vector2(-500, 0);
+            DragStart += 2000;
+        }
         /* record touch position */
         if (@event is InputEventScreenTouch && @event.IsPressed())
         {
             Draging = true;
-            DragStart = ToLocal((Vector2)@event.Get("position")).X;
-            LogTool.DebugLogDump("lalalala");
+            DragStart = ToLocal(((Vector2)@event.Get("position"))).X;
         }
         /* release touch */
         if (@event is InputEventScreenTouch && !@event.IsPressed())
         {
+            var offset = Position.X % 500;
+            if (offset > 250)
+            {
+                Position += new Vector2(500 - offset, 0);
+            }
+            else if (0 < offset )
+            {
+                Position -= new Vector2(offset, 0);
+            }
+            else if (offset < -250)
+            {
+                Position += new Vector2(-500 - offset, 0);
+            }
+            else if (offset < 0)
+            {
+                Position -= new Vector2(offset, 0);
+            }
             Draging = false;
             DragStart = 0;
-            LogTool.DebugLogDump("lueluelue");
         }
         /* move list depends on Drag distance */
         if (@event is InputEventScreenDrag && Draging == true)
         {
-            LogTool.DebugLogDump("lululululu");
             var newX = ToLocal((Vector2)@event.Get("position")).X;
             Position += new Vector2(newX - DragStart, 0);
         }

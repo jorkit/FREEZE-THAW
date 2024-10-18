@@ -14,12 +14,12 @@ public partial class SurvivorMask : Polygon2D
 	{
 	}
 
-    public override void _Input(InputEvent @event)
+    public override void _UnhandledInput(InputEvent @event)
     {
         var position = ToLocal((Vector2)@event.Get("position"));
         if (@event.IsPressed() && Geometry2D.IsPointInPolygon(position, Polygon))
         {
-            LogTool.DebugLogDump("lalalalala");
+            UIControler.SelectingContainer.Visible = true;
         }
     }
 }

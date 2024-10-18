@@ -4,9 +4,6 @@ using System;
 
 public partial class SelectList : Node2D
 {
-	private static bool Draging {  get; set; }
-	private static float DragStart {  get; set; }
-
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
@@ -19,30 +16,13 @@ public partial class SelectList : Node2D
 
     public override void _Input(InputEvent @event)
     {
-		if (GetViewportRect().HasPoint((Vector2)@event.Get("position")) == false && Draging == false)
+		if (@event is InputEventScreenTouch && @event.IsPressed())
 		{
-			return;
+			var position = ToLocal((Vector2)@event.Get("position"));
+            if (position.X > 500 && position.X < 1000)
+			{
+				UIControler.SelectingContainer.Visible = false;
+			}
 		}
-		/* record touch position */
-        if (@event is InputEventScreenTouch && @event.IsPressed())
-		{
-			Draging = true;
-			DragStart = ToLocal((Vector2)@event.Get("position")).X;
-			LogTool.DebugLogDump("lalalala");
-		}
-		/* release touch */
-		if (@event is InputEventScreenTouch && !@event.IsPressed())
-		{
-			Draging = false;
-			DragStart = 0;
-            LogTool.DebugLogDump("lueluelue");
-        }
-		/* move list depends on Drag distance */
-		if (@event is InputEventScreenDrag && Draging == true)
-		{
-            LogTool.DebugLogDump("lululululu");
-			var newX = ToLocal((Vector2)@event.Get("position")).X;
-            Position += new Vector2(newX - DragStart, 0);
-        }
     }
 }

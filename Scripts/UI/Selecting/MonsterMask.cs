@@ -14,12 +14,12 @@ public partial class MonsterMask : Polygon2D
 	{
 	}
 
-    public override void _Input(InputEvent @event)
+    public override void _UnhandledInput(InputEvent @event)
     {
         var position = ToLocal((Vector2)@event.Get("position"));
         if (@event.IsPressed() && Geometry2D.IsPointInPolygon(position, Polygon))
         {
-            LogTool.DebugLogDump("lueluelue");
+            UIControler.SelectingContainer.Visible = true;
         }
     }
 }

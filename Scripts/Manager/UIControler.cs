@@ -11,6 +11,8 @@ public partial class UIControler : Node2D
 
     public static CanvasLayer UserInterfaceContainer { set; get; }
 
+    public static CanvasLayer SelectingContainer { set; get; }
+
     public override void _EnterTree()
     {
         ScreenSize = DisplayServer.ScreenGetSize();
@@ -52,6 +54,15 @@ public partial class UIControler : Node2D
             return;
         }
         UserInterfaceContainer.GetNodeOrNull<TouchScreenButton>("SettingOpenButton").Position = new Vector2(WindowSize.X  * 13/15, WindowSize.Y * 2/15);
+
+        SelectingContainer = GetNodeOrNull<CanvasLayer>("SelectingContainer");
+        if (SelectingContainer == null)
+        {
+            LogTool.DebugLogDump("SelectingContainer not found!");
+            return;
+        }
+        SelectingContainer.Visible = false;
+        SelectingContainer.Offset = new Vector2I(xStart, yStart);
     }
 
     // Called when the node enters the scene tree for the first time.
