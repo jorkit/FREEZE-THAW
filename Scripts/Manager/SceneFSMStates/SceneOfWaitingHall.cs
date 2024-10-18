@@ -15,7 +15,7 @@ public partial class SceneOfWaitingHall : SceneFSMState
     {
         if (NetworkControler.IsMultiplayer == true)
         {
-            if (PlayerControler.PlayerContainer.Players.Count == 4)
+            if (PlayerControler.PlayerContainer.Players.Count == 3)
             {
                 SceneFSM.PreStateChange(SceneFsm, SceneStateEnum.MatchStartLoading, true);
                 NetworkControler.MultiplayerApi.MultiplayerPeer.RefuseNewConnections = true;
