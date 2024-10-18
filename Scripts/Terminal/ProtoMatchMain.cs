@@ -20,8 +20,6 @@ public partial class ProtoMatchMain : Node
         _timer.Timeout += TimerTimeOutHandler;
         BigBro.bigBro.AddChild(_timer);
         _timer.Start(300);
-        //PlayerControler.Players[2].SetScript(ResourceLoader.Load<Script>("res://Scripts/Character/Survivors/AIMouse.cs"));
-        //LogTool.DebugLogDump(PlayerControler.Players[2].GetType().ToString());
     }
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
