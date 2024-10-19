@@ -5,14 +5,16 @@ using System;
 public partial class CharacterItem : Sprite2D
 {
     public Character.CharacterTypeEnum Type { get; set; }
+    public Texture2D TextureImage { get; set; }
     private bool Draging { get; set; }
     private float DragStart { get; set; }
   
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
 	{
-        Type = (Character.CharacterTypeEnum)GetParent().GetIndex();
-	}
+        TextureImage = ResourceLoader.Load(Character.CharacterImagePathList[Type]) as Texture2D;
+        Texture = TextureImage;
+    }
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
@@ -21,6 +23,10 @@ public partial class CharacterItem : Sprite2D
 
     public override void _Input(InputEvent @event)
     {
+        if (((Node2D)GetParent()).Visible == false)
+        {
+            return;
+        }
         if (GetViewportRect().HasPoint((Vector2)@event.Get("position")) == false && Draging == false)
         {
             return;

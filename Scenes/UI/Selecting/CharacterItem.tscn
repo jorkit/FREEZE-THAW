@@ -1,0 +1,8 @@
+[gd_scene load_steps=3 format=3 uid="uid://syi7wfm6x60b"]
+
+[ext_resource type="Texture2D" uid="uid://kqvvh5odcvn8" path="res://Static/Animations/Character/Survivors/Mouse/MouseSelected.png" id="1_bf35s"]
+[ext_resource type="Script" path="res://Scripts/UI/Selecting/CharacterItem.cs" id="2_bsay7"]
+
+[node name="CharacterItem" type="Sprite2D"]
+texture = ExtResource("1_bf35s")
+script = ExtResource("2_bsay7")

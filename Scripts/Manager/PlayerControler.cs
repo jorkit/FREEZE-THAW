@@ -48,7 +48,7 @@ public partial class PlayerControler : Node
     public static void PlayerAdd(string name, NodePath path, bool hosting)
     {
         PlayerContainer.PlayerInit(name);
-        var character = (Character)ResourceLoader.Load<PackedScene>(path).Instantiate();
+        var character = ResourceLoader.Load<PackedScene>(path).InstantiateOrNull<Character>();
         if (character == null)
         {
             LogTool.DebugLogDump("Character Instantiate faild!");

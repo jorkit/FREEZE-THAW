@@ -9,14 +9,24 @@ public abstract partial class Character : CharacterBody2D
     public enum CharacterTypeEnum
     {
         /* Survivor */
+        SurvivorStart,
         Mouse,
+        SurvivorMax,
         /* Monster */
-        Sandworm
+        MonsterStart,
+        Sandworm,
+        MonsterMax
     }
     public static readonly Godot.Collections.Dictionary<CharacterTypeEnum, string> CharacterPathList = new Godot.Collections.Dictionary<CharacterTypeEnum, string>()
     {
         [CharacterTypeEnum.Mouse] = "res://Scenes/Character/Survivors/Mouse.tscn",
         [CharacterTypeEnum.Sandworm] = "res://Scenes/Character/Monsters/Sandworm.tscn",
+    };
+
+    public static readonly Godot.Collections.Dictionary<CharacterTypeEnum, string> CharacterImagePathList = new Godot.Collections.Dictionary<CharacterTypeEnum, string>()
+    {
+        [CharacterTypeEnum.Mouse] = "res://Static/Animations/Character/Survivors/Mouse/MouseSelected.png",
+        [CharacterTypeEnum.Sandworm] = "res://Static/Animations/Character/Monsters/Sandworm/Adonis_boss.png",
     };
 
     public FSM Fsm;

@@ -19,6 +19,13 @@ public partial class SurvivorMask : Polygon2D
         var position = ToLocal((Vector2)@event.Get("position"));
         if (@event.IsPressed() && Geometry2D.IsPointInPolygon(position, Polygon))
         {
+            var survivorList = UIControler.SelectingContainer.GetNodeOrNull<SelectList>("SelectingArea/SubViewport/SurvivorList");
+            if (survivorList == null)
+            {
+                LogTool.DebugLogDump("SurvivorList not found!");
+                return;
+            }
+            survivorList.Visible = true;
             UIControler.SelectingContainer.Visible = true;
         }
     }

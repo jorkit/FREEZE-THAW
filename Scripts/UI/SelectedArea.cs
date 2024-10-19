@@ -33,4 +33,16 @@ public partial class SelectedArea : Node2D
 	public override void _Process(double delta)
 	{
 	}
+
+	public static void SetSelectedImage(Texture2D texture, bool isSurvivor)
+	{
+		if (isSurvivor)
+		{
+            SurvivorSelectedImage.Texture = texture;
+        }
+		else
+		{
+            MonsterSelectedImage.Texture = texture;
+        }
+    }
 }

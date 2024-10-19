@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://dlf0quru3bs3a"]
+
+[ext_resource type="Script" path="res://Scripts/UI/Selecting/SelectList.cs" id="1_smv02"]
+
+[node name="SelectList" type="Node2D"]
+position = Vector2(300, 400)
+script = ExtResource("1_smv02")

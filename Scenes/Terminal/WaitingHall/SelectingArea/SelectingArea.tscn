@@ -1,8 +1,6 @@
-[gd_scene load_steps=4 format=3 uid="uid://dqukik54xco0w"]
+[gd_scene load_steps=2 format=3 uid="uid://dqukik54xco0w"]
 
-[ext_resource type="Texture2D" uid="uid://kqvvh5odcvn8" path="res://Static/Animations/Character/Survivors/Mouse/MouseSelected.png" id="1_og3fs"]
-[ext_resource type="Script" path="res://Scripts/UI/Selecting/SelectList.cs" id="1_usof6"]
-[ext_resource type="Script" path="res://Scripts/UI/Selecting/CharacterItem.cs" id="2_bmwdd"]
+[ext_resource type="PackedScene" uid="uid://dlf0quru3bs3a" path="res://Scenes/UI/Selecting/SelectList.tscn" id="1_ey40f"]
 
 [node name="SelectingArea" type="SubViewportContainer"]
 anchors_preset = 8
@@ -22,26 +20,8 @@ stretch = true
 [node name="SubViewport" type="SubViewport" parent="."]
 handle_input_locally = false
 size = Vector2i(1592, 734)
+render_target_update_mode = 4
 
-[node name="SelectList" type="Node2D" parent="SubViewport"]
-position = Vector2(300, 400)
-script = ExtResource("1_usof6")
+[node name="SurvivorList" parent="SubViewport" instance=ExtResource("1_ey40f")]
 
-[node name="CharacterItem" type="Sprite2D" parent="SubViewport/SelectList"]
-texture = ExtResource("1_og3fs")
-script = ExtResource("2_bmwdd")
-
-[node name="CharacterItem2" type="Sprite2D" parent="SubViewport/SelectList"]
-position = Vector2(500, 0)
-texture = ExtResource("1_og3fs")
-script = ExtResource("2_bmwdd")
-
-[node name="CharacterItem3" type="Sprite2D" parent="SubViewport/SelectList"]
-position = Vector2(1000, 0)
-texture = ExtResource("1_og3fs")
-script = ExtResource("2_bmwdd")
-
-[node name="CharacterItem4" type="Sprite2D" parent="SubViewport/SelectList"]
-position = Vector2(1500, 0)
-texture = ExtResource("1_og3fs")
-script = ExtResource("2_bmwdd")
+[node name="MonsterList" parent="SubViewport" instance=ExtResource("1_ey40f")]
