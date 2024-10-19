@@ -9,6 +9,7 @@ public partial class PlayerContainer : Node
 	{
 		public string Id;
         public bool Hosting;
+        public bool Ready;
 		public string NickName;
 		public int Score;
         public Character.CharacterTypeEnum SurvivorType;
@@ -108,9 +109,8 @@ public partial class PlayerContainer : Node
     }
 
     [Rpc(mode: MultiplayerApi.RpcMode.AnyPeer, CallLocal = false, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
-    public void CharacterSelectRpc(string id, Character.CharacterTypeEnum characterType, bool isSurvivor)
+    private void CharacterSelectRpc(string id, Character.CharacterTypeEnum characterType, bool isSurvivor)
     {
-        LogTool.DebugLogDump(id);
         var player = Players.Find(item=>item.Id == id);
         if (player.Id != id)
         {
@@ -135,7 +135,48 @@ public partial class PlayerContainer : Node
         }
     }
 
-	public void ChangeScore(string id, int score)
+    public void PlayerReady(string id, bool ready)
+    {
+        if (NetworkControler.IsMultiplayer == true && NetworkControler.MultiplayerApi.IsServer())
+        {
+            PlayerReadyRpc(id, ready);
+            NetworkControler.ReadyStatus = ready;
+        }
+        else
+        {
+            RpcId(MultiplayerPeer.TargetPeerServer, "PlayerReadyRpc", id, ready);
+        }
+    }
+
+    [Rpc(mode: MultiplayerApi.RpcMode.AnyPeer, CallLocal = false, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
+    private void PlayerReadyRpc(string id, bool ready)
+    {
+        var player = Players.Find(item => item.Id == id);
+        if (player.Id != id)
+        {
+            LogTool.DebugLogDump("Player not found!");
+            return;
+        }
+        player.Ready = ready;
+        for (int i = 0; i < Players.Count; i++)
+        {
+            if (Players[i].Id == id)
+            {
+                var readyButton = BigBro.bigBro.GetNodeOrNull<ReadyButton>("WaitingHall/PreparedArea/ReadyButton");
+                if (readyButton == null)
+                {
+                    LogTool.DebugLogDump("ReadyButton not found!");
+                    return;
+                }
+                readyButton.ReadyFireUpdate(ready);
+                Players[i] = player;
+                return;
+            }
+        }
+        LogTool.DebugLogDump("Player not found!");
+    }
+
+    public void ChangeScore(string id, int score)
 	{
         for (int i = 0; i < Players.Count; i++)
         {
@@ -179,6 +220,9 @@ public partial class PlayerContainer : Node
     public void ResponseDataRpc(string playersJson)
     {
         Players = JsonConvert.DeserializeObject<List<Player>>(playersJson);
+        LogTool.DebugLogDump(GetMultiplayerAuthority().ToString());
+        NetworkControler.ReadyStatus = Players.Find(item => item.Id == GetMultiplayerAuthority().ToString()).Ready;
+        LogTool.DebugLogDump(NetworkControler.ReadyStatus.ToString());
         //ScoreLabelUpdate();
     }
 

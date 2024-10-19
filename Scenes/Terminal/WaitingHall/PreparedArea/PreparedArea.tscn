@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://ct3sr3pvonwd4"]
+[gd_scene load_steps=6 format=3 uid="uid://ct3sr3pvonwd4"]
 
 [ext_resource type="Texture2D" uid="uid://cmoc021nqrsly" path="res://Static/StaticImages/Map/江南白景图.png" id="1_qgr0x"]
 [ext_resource type="Texture2D" uid="uid://cm57d6pgjj4kj" path="res://Static/UI/Joystick/摇杆2.webp" id="2_g30ek"]
+[ext_resource type="Script" path="res://Scripts/UI/ReadyButton.cs" id="3_gx18g"]
 [ext_resource type="Texture2D" uid="uid://kqvvh5odcvn8" path="res://Static/Animations/Character/Survivors/Mouse/MouseSelected.png" id="3_irkkr"]
 [ext_resource type="Texture2D" uid="uid://dl7f4lv0k4n05" path="res://Static/UI/Joystick/摇杆.webp" id="3_pb22d"]
 
@@ -12,10 +13,14 @@ position = Vector2(0, -12)
 scale = Vector2(0.375, 0.388043)
 texture = ExtResource("1_qgr0x")
 
-[node name="ReadyButton" type="Sprite2D" parent="."]
-position = Vector2(-13, -1)
+[node name="ReadyButton" type="TextureButton" parent="."]
+offset_left = -156.0
+offset_top = -141.0
+offset_right = -16.0
+offset_bottom = -1.0
 scale = Vector2(2.12857, 2.12857)
-texture = ExtResource("2_g30ek")
+texture_normal = ExtResource("2_g30ek")
+script = ExtResource("3_gx18g")
 
 [node name="Players" type="Node2D" parent="."]
 
