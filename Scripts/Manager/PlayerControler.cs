@@ -60,8 +60,8 @@ public partial class PlayerControler : Node
         {
             Player = character;
         }
-        Players.Add(character);
-        PlayerContainer.AddChild(character);
+        //Players.Add(character);
+        //PlayerContainer.AddChild(character);
     }
 
     public static void PlayerRemove(string id)
@@ -96,7 +96,7 @@ public partial class PlayerControler : Node
         {
             if (PlayerContainer.Players[i].Id == Monster.Name)
             {
-                survivor = ResourceLoader.Load<PackedScene>(PlayerContainer.Players[i].SurvivorPath).InstantiateOrNull<Survivor>();
+                survivor = ResourceLoader.Load<PackedScene>(Character.CharacterImagePathList[PlayerContainer.Players[i].SurvivorType]).InstantiateOrNull<Survivor>();
                 survivor.Name = Monster.Name;
                 survivor.Position = Monster.Position;
                 survivor.Hosting = Monster.Hosting;
@@ -111,7 +111,7 @@ public partial class PlayerControler : Node
                     LogTool.DebugLogDump("Survivor instance not found!");
                     return;
                 }
-                monster = ResourceLoader.Load<PackedScene>(PlayerContainer.Players[i].MonsterPath).InstantiateOrNull<Monster>();
+                monster = ResourceLoader.Load<PackedScene>(Character.CharacterImagePathList[PlayerContainer.Players[i].MonsterType]).InstantiateOrNull<Monster>();
                 monster.Name = player.Name;
                 monster.Position = player.Position;
                 monster.Hosting = player.Hosting;

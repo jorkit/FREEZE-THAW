@@ -73,13 +73,15 @@ public partial class SelectList : Node2D
         {
             if (item.Position.X == 500)
             {
-                if (ListStart == (int)Character.CharacterTypeEnum.SurvivorStart)
+                if (ListStart != (int)Character.CharacterTypeEnum.SurvivorStart)
                 {
 					SelectedArea.SetSelectedImage(item.TextureImage, true);
+					PlayerControler.PlayerContainer.CharacterSelect(GetMultiplayerAuthority().ToString(), item.Type, true);
                 }
 				else
 				{
                     SelectedArea.SetSelectedImage(item.TextureImage, false);
+                    PlayerControler.PlayerContainer.CharacterSelect(GetMultiplayerAuthority().ToString(), item.Type, false);
                 }
             }
         }

@@ -11,10 +11,10 @@ public partial class PlayerContainer : Node
         public bool Hosting;
 		public string NickName;
 		public int Score;
-        public string SurvivorPath;
-        public string MonsterPath;
+        public Character.CharacterTypeEnum SurvivorType;
+        public Character.CharacterTypeEnum MonsterType;
     }
-    public List<Player> Players { set; get; }
+    public static List<Player> Players { set; get; }
 	public int SCORE_INIT { set; get; }
 
 	private static Timer _timer;
@@ -27,6 +27,7 @@ public partial class PlayerContainer : Node
         _timer = new();
         _timer.Timeout += TimerTimeOutHandler;
         GetParent().AddChild(_timer);
+        TimerStart();
 	}
 
     public override void _PhysicsProcess(double delta)
@@ -64,8 +65,8 @@ public partial class PlayerContainer : Node
 
     public void PlayerInit(string id)
 	{
-        string SurvivorPath;
-        string MonsterPath;
+        Character.CharacterTypeEnum survivorType;
+        Character.CharacterTypeEnum monsterType;
         if (NetworkControler.IsMultiplayer == true)
         {
             /* if player exist */
@@ -74,23 +75,64 @@ public partial class PlayerContainer : Node
             {
                 return;
             }
-            SurvivorPath = Character.CharacterPathList[Character.CharacterTypeEnum.Mouse];
-            MonsterPath = Character.CharacterPathList[Character.CharacterTypeEnum.Sandworm];
+            survivorType = Character.CharacterTypeEnum.Mouse;
+            monsterType = Character.CharacterTypeEnum.Sandworm;
         }
         else
         {
-            SurvivorPath = Character.CharacterPathList[Character.CharacterTypeEnum.Mouse];
-            MonsterPath = Character.CharacterPathList[Character.CharacterTypeEnum.Sandworm];
+            survivorType = Character.CharacterTypeEnum.Mouse;
+            monsterType = Character.CharacterTypeEnum.Sandworm;
         }
+        LogTool.DebugLogDump(id);
         Player newPlayer = new()
         {
             Id = id,
             NickName = "",
             Score = SCORE_INIT,
-            SurvivorPath = SurvivorPath,
-            MonsterPath = MonsterPath,
+            SurvivorType = survivorType,
+            MonsterType = monsterType,
         };
         Players.Add(newPlayer);
+    }
+
+    public void CharacterSelect(string id, Character.CharacterTypeEnum characterType, bool isSurvivor)
+    {
+        if (NetworkControler.IsMultiplayer == true && NetworkControler.MultiplayerApi.IsServer())
+        {
+            CharacterSelectRpc(id, characterType, isSurvivor);
+        }
+        else
+        {
+            RpcId(MultiplayerPeer.TargetPeerServer, "CharacterSelectRpc", id, (int)characterType, isSurvivor);
+        }
+    }
+
+    [Rpc(mode: MultiplayerApi.RpcMode.AnyPeer, CallLocal = false, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
+    public void CharacterSelectRpc(string id, Character.CharacterTypeEnum characterType, bool isSurvivor)
+    {
+        LogTool.DebugLogDump(id);
+        var player = Players.Find(item=>item.Id == id);
+        if (player.Id != id)
+        {
+            LogTool.DebugLogDump("Player not found!");
+            return;
+        }
+        if (isSurvivor)
+        {
+            player.SurvivorType = characterType;
+        }
+        else
+        {
+            player.MonsterType = characterType;
+        }
+        for (int i = 0; i < Players.Count; i++)
+        {
+            if (Players[i].Id == id)
+            {
+                Players[i] = player;
+                return;
+            }
+        }
     }
 
 	public void ChangeScore(string id, int score)
@@ -118,7 +160,7 @@ public partial class PlayerContainer : Node
         }
         else
         {
-            ScoreLabelUpdate();
+            //ScoreLabelUpdate();
         }
     }
 
@@ -137,7 +179,7 @@ public partial class PlayerContainer : Node
     public void ResponseDataRpc(string playersJson)
     {
         Players = JsonConvert.DeserializeObject<List<Player>>(playersJson);
-        ScoreLabelUpdate();
+        //ScoreLabelUpdate();
     }
 
     private void ScoreLabelUpdate()

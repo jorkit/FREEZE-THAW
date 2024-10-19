@@ -32,7 +32,7 @@ public partial class MatchSettlement : Node
         }
 
         /* sort the player by score */
-        var orderPlayers = PlayerControler.PlayerContainer.Players.OrderByDescending(player => player.Score);
+        var orderPlayers = PlayerContainer.Players.OrderByDescending(player => player.Score);
 
         /* set the data */
         int i = 1;

@@ -20,7 +20,7 @@ public partial class WaitingHall : Node
             NetworkControler.Spawner.SpawnPath = PlayerControler.PlayerContainer.GetPath();
             if (NetworkControler.MultiplayerApi.IsServer() == true)
             {
-                //PlayerControler.PlayerAdd(((int)Character.CharacterTypeEnum.Sandworm).ToString(), Character.CharacterPathList[Character.CharacterTypeEnum.Sandworm], false);
+                PlayerControler.PlayerAdd(GetMultiplayerAuthority().ToString(), Character.CharacterPathList[Character.CharacterTypeEnum.Sandworm], false);
                 //PlayerControler.PlayerAdd(((int)Character.CharacterTypeEnum.Mouse).ToString(), Character.CharacterPathList[Character.CharacterTypeEnum.Mouse], false);
             }
         }
