@@ -13,17 +13,13 @@ public partial class SceneOfWaitingHall : SceneFSMState
 
     public override void Update(double delta)
     {
-        if (NetworkControler.IsMultiplayer == true)
-        {
-            if (PlayerContainer.Players.Count == 10)
-            {
-                SceneFSM.PreStateChange(SceneFsm, SceneStateEnum.MatchStartLoading, true);
-                NetworkControler.MultiplayerApi.MultiplayerPeer.RefuseNewConnections = true;
-            }
-        }
-        else
+        if (PlayerContainer.Players.Count == 5 && PlayerContainer.Players.FindAll(item=>item.Ready == true).Count == 5)
         {
             SceneFSM.PreStateChange(SceneFsm, SceneStateEnum.MatchStartLoading, true);
+            if (NetworkControler.IsMultiplayer == true)
+            {
+                NetworkControler.MultiplayerApi.MultiplayerPeer.RefuseNewConnections = true;
+            }
         }
     }
     public override bool EnterCondition()

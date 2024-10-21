@@ -20,16 +20,16 @@ public partial class WaitingHall : Node
             NetworkControler.Spawner.SpawnPath = PlayerControler.PlayerContainer.GetPath();
             if (NetworkControler.MultiplayerApi.IsServer() == true)
             {
-                PlayerControler.PlayerAdd(GetMultiplayerAuthority().ToString(), Character.CharacterPathList[Character.CharacterTypeEnum.Sandworm], false);
-                //PlayerControler.PlayerAdd(((int)Character.CharacterTypeEnum.Mouse).ToString(), Character.CharacterPathList[Character.CharacterTypeEnum.Mouse], false);
+                PlayerControler.PlayerAdd(GetMultiplayerAuthority().ToString(), Character.CharacterTypeEnum.Mouse, false);
             }
         }
         else
         {
-            //BigBro.PlayerAdd(((int)Character.CharacterTypeEnum.AISandworm).ToString(), Character.CharacterPathList[Character.CharacterTypeEnum.AISandworm]);
-            PlayerControler.PlayerAdd("1", Character.CharacterPathList[Character.CharacterTypeEnum.Sandworm], false);
-            //BigBro.PlayerAdd(((int)Character.CharacterTypeEnum.Mouse).ToString(), Character.CharacterPathList[Character.CharacterTypeEnum.Mouse]);
-            PlayerControler.PlayerAdd(((int)Character.CharacterTypeEnum.Mouse).ToString(), Character.CharacterPathList[Character.CharacterTypeEnum.Mouse], true);
+            PlayerControler.PlayerAdd("1", Character.CharacterTypeEnum.Mouse, false);
+            PlayerControler.PlayerAdd(((int)Character.CharacterTypeEnum.Mouse2).ToString(), Character.CharacterTypeEnum.Mouse, true);
+            PlayerControler.PlayerAdd(((int)Character.CharacterTypeEnum.Mouse3).ToString(), Character.CharacterTypeEnum.Mouse, true);
+            PlayerControler.PlayerAdd(((int)Character.CharacterTypeEnum.Mouse4).ToString(), Character.CharacterTypeEnum.Mouse, true);
+            PlayerControler.PlayerAdd(((int)Character.CharacterTypeEnum.Mouse5).ToString(), Character.CharacterTypeEnum.Mouse, true);
         }
     }
 }

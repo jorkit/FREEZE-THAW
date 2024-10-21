@@ -9,8 +9,12 @@ public abstract partial class Character : CharacterBody2D
     public enum CharacterTypeEnum
     {
         /* Survivor */
-        SurvivorStart,
+        SurvivorStart = 10,
         Mouse,
+        Mouse2,
+        Mouse3,
+        Mouse4,
+        Mouse5,
         SurvivorMax,
         /* Monster */
         MonsterStart,
@@ -20,12 +24,20 @@ public abstract partial class Character : CharacterBody2D
     public static readonly Godot.Collections.Dictionary<CharacterTypeEnum, string> CharacterPathList = new Godot.Collections.Dictionary<CharacterTypeEnum, string>()
     {
         [CharacterTypeEnum.Mouse] = "res://Scenes/Character/Survivors/Mouse.tscn",
+        [CharacterTypeEnum.Mouse2] = "res://Scenes/Character/Survivors/Mouse2.tscn",
+        [CharacterTypeEnum.Mouse3] = "res://Scenes/Character/Survivors/Mouse3.tscn",
+        [CharacterTypeEnum.Mouse4] = "res://Scenes/Character/Survivors/Mouse4.tscn",
+        [CharacterTypeEnum.Mouse5] = "res://Scenes/Character/Survivors/Mouse5.tscn",
         [CharacterTypeEnum.Sandworm] = "res://Scenes/Character/Monsters/Sandworm.tscn",
     };
 
     public static readonly Godot.Collections.Dictionary<CharacterTypeEnum, string> CharacterImagePathList = new Godot.Collections.Dictionary<CharacterTypeEnum, string>()
     {
         [CharacterTypeEnum.Mouse] = "res://Static/Animations/Character/Survivors/Mouse/MouseSelected.png",
+        [CharacterTypeEnum.Mouse2] = "res://Static/Animations/Character/Survivors/Mouse/MouseSelected.png",
+        [CharacterTypeEnum.Mouse3] = "res://Static/Animations/Character/Survivors/Mouse/MouseSelected.png",
+        [CharacterTypeEnum.Mouse4] = "res://Static/Animations/Character/Survivors/Mouse/MouseSelected.png",
+        [CharacterTypeEnum.Mouse5] = "res://Static/Animations/Character/Survivors/Mouse/MouseSelected.png",
         [CharacterTypeEnum.Sandworm] = "res://Static/Animations/Character/Monsters/Sandworm/Adonis_boss.png",
     };
 
@@ -48,6 +60,7 @@ public abstract partial class Character : CharacterBody2D
             }
             if (IsMultiplayerAuthority() == false)
             {
+                LogTool.DebugLogDump(Name);
                 /* hide the other clients' UIContainer and remove their Camera */
                 GetNode<UIContainer>("UIContainer").Visible = false;
                 RemoveChild(GetNode<Camera2D>("CharacterCamera"));
@@ -56,6 +69,7 @@ public abstract partial class Character : CharacterBody2D
             /* AI in multiplayer */
             if (Hosting)
             {
+                LogTool.DebugLogDump(Name);
                 /* hide the AIs' UIContainer and remove their Camera */
                 GetNode<UIContainer>("UIContainer").Visible = false;
                 RemoveChild(GetNode<Camera2D>("CharacterCamera"));
@@ -230,7 +244,7 @@ public abstract partial class Character : CharacterBody2D
         }
         if (PlayerControler.Monster == null)
         {
-            LogTool.DebugLogDump("Wait for Translating");
+            //LogTool.DebugLogDump("Wait for Translating");
             return;
         }
         var point = GetNodeOrNull<Sprite2D>("UIContainer/Joystick/Point");

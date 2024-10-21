@@ -1,0 +1,366 @@
+[gd_scene load_steps=36 format=3 uid="uid://dk5u0bdd41nll"]
+
+[ext_resource type="Script" path="res://Scripts/Character/Survivors/Mouse4.cs" id="1_x18ng"]
+[ext_resource type="Texture2D" uid="uid://cm57d6pgjj4kj" path="res://Static/UI/Joystick/摇杆2.webp" id="2_aixor"]
+[ext_resource type="Texture2D" uid="uid://cf0adrmuibiil" path="res://Static/Animations/Character/Monsters/Sandworm/Adonis_boss.png" id="3_mygl1"]
+[ext_resource type="Texture2D" uid="uid://bhmsndqi50x04" path="res://Static/Animations/Character/Survivors/Mouse/Mouse.png" id="4_lmj3d"]
+[ext_resource type="PackedScene" uid="uid://2toocttgi3dx" path="res://Scenes/Character/Unit/CharacterCamera.tscn" id="5_7mqcq"]
+[ext_resource type="PackedScene" uid="uid://8qemlyfupy68" path="res://Scenes/Character/Unit/UIContainer/UIContainer.tscn" id="6_ijkny"]
+[ext_resource type="PackedScene" uid="uid://b8bjf4yiby1fb" path="res://Scenes/Character/Unit/FSM/FSM.tscn" id="7_kf3ta"]
+[ext_resource type="PackedScene" uid="uid://cfk8yf15dhkwd" path="res://Scenes/Character/Unit/FSM/FSMStates/Idle.tscn" id="8_u5igo"]
+[ext_resource type="PackedScene" uid="uid://cva2e1sardm5w" path="res://Scenes/Character/Unit/FSM/FSMStates/Run.tscn" id="9_umdwv"]
+[ext_resource type="PackedScene" uid="uid://dmucna7b1cxtm" path="res://Scenes/Character/Unit/FSM/FSMStates/Attack.tscn" id="10_laib7"]
+[ext_resource type="PackedScene" uid="uid://b2odjxtivg3xw" path="res://Scenes/Character/Unit/FSM/FSMStates/Armor.tscn" id="11_algeq"]
+[ext_resource type="PackedScene" uid="uid://qsnlncnjjhyl" path="res://Scenes/Character/Unit/FSM/FSMStates/Hurt.tscn" id="12_tk3e8"]
+[ext_resource type="PackedScene" uid="uid://cuotnagepexyu" path="res://Scenes/Character/Unit/FSM/FSMStates/Freezing.tscn" id="13_xb4m5"]
+[ext_resource type="PackedScene" uid="uid://csse0gatnep14" path="res://Scenes/Character/Unit/FSM/FSMStates/Freezed.tscn" id="14_nyay7"]
+[ext_resource type="PackedScene" uid="uid://dqra8hoygdbsh" path="res://Scenes/Character/Unit/FSM/FSMStates/Thawing.tscn" id="15_fix80"]
+[ext_resource type="PackedScene" uid="uid://b2sbowkq3x7lb" path="res://Scenes/Character/Unit/FSM/FSMStates/Sealed.tscn" id="16_6rsxy"]
+[ext_resource type="PackedScene" uid="uid://de877pbxdenht" path="res://Scenes/Character/Unit/FSM/FSMStates/Unsealing.tscn" id="17_4y3rp"]
+[ext_resource type="PackedScene" uid="uid://djtg8ri6l5pcg" path="res://Scenes/Character/Unit/FSM/FSMStates/Freeing.tscn" id="18_ijn55"]
+[ext_resource type="PackedScene" uid="uid://n0sxm7qpqn70" path="res://Scenes/Character/Unit/FSM/FSMStates/Die.tscn" id="19_gm3co"]
+[ext_resource type="PackedScene" uid="uid://deqsnwihsugpv" path="res://Scenes/Character/Unit/RadiusCheck.tscn" id="20_kh0ir"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jrik5"]
+atlas = ExtResource("4_lmj3d")
+region = Rect2(0, 0, 1204, 1546)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1fd28"]
+atlas = ExtResource("4_lmj3d")
+region = Rect2(2408, 0, 1204, 1546)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tuslp"]
+atlas = ExtResource("4_lmj3d")
+region = Rect2(4816, 0, 1204, 1546)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6himb"]
+atlas = ExtResource("4_lmj3d")
+region = Rect2(7224, 0, 1204, 1546)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vydfg"]
+atlas = ExtResource("4_lmj3d")
+region = Rect2(0, 0, 1204, 1546)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2e7ch"]
+atlas = ExtResource("4_lmj3d")
+region = Rect2(1204, 0, 1204, 1546)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sum2w"]
+atlas = ExtResource("4_lmj3d")
+region = Rect2(2408, 0, 1204, 1546)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mpq8r"]
+atlas = ExtResource("4_lmj3d")
+region = Rect2(3612, 0, 1204, 1546)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gmq5g"]
+atlas = ExtResource("4_lmj3d")
+region = Rect2(4816, 0, 1204, 1546)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8yrvh"]
+atlas = ExtResource("4_lmj3d")
+region = Rect2(6020, 0, 1204, 1546)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6m8nt"]
+atlas = ExtResource("4_lmj3d")
+region = Rect2(7224, 0, 1204, 1546)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ylv4c"]
+atlas = ExtResource("4_lmj3d")
+region = Rect2(8428, 0, 1204, 1546)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hvbq4"]
+atlas = ExtResource("4_lmj3d")
+region = Rect2(9632, 0, 1204, 1546)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_snrp6"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_mygl1")
+}, {
+"duration": 1.0,
+"texture": null
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_mygl1")
+}, {
+"duration": 1.0,
+"texture": null
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_mygl1")
+}],
+"loop": false,
+"name": &"Attack",
+"speed": 9.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jrik5")
+}, {
+"duration": 1.0,
+"texture": null
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1fd28")
+}, {
+"duration": 1.0,
+"texture": null
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1fd28")
+}, {
+"duration": 1.0,
+"texture": null
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1fd28")
+}],
+"loop": false,
+"name": &"Freeing",
+"speed": 6.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jrik5")
+}, {
+"duration": 1.0,
+"texture": null
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1fd28")
+}, {
+"duration": 1.0,
+"texture": null
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tuslp")
+}, {
+"duration": 1.0,
+"texture": null
+}],
+"loop": true,
+"name": &"Freezed",
+"speed": 6.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jrik5")
+}, {
+"duration": 1.0,
+"texture": null
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1fd28")
+}, {
+"duration": 1.0,
+"texture": null
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tuslp")
+}, {
+"duration": 1.0,
+"texture": null
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6himb")
+}],
+"loop": false,
+"name": &"Freezing",
+"speed": 12.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jrik5")
+}, {
+"duration": 1.0,
+"texture": null
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1fd28")
+}, {
+"duration": 1.0,
+"texture": null
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tuslp")
+}],
+"loop": false,
+"name": &"Hurt",
+"speed": 12.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vydfg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2e7ch")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sum2w")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mpq8r")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gmq5g")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8yrvh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6m8nt")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ylv4c")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hvbq4")
+}],
+"loop": true,
+"name": &"Idle",
+"speed": 9.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jrik5")
+}, {
+"duration": 1.0,
+"texture": null
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1fd28")
+}, {
+"duration": 1.0,
+"texture": null
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tuslp")
+}, {
+"duration": 1.0,
+"texture": null
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6himb")
+}, {
+"duration": 1.0,
+"texture": null
+}],
+"loop": true,
+"name": &"Run",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_mygl1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jrik5")
+}],
+"loop": true,
+"name": &"Sealed",
+"speed": 3.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jrik5")
+}, {
+"duration": 1.0,
+"texture": null
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1fd28")
+}],
+"loop": false,
+"name": &"Thawing",
+"speed": 12.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jrik5")
+}, {
+"duration": 1.0,
+"texture": null
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1fd28")
+}, {
+"duration": 1.0,
+"texture": null
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1fd28")
+}, {
+"duration": 1.0,
+"texture": null
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1fd28")
+}],
+"loop": false,
+"name": &"Unsealing",
+"speed": 6.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_pnk0x"]
+radius = 40.0
+height = 160.0
+
+[node name="Mouse" type="CharacterBody2D"]
+collision_layer = 4
+collision_mask = 7
+motion_mode = 1
+script = ExtResource("1_x18ng")
+
+[node name="Shadow" type="Sprite2D" parent="."]
+position = Vector2(-1, 81.5)
+scale = Vector2(1.01429, 0.25)
+texture = ExtResource("2_aixor")
+
+[node name="AttackDirection" type="Polygon2D" parent="."]
+scale = Vector2(1.04215, 1)
+color = Color(0, 1, 1, 0.294118)
+polygon = PackedVector2Array(0, 0, 284.028, -8, 260.999, -16, 99.7938, -16, 260.999, -24, 314.734, 0, 260.999, 24, 99.7938, 16, 260.999, 16, 285.257, 8, 0, 0)
+
+[node name="SelfImage" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, -4.76837e-07)
+scale = Vector2(0.112097, 0.117045)
+sprite_frames = SubResource("SpriteFrames_snrp6")
+animation = &"Attack"
+autoplay = "Idle"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_pnk0x")
+
+[node name="CharacterCamera" parent="." instance=ExtResource("5_7mqcq")]
+
+[node name="UIContainer" parent="." instance=ExtResource("6_ijkny")]
+
+[node name="FSM" parent="." instance=ExtResource("7_kf3ta")]
+
+[node name="Idle" parent="FSM" instance=ExtResource("8_u5igo")]
+
+[node name="Run" parent="FSM" instance=ExtResource("9_umdwv")]
+
+[node name="Attack" parent="FSM" instance=ExtResource("10_laib7")]
+
+[node name="Armor" parent="FSM" instance=ExtResource("11_algeq")]
+
+[node name="Hurt" parent="FSM" instance=ExtResource("12_tk3e8")]
+
+[node name="Freezing" parent="FSM" instance=ExtResource("13_xb4m5")]
+
+[node name="Freezed" parent="FSM" instance=ExtResource("14_nyay7")]
+
+[node name="Thawing" parent="FSM" instance=ExtResource("15_fix80")]
+
+[node name="Sealed" parent="FSM" instance=ExtResource("16_6rsxy")]
+
+[node name="Unsealing" parent="FSM" instance=ExtResource("17_4y3rp")]
+
+[node name="Freeing" parent="FSM" instance=ExtResource("18_ijn55")]
+
+[node name="Die" parent="FSM" instance=ExtResource("19_gm3co")]
+
+[node name="RadiusCheck" parent="." instance=ExtResource("20_kh0ir")]

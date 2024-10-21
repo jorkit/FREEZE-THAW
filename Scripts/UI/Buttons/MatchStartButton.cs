@@ -29,5 +29,6 @@ public partial class MatchStartButton : Button
     {
         LogTool.DebugLogDump(Name + " pressed!");
         SceneFSM.PreStateChange(BigBro.SceneFSM, SceneStateEnum.WaitingHall, true);
+        NetworkControler.Id = "1";
     }
 }

@@ -1,4 +1,4 @@
-using FreezeThaw.Utils;
+﻿using FreezeThaw.Utils;
 using Godot;
 using System;
 
@@ -28,7 +28,13 @@ public partial class PreparedArea : Node2D
 		}
 		for (int i = 0; i < players.Count; i++)
 		{
-			((Sprite2D)players[i]).Texture = ResourceLoader.Load(Character.CharacterImagePathList[PlayerContainer.Players[i].SurvivorType]) as Texture2D;
-		}
+			if (PlayerContainer.Players.Count < i + 1 )
+			{
+                ((TextureButton)players[i]).TextureNormal = ResourceLoader.Load("res://Static/UI/Joystick/摇杆.webp") as Texture2D;
+                return;
+			}
+			((TextureButton)players[i]).TextureNormal = ResourceLoader.Load(Character.CharacterImagePathList[PlayerContainer.Players[i].SurvivorType]) as Texture2D;
+			((TextureButton)players[i]).Scale = new Vector2((float)0.3, (float)0.3);
+        }
 	}
 }

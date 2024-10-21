@@ -39,7 +39,6 @@ public partial class ReadyButton : TextureButton
 	private async void ReadyFireUpdateRpc(bool ready)
 	{
         Color readyButtonSelfModulate = SelfModulate;
-        LogTool.DebugLogDump(readyButtonSelfModulate.A.ToString());
         if (ready)
         {
             readyButtonSelfModulate.A += (float)0.1;

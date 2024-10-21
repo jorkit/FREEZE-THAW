@@ -2,6 +2,7 @@ using FreezeThaw.Utils;
 using Godot;
 using System.Collections.Generic;
 using Newtonsoft.Json;
+using System;
 
 public partial class PlayerContainer : Node
 {
@@ -10,8 +11,9 @@ public partial class PlayerContainer : Node
 		public string Id;
         public bool Hosting;
         public bool Ready;
-		public string NickName;
-		public int Score;
+		public string SurvivorNickName;
+        public string MonsterNickName;
+        public int Score;
         public Character.CharacterTypeEnum SurvivorType;
         public Character.CharacterTypeEnum MonsterType;
     }
@@ -23,7 +25,7 @@ public partial class PlayerContainer : Node
 	public override void _Ready()
 	{
         SCORE_INIT = 300;
-		Players = new List<Player>();
+		Players = new List<Player>(5);
         //ChildEnteredTree += new ChildEnteredTreeEventHandler(ChildEnterTreeHandler);
         _timer = new();
         _timer.Timeout += TimerTimeOutHandler;
@@ -64,7 +66,7 @@ public partial class PlayerContainer : Node
         _timer.Stop();
     }
 
-    public void PlayerInit(string id)
+    public void PlayerInit(string id, Character.CharacterTypeEnum type, bool hosting)
 	{
         Character.CharacterTypeEnum survivorType;
         Character.CharacterTypeEnum monsterType;
@@ -74,21 +76,24 @@ public partial class PlayerContainer : Node
             var player = Players.Find(character => character.Id == id);
             if (player.Id == id)
             {
+                LogTool.DebugLogDump("Player[" + id + "] eixst!");
                 return;
             }
-            survivorType = Character.CharacterTypeEnum.Mouse;
+            survivorType = type;
             monsterType = Character.CharacterTypeEnum.Sandworm;
         }
         else
         {
-            survivorType = Character.CharacterTypeEnum.Mouse;
+            survivorType = type;
             monsterType = Character.CharacterTypeEnum.Sandworm;
         }
-        LogTool.DebugLogDump(id);
         Player newPlayer = new()
         {
             Id = id,
-            NickName = "",
+            Hosting = hosting,
+            Ready = hosting? true : false,
+            SurvivorNickName = Enum.GetName(type),
+            MonsterNickName = Enum.GetName(Character.CharacterTypeEnum.Sandworm),
             Score = SCORE_INIT,
             SurvivorType = survivorType,
             MonsterType = monsterType,
@@ -98,13 +103,13 @@ public partial class PlayerContainer : Node
 
     public void CharacterSelect(string id, Character.CharacterTypeEnum characterType, bool isSurvivor)
     {
-        if (NetworkControler.IsMultiplayer == true && NetworkControler.MultiplayerApi.IsServer())
+        if (NetworkControler.IsMultiplayer == true && NetworkControler.MultiplayerApi.IsServer() == false)
         {
-            CharacterSelectRpc(id, characterType, isSurvivor);
+            RpcId(MultiplayerPeer.TargetPeerServer, "CharacterSelectRpc", id, (int)characterType, isSurvivor);
         }
         else
         {
-            RpcId(MultiplayerPeer.TargetPeerServer, "CharacterSelectRpc", id, (int)characterType, isSurvivor);
+            CharacterSelectRpc(id, characterType, isSurvivor);
         }
     }
 
@@ -120,10 +125,12 @@ public partial class PlayerContainer : Node
         if (isSurvivor)
         {
             player.SurvivorType = characterType;
+            player.SurvivorNickName = Enum.GetName(characterType);
         }
         else
         {
             player.MonsterType = characterType;
+            player.MonsterNickName = Enum.GetName(characterType);
         }
         for (int i = 0; i < Players.Count; i++)
         {
@@ -137,14 +144,14 @@ public partial class PlayerContainer : Node
 
     public void PlayerReady(string id, bool ready)
     {
-        if (NetworkControler.IsMultiplayer == true && NetworkControler.MultiplayerApi.IsServer())
+        if (NetworkControler.IsMultiplayer == true && NetworkControler.MultiplayerApi.IsServer() == false)
         {
-            PlayerReadyRpc(id, ready);
-            NetworkControler.ReadyStatus = ready;
+            RpcId(MultiplayerPeer.TargetPeerServer, "PlayerReadyRpc", id, ready);
         }
         else
         {
-            RpcId(MultiplayerPeer.TargetPeerServer, "PlayerReadyRpc", id, ready);
+            PlayerReadyRpc(id, ready);
+            NetworkControler.ReadyStatus = ready;
         }
     }
 
@@ -220,9 +227,7 @@ public partial class PlayerContainer : Node
     public void ResponseDataRpc(string playersJson)
     {
         Players = JsonConvert.DeserializeObject<List<Player>>(playersJson);
-        LogTool.DebugLogDump(GetMultiplayerAuthority().ToString());
         NetworkControler.ReadyStatus = Players.Find(item => item.Id == GetMultiplayerAuthority().ToString()).Ready;
-        LogTool.DebugLogDump(NetworkControler.ReadyStatus.ToString());
         //ScoreLabelUpdate();
     }
 

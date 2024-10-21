@@ -3,6 +3,7 @@ using Godot;
 using Godot.Collections;
 using System.IO;
 using System.Xml.Linq;
+using static Godot.Projection;
 using static PlayerContainer;
 
 public partial class PlayerControler : Node
@@ -45,42 +46,56 @@ public partial class PlayerControler : Node
         return true;
     }
 
-    public static void PlayerAdd(string name, NodePath path, bool hosting)
+    public static void PlayerAdd(string name, Character.CharacterTypeEnum type, bool hosting)
     {
-        PlayerContainer.PlayerInit(name);
-        var character = ResourceLoader.Load<PackedScene>(path).InstantiateOrNull<Character>();
-        if (character == null)
+        PlayerContainer.PlayerInit(name, type, hosting);
+    }
+
+    public static void PlayerInstantiate()
+    {
+        foreach (var player in PlayerContainer.Players)
         {
-            LogTool.DebugLogDump("Character Instantiate faild!");
-            return;
+            var character = ResourceLoader.Load<PackedScene>(Character.CharacterPathList[player.SurvivorType]).InstantiateOrNull<Character>();
+            if (character == null)
+            {
+                LogTool.DebugLogDump("Character Instantiate faild!");
+                return;
+            }
+            character.Name = player.Id;
+            character.Hosting = player.Hosting;
+            if (NetworkControler.IsMultiplayer == false && character.Name == "1")
+            {
+                Player = character;
+            }
+            Players.Add(character);
+            PlayerContainer.AddChild(character);
         }
-        character.Name = name;
-        character.Hosting = hosting;
-        if (NetworkControler.IsMultiplayer == false && character.Name == "1")
-        {
-            Player = character;
-        }
-        //Players.Add(character);
-        //PlayerContainer.AddChild(character);
     }
 
     public static void PlayerRemove(string id)
     {
-        var quittedClient = PlayerContainer.GetNodeOrNull(id.ToString());
-        if (quittedClient != null)
+        var playerInfo = PlayerContainer.Players.Find(character => character.Id == id);
+        if (playerInfo.Id == id)
         {
-            quittedClient.Free();
-            /*
-            for (int i = 0; i < PlayerContainer.Players.Count; i++)
-            {
-                if (PlayerContainer.Players[i].Id == id)
-                {
-                    PlayerContainer.Players.RemoveAt(i);
-                    break;
-                }
-            }
-            */
+            PlayerContainer.Players.Remove(playerInfo);
         }
+        var quittedClient = PlayerContainer.GetNodeOrNull(id.ToString());
+        if (quittedClient == null)
+        {
+            LogTool.DebugLogDump("QuittedClient not found!");
+            return;
+        }
+        quittedClient.Free();
+        /*
+        for (int i = 0; i < PlayerContainer.Players.Count; i++)
+        {
+            if (PlayerContainer.Players[i].Id == id)
+            {
+                PlayerContainer.Players.RemoveAt(i);
+                break;
+            }
+        }
+        */
     }
 
     public static void PlayerTranslate(string id)

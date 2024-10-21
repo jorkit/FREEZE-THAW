@@ -32,7 +32,8 @@ public partial class SelectList : Node2D
 				LogTool.DebugLogDump("CharacterItem instantiate faild!");
 				return;
 			}
-			characterItem.Position = Vector2.Right * 500 * (i - 1);
+			characterItem.Name = Enum.GetName((Character.CharacterTypeEnum)i);
+			characterItem.Position = Vector2.Right * 500 * (i - ListStart - 1);
 			characterItem.Type = (Character.CharacterTypeEnum)i;
 			AddChild(characterItem);
 		}
@@ -73,6 +74,7 @@ public partial class SelectList : Node2D
         {
             if (item.Position.X == 500)
             {
+				/* test */
                 if (ListStart != (int)Character.CharacterTypeEnum.SurvivorStart)
                 {
 					SelectedArea.SetSelectedImage(item.TextureImage, true);

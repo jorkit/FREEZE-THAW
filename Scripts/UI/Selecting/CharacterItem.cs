@@ -8,12 +8,20 @@ public partial class CharacterItem : Sprite2D
     public Texture2D TextureImage { get; set; }
     private bool Draging { get; set; }
     private float DragStart { get; set; }
+
+    private float ItemWide = 500;
   
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
 	{
         TextureImage = ResourceLoader.Load(Character.CharacterImagePathList[Type]) as Texture2D;
+        if (TextureImage == null)
+        {
+            LogTool.DebugLogDump("TextureImage not found!");
+            return;
+        }
         Texture = TextureImage;
+        LogTool.DebugLogDump(Name + Position.ToString());
     }
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -23,7 +31,7 @@ public partial class CharacterItem : Sprite2D
 
     public override void _Input(InputEvent @event)
     {
-        if (((Node2D)GetParent()).Visible == false)
+        if (((Node2D)GetParent()).Visible == false || (@event is not InputEventScreenTouch && @event is not InputEventScreenDrag))
         {
             return;
         }
@@ -31,15 +39,18 @@ public partial class CharacterItem : Sprite2D
         {
             return;
         }
-        if (Position.X < -500)
+        /* if draging over limit, move to the other side */
+        var limitLeft = -ItemWide * (Character.CharacterTypeEnum.SurvivorMax - 1 - Character.CharacterTypeEnum.SurvivorStart - 3);
+        if (Position.X < limitLeft)
         {
-            Position = new Vector2(1500, 0);
-            DragStart -= 2000;
+            Position = new Vector2(ItemWide * 3, 0);
+            DragStart -= (-limitLeft + ItemWide * 3);
         }
-        if (Position.X > 1500)
+        var limitRight = ItemWide * (Character.CharacterTypeEnum.SurvivorMax - 1 - Character.CharacterTypeEnum.SurvivorStart - 1);
+        if (Position.X > limitRight)
         {
-            Position = new Vector2(-500, 0);
-            DragStart += 2000;
+            Position = new Vector2(-ItemWide, 0);
+            DragStart += (limitRight + ItemWide);
         }
         /* record touch position */
         if (@event is InputEventScreenTouch && @event.IsPressed())
@@ -50,10 +61,10 @@ public partial class CharacterItem : Sprite2D
         /* release touch */
         if (@event is InputEventScreenTouch && !@event.IsPressed())
         {
-            var offset = Position.X % 500;
+            var offset = Position.X % ItemWide;
             if (offset > 250)
             {
-                Position += new Vector2(500 - offset, 0);
+                Position += new Vector2(ItemWide - offset, 0);
             }
             else if (0 < offset )
             {
@@ -61,7 +72,7 @@ public partial class CharacterItem : Sprite2D
             }
             else if (offset < -250)
             {
-                Position += new Vector2(-500 - offset, 0);
+                Position += new Vector2(-ItemWide - offset, 0);
             }
             else if (offset < 0)
             {
@@ -70,7 +81,7 @@ public partial class CharacterItem : Sprite2D
             Draging = false;
             DragStart = 0;
         }
-        /* move list depends on Drag distance */
+        /* roll list depends on Drag distance */
         if (@event is InputEventScreenDrag && Draging == true)
         {
             var newX = ToLocal((Vector2)@event.Get("position")).X;
