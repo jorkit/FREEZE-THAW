@@ -4,8 +4,14 @@ using System;
 
 public partial class PreparedArea : Node2D
 {
-	// Called when the node enters the scene tree for the first time.
-	public override void _Ready()
+
+    public override void _EnterTree()
+    {
+        Position = new Vector2(UIControler.WindowSize.X * 3 / 4, UIControler.WindowSize.Y / 2);
+    }
+
+    // Called when the node enters the scene tree for the first time.
+    public override void _Ready()
 	{
         Timer _timer = new();
         _timer.Timeout += PreparedUpdate;
@@ -36,6 +42,5 @@ public partial class PreparedArea : Node2D
 			((TextureButton)players[i]).TextureNormal = ResourceLoader.Load(Character.CharacterImagePathList[PlayerContainer.Players[i].SurvivorType]) as Texture2D;
 			((TextureButton)players[i]).Scale = new Vector2((float)0.3, (float)0.3);
         }
-        Position = new Vector2(UIControler.WindowSize.X * 3 / 4, UIControler.WindowSize.Y / 2);
     }
 }

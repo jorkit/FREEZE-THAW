@@ -1,7 +1,6 @@
-[gd_scene load_steps=3 format=3 uid="uid://dqukik54xco0w"]
+[gd_scene load_steps=2 format=3 uid="uid://dqukik54xco0w"]
 
 [ext_resource type="PackedScene" uid="uid://dlf0quru3bs3a" path="res://Scenes/UI/Selecting/SelectList.tscn" id="1_ey40f"]
-[ext_resource type="PackedScene" uid="uid://syi7wfm6x60b" path="res://Scenes/UI/Selecting/CharacterItem.tscn" id="2_fyone"]
 
 [node name="SelectingArea" type="SubViewportContainer"]
 anchors_preset = 8
@@ -25,7 +24,5 @@ size = Vector2i(1500, 720)
 render_target_update_mode = 4
 
 [node name="SurvivorList" parent="SubViewport" instance=ExtResource("1_ey40f")]
-
-[node name="CharacterItem" parent="SubViewport/SurvivorList" instance=ExtResource("2_fyone")]
 
 [node name="MonsterList" parent="SubViewport" instance=ExtResource("1_ey40f")]

@@ -6,6 +6,10 @@ public partial class MatchStartLoading : Node
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
+		if (NetworkControler.IsMultiplayer == true && NetworkControler.MultiplayerApi.IsServer() == false)
+		{
+			return;
+		}
         PlayerControler.PlayerInstantiate();
     }
 

@@ -52,6 +52,7 @@ public abstract partial class Character : CharacterBody2D
         if (NetworkControler.IsMultiplayer == true)
         {
             /* Set the authority of this node */
+            LogTool.DebugLogDump(Name);
             SetMultiplayerAuthority(Name.ToString().ToInt(), true);
 
             if (Position == Vector2.Zero)

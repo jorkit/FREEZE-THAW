@@ -32,7 +32,7 @@ public partial class UIControler : Node2D
         else if (osName == "Android")
         {
             DisplayServer.WindowSetMode(DisplayServer.WindowMode.Fullscreen);
-            WindowSize = (Vector2I)GetViewportRect().End;
+            WindowSize = (Vector2I)GetViewportRect().Size;
             LogTool.DebugLogDump(WindowSize.ToString());
         }
 
