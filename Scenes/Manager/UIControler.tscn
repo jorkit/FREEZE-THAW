@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://cssrjm07bqjav"]
+[gd_scene load_steps=11 format=3 uid="uid://cssrjm07bqjav"]
 
 [ext_resource type="Script" path="res://Scripts/Manager/UIControler.cs" id="1_xo44p"]
 [ext_resource type="Texture2D" uid="uid://dbprk6mu0s3cp" path="res://Static/UI/Setting/SettingBackground.webp" id="2_qy7aa"]
@@ -10,7 +10,6 @@
 [ext_resource type="Script" path="res://Scripts/UI/Setting/HSliderMasterAudio.cs" id="7_8rtm1"]
 [ext_resource type="Script" path="res://Scripts/UI/Setting/HSliderEffectsAudio.cs" id="8_svfiy"]
 [ext_resource type="Script" path="res://Scripts/UI/Setting/HSliderBGMAudio.cs" id="9_aolpi"]
-[ext_resource type="PackedScene" uid="uid://dqukik54xco0w" path="res://Scenes/Terminal/WaitingHall/SelectingArea/SelectingArea.tscn" id="11_mnbpb"]
 
 [node name="UIControler" type="Node2D"]
 script = ExtResource("1_xo44p")
@@ -167,5 +166,3 @@ step = 0.1
 script = ExtResource("7_8rtm1")
 
 [node name="SelectingContainer" type="CanvasLayer" parent="."]
-
-[node name="SelectingArea" parent="SelectingContainer" instance=ExtResource("11_mnbpb")]

@@ -44,9 +44,9 @@ public partial class SelectList : Node2D
 	{
 	}
 
-    public override void _Input(InputEvent @event)
+    public override void _UnhandledInput(InputEvent @event)
     {
-		if (@event is InputEventScreenTouch && @event.IsPressed())
+		if (Visible == true && @event is InputEventScreenTouch && @event.IsPressed())
 		{
             if (!Draging)
 			{
@@ -54,20 +54,20 @@ public partial class SelectList : Node2D
 				return;
 			}
 			var position = ToLocal((Vector2)@event.Get("position"));
-            if (position.X > 500 && position.X < 1000)
+            if (position.X > 250 && position.X < 750)
 			{
-				Select();
+                Select();
+                WaitingHall.SelectingArea.MouseFilter = Control.MouseFilterEnum.Ignore;
             }
 		}
 		else if (@event is InputEventScreenDrag)
 		{
-			Draging = false;
+            Draging = false;
 		}
     }
 
 	private void Select()
 	{
-        UIControler.SelectingContainer.Visible = false;
         Visible = false;
         Draging = false;
         foreach (CharacterItem item in GetChildren())

@@ -7,7 +7,7 @@ public partial class PreparedArea : Node2D
 
     public override void _EnterTree()
     {
-        Position = new Vector2(UIControler.WindowSize.X * 3 / 4, UIControler.WindowSize.Y / 2);
+        Position = new Vector2(UIControler.WindowSize.X * 11 / 15, UIControler.WindowSize.Y / 2);
     }
 
     // Called when the node enters the scene tree for the first time.

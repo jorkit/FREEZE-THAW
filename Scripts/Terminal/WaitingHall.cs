@@ -5,9 +5,18 @@ using static BigBro;
 
 public partial class WaitingHall : Node
 {
+    public static SubViewportContainer SelectingArea { get; set; }
+
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
+        SelectingArea = GetNodeOrNull<SubViewportContainer>("SelectingArea");
+        if (SelectingArea == null )
+        {
+            LogTool.DebugLogDump("SelectingArea not found!");
+            return;
+        }
+
         if (NetworkControler.IsMultiplayer == true)
         {
             /* Spawner must be added before playerContainer? and then set the SpawnPath */

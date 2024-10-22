@@ -40,6 +40,7 @@ public partial class Joystick : Sprite2D
                 return;
             }
         }
+        else
         {
             if (_uiContainer.character != PlayerControler.Player)
             {
