@@ -33,6 +33,19 @@ public partial class Joystick : Sprite2D
     /* Only respond to events that have not been consumed */
     public override void _UnhandledInput(InputEvent @event)
     {
+        if (NetworkControler.IsMultiplayer == true)
+        {
+            if (IsMultiplayerAuthority() == false)
+            {
+                return;
+            }
+        }
+        {
+            if (_uiContainer.character != PlayerControler.Player)
+            {
+                return;
+            }
+        }
         if (XBOXJoystickHandle(@event) == true)
         {
             return;
