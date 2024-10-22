@@ -22,8 +22,9 @@ public partial class SelectedArea : Node2D
             LogTool.DebugLogDump("MonsterSelectedImage not found!");
             return;
         }
+		Position = new Vector2(UIControler.WindowSize.X / 4, UIControler.WindowSize.Y / 2);
 
-		var texture = ResourceLoader.Load("res://Static/Animations/Character/Survivors/Mouse/MouseSelected.png") as Texture2D;
+        var texture = ResourceLoader.Load("res://Static/Animations/Character/Survivors/Mouse/MouseSelected.png") as Texture2D;
         SurvivorSelectedImage.Texture = texture;
         texture = ResourceLoader.Load("res://Static/Animations/Character/Monsters/Sandworm/Adonis_boss.png") as Texture2D;
         MonsterSelectedImage.Texture = texture;

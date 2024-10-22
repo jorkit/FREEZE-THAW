@@ -62,7 +62,6 @@ public partial class UIControler : Node2D
             return;
         }
         SelectingContainer.Visible = false;
-        SelectingContainer.Offset = new Vector2I(xStart, yStart);
     }
 
     // Called when the node enters the scene tree for the first time.

@@ -48,7 +48,7 @@ public partial class SelectList : Node2D
     {
 		if (@event is InputEventScreenTouch && @event.IsPressed())
 		{
-			if (!Draging)
+            if (!Draging)
 			{
 				Draging = true;
 				return;

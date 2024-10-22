@@ -21,7 +21,6 @@ public partial class CharacterItem : Sprite2D
             return;
         }
         Texture = TextureImage;
-        LogTool.DebugLogDump(Name + Position.ToString());
     }
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.

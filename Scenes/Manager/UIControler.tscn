@@ -169,7 +169,3 @@ script = ExtResource("7_8rtm1")
 [node name="SelectingContainer" type="CanvasLayer" parent="."]
 
 [node name="SelectingArea" parent="SelectingContainer" instance=ExtResource("11_mnbpb")]
-offset_left = -1756.0
-offset_top = -907.0
-offset_right = -164.0
-offset_bottom = -173.0
