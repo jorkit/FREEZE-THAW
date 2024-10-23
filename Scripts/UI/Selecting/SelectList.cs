@@ -46,7 +46,7 @@ public partial class SelectList : Node2D
 
     public override void _UnhandledInput(InputEvent @event)
     {
-		if (Visible == true && @event is InputEventScreenTouch && @event.IsPressed())
+		if (Visible == true && @event is InputEventScreenTouch && @event.IsReleased())
 		{
             if (!Draging)
 			{

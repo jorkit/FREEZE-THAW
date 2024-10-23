@@ -28,7 +28,7 @@ public partial class CharacterItem : Sprite2D
 	{
 	}
 
-    public override void _Input(InputEvent @event)
+    public override void _UnhandledInput(InputEvent @event)
     {
         if (((Node2D)GetParent()).Visible == false || (@event is not InputEventScreenTouch && @event is not InputEventScreenDrag))
         {
