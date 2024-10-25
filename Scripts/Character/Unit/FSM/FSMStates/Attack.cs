@@ -27,13 +27,13 @@ public partial class Attack : FSMState
         {
             return false;
         }
-        LogTool.DebugLogDump(Name + " EnterCondition!");
+        //LogTool.DebugLogDump(Name + " EnterCondition!");
 
         return true;
     }
     public override void OnEnter()
     {
-        LogTool.DebugLogDump(Name + " OnEnter!");
+        //LogTool.DebugLogDump(Name + " OnEnter!");
         Fsm.character.AnimatitionFinishedHandleRegiste(this);
         Fsm.character.Attack();
     }
@@ -57,12 +57,12 @@ public partial class Attack : FSMState
         {
             return false;
         }
-        LogTool.DebugLogDump(Name + " ExitCondition!");
+        //LogTool.DebugLogDump(Name + " ExitCondition!");
 
         return true;
     }
-    public override async void OnExit()
+    public override void OnExit()
     {
-        LogTool.DebugLogDump(Name + " OnExit!");
+        //LogTool.DebugLogDump(Name + " OnExit!");
     }
 }

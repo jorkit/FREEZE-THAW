@@ -112,11 +112,11 @@ public partial class FSM : Node
     {
         if (force == true && CurrentState.StateIndex != CharacterStateEnum.Die)
         {
-            LogTool.DebugLogDump("Force Change To " + newPreState.ToString());
+            //LogTool.DebugLogDump("Force Change To " + newPreState.ToString());
             PreState = newPreState;
             return;
         }
-        LogTool.DebugLogDump("Change To " + newPreState.ToString());
+        //LogTool.DebugLogDump("Change To " + newPreState.ToString());
         switch (newPreState)
         {
             case CharacterStateEnum.Idle:

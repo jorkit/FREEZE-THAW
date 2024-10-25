@@ -98,6 +98,36 @@ public partial class PlayerControler : Node
         */
     }
 
+    public static void MonsterEnter(string id)
+    {
+        if (NetworkControler.IsMultiplayer == true && NetworkControler.MultiplayerApi.IsServer() == false)
+        {
+            return;
+        }
+        Survivor player = null;
+        Monster monster = null;
+        for (int i = 0; i < PlayerContainer.Players.Count; i++)
+        {
+            if (PlayerContainer.Players[i].Id == id)
+            {
+                player = PlayerContainer.GetNodeOrNull<Survivor>(id);
+                if (player == null)
+                {
+                    LogTool.DebugLogDump("Survivor instance not found!");
+                    return;
+                }
+                monster = ResourceLoader.Load<PackedScene>(Character.CharacterPathList[PlayerContainer.Players[i].MonsterType]).InstantiateOrNull<Monster>();
+                monster.Name = player.Name;
+                monster.Position = player.Position;
+                monster.Hosting = player.Hosting;
+                if (NetworkControler.IsMultiplayer == false && monster.Name == "1")
+                    Player = monster;
+            }
+        }
+        player?.Free();
+        PlayerContainer.AddChild(monster);
+    }
+
     public static void PlayerTranslate(string id)
     {
         if (NetworkControler.IsMultiplayer == true && NetworkControler.MultiplayerApi.IsServer() == false)
@@ -111,7 +141,7 @@ public partial class PlayerControler : Node
         {
             if (PlayerContainer.Players[i].Id == Monster.Name)
             {
-                survivor = ResourceLoader.Load<PackedScene>(Character.CharacterImagePathList[PlayerContainer.Players[i].SurvivorType]).InstantiateOrNull<Survivor>();
+                survivor = ResourceLoader.Load<PackedScene>(Character.CharacterPathList[PlayerContainer.Players[i].SurvivorType]).InstantiateOrNull<Survivor>();
                 survivor.Name = Monster.Name;
                 survivor.Position = Monster.Position;
                 survivor.Hosting = Monster.Hosting;
@@ -126,7 +156,7 @@ public partial class PlayerControler : Node
                     LogTool.DebugLogDump("Survivor instance not found!");
                     return;
                 }
-                monster = ResourceLoader.Load<PackedScene>(Character.CharacterImagePathList[PlayerContainer.Players[i].MonsterType]).InstantiateOrNull<Monster>();
+                monster = ResourceLoader.Load<PackedScene>(Character.CharacterPathList[PlayerContainer.Players[i].MonsterType]).InstantiateOrNull<Monster>();
                 monster.Name = player.Name;
                 monster.Position = player.Position;
                 monster.Hosting = player.Hosting;

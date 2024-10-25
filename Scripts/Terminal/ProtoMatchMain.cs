@@ -4,6 +4,8 @@ using System;
 
 public partial class ProtoMatchMain : Node
 {
+    private Timer _timerGameOver;
+    private Timer _timerMonsterEnter;
     public override void _EnterTree()
     {
         var playerContainer = PlayerControler.PlayerContainer;
@@ -16,10 +18,16 @@ public partial class ProtoMatchMain : Node
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
 	{
-        var _timer = new Timer();
-        _timer.Timeout += TimerTimeOutHandler;
-        BigBro.bigBro.AddChild(_timer);
-        _timer.Start(300);
+        _timerGameOver = new Timer();
+        _timerGameOver.Timeout += TimerGameOverTimeOutHandler;
+        BigBro.bigBro.AddChild(_timerGameOver);
+        _timerGameOver.Start(300);
+
+        _timerMonsterEnter = new Timer();
+        _timerMonsterEnter.Timeout += TimerMonsterEnterTimeOutHandler;
+        BigBro.bigBro.AddChild(_timerMonsterEnter);
+        _timerMonsterEnter.Start(3);
+
         var player = PlayerContainer.Players.Find(item=>item.Id == "1");
         player.Hosting = true;
         PlayerContainer.Players[0] = player;
@@ -30,8 +38,14 @@ public partial class ProtoMatchMain : Node
 	{
 	}
 
-    private void TimerTimeOutHandler()
+    private void TimerGameOverTimeOutHandler()
     {
         SceneFSM.PreStateChange(BigBro.SceneFSM, SceneStateEnum.MatchSettlement, true);
+    }
+
+    private void TimerMonsterEnterTimeOutHandler()
+    {
+        PlayerControler.MonsterEnter(PlayerContainer.Players[3].Id);
+        _timerMonsterEnter.Stop();
     }
 }

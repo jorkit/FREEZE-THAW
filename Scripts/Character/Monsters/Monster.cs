@@ -106,6 +106,7 @@ public abstract partial class Monster : Character
         {
             if (survivor.GetCurrentState() == CharacterStateEnum.Freezed)
             {
+                LogTool.DebugLogDump("lueluelue");
                 return true;
             }
         }

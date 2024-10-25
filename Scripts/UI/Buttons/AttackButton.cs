@@ -168,7 +168,6 @@ public partial class AttackButton : Sprite2D
         {
             return;
         }
-        LogTool.DebugLogDump("ATB released!");
         Direction = _point.Position.Normalized();
         if (Direction == Vector2.Zero)
         {
@@ -209,7 +208,7 @@ public partial class AttackButton : Sprite2D
     [Rpc(mode: MultiplayerApi.RpcMode.AnyPeer, CallLocal = false, TransferMode = MultiplayerPeer.TransferModeEnum.UnreliableOrdered)]
     public void ReleaseHandlerRpc(Vector2 direction)
     {
-        LogTool.DebugLogDump(GetMultiplayerAuthority().ToString() + " receive Attack CMD from " + NetworkControler.MultiplayerApi.GetRemoteSenderId());
+        //LogTool.DebugLogDump(GetMultiplayerAuthority().ToString() + " receive Attack CMD from " + NetworkControler.MultiplayerApi.GetRemoteSenderId());
         Direction = direction;
         _uiContainer.character.AttackButtonPressedHandle();
     }
