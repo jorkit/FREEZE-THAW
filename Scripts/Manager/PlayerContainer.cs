@@ -192,8 +192,10 @@ public partial class PlayerContainer : Node
 				Player player = Players[i];
                 player.Score += score;
 				Players[i] = player;
+                return;
             }
         }
+        LogTool.DebugLogDump("Player[" + id + "] not found!");
     }
 
 	private void TimerTimeOutHandler()
@@ -208,7 +210,7 @@ public partial class PlayerContainer : Node
         }
         else
         {
-            //ScoreLabelUpdate();
+            ScoreLabelUpdate();
         }
     }
 
@@ -228,7 +230,7 @@ public partial class PlayerContainer : Node
     {
         Players = JsonConvert.DeserializeObject<List<Player>>(playersJson);
         NetworkControler.ReadyStatus = Players.Find(item => item.Id == GetMultiplayerAuthority().ToString()).Ready;
-        //ScoreLabelUpdate();
+        ScoreLabelUpdate();
     }
 
     private void ScoreLabelUpdate()
