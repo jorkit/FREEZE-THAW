@@ -34,6 +34,7 @@ public partial class PreparedArea : Node2D
 		}
 		for (int i = 0; i < players.Count; i++)
 		{
+			players[i].GetChild<Label>(0).Text = players[i].Name;
 			if (PlayerContainer.Players.Count < i + 1 )
 			{
                 ((TextureButton)players[i]).TextureNormal = ResourceLoader.Load("res://Static/UI/Joystick/摇杆.webp") as Texture2D;

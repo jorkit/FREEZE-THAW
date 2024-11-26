@@ -11,7 +11,7 @@ public partial class WaitingHall : Node
     public override void _Ready()
     {
         SelectingArea = GetNodeOrNull<SubViewportContainer>("SelectingArea");
-        if (SelectingArea == null )
+        if (SelectingArea == null)
         {
             LogTool.DebugLogDump("SelectingArea not found!");
             return;

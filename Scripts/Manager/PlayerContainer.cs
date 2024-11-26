@@ -18,9 +18,15 @@ public partial class PlayerContainer : Node
         public Character.CharacterTypeEnum MonsterType;
     }
     public static List<Player> Players { set; get; }
-	public int SCORE_INIT { set; get; }
+	private static int SCORE_INIT { set; get; }
+    private static int SCORE_ATTACK_ADD = 5;
+    private static int SCORE_ARMOR_ADD = 30;
+    private static int SCORE_FREE_ADD = 30;
+    private static int SCORE_SURVIVE_ADD = 50;
+    private static int SCORE_TOMONSTER_SUB = -20;
+    private static int SCORE_MONSTEREND_SUB = -50;
 
-	private static Timer _timer;
+    private static Timer _timer;
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
@@ -30,7 +36,6 @@ public partial class PlayerContainer : Node
         _timer = new();
         _timer.Timeout += TimerTimeOutHandler;
         GetParent().AddChild(_timer);
-        TimerStart();
 	}
 
     public override void _PhysicsProcess(double delta)
@@ -183,7 +188,7 @@ public partial class PlayerContainer : Node
         LogTool.DebugLogDump("Player not found!");
     }
 
-    public void ChangeScore(string id, int score)
+    public static void ScoreChange(string id, int score)
 	{
         for (int i = 0; i < Players.Count; i++)
         {
@@ -210,7 +215,8 @@ public partial class PlayerContainer : Node
         }
         else
         {
-            ScoreLabelUpdate();
+            //SurvivorAliveScoreAdd();
+            //ScoreLabelUpdate();
         }
     }
 
@@ -230,7 +236,72 @@ public partial class PlayerContainer : Node
     {
         Players = JsonConvert.DeserializeObject<List<Player>>(playersJson);
         NetworkControler.ReadyStatus = Players.Find(item => item.Id == GetMultiplayerAuthority().ToString()).Ready;
-        ScoreLabelUpdate();
+        //ScoreLabelUpdate();
+    }
+
+    private void SurvivorAliveScoreAdd()
+    {
+        for (int i = 0; i < Players.Count; i++)
+        {
+            var Player = GetNodeOrNull<Character>(Players[i].Id);
+            if (Player == null)
+            {
+                LogTool.DebugLogDump("Player[" + Players[i].Id + "]not found!");
+                return;
+            }
+            if (Player == PlayerControler.Monster || Player.GetCurrentState() >= CharacterStateEnum.Freezing)
+            {
+                return;
+            }
+            Player player = Players[i];
+            player.Score += 1;
+            Players[i] = player;
+        }
+    }
+
+    /* Score add */
+    public static void AttackScoreAdd(string id)
+    {
+        ScoreChange(id, SCORE_ATTACK_ADD);
+    }
+
+    public static void ArmorScoreAdd(string id)
+    {
+        ScoreChange(id, SCORE_ARMOR_ADD);
+    }
+
+    public static void FreeScoreAdd(string id)
+    {
+        ScoreChange(id, SCORE_FREE_ADD);
+    }
+
+    public static void SurviveScoreAdd()
+    {
+        for (int i = 0; i < Players.Count; i++)
+        {
+            if (PlayerControler.Players[i] != PlayerControler.Monster)
+            {
+                ScoreChange(PlayerControler.Players[i].Name, SCORE_SURVIVE_ADD);
+                continue;
+            }
+            MonsterEndScoreSub(PlayerControler.Players[i].Name);
+        }
+    }
+
+    /* Score subtract */
+    public static void SurvivorNotHealthyEndScoreSub()
+    {
+
+    }
+
+    public static void TranslateToMonsterSub(string id)
+    {
+        ScoreChange(id, SCORE_TOMONSTER_SUB);
+    }
+
+    public static void MonsterEndScoreSub(string id)
+    {
+        ScoreChange(id, SCORE_MONSTEREND_SUB);
     }
 
     private void ScoreLabelUpdate()

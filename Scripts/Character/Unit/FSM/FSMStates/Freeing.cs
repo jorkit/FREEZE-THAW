@@ -79,5 +79,6 @@ public partial class Freeing : FSMState
     public override void OnExit()
     {
         LogTool.DebugLogDump(Name + " OnExit!");
+        PlayerContainer.FreeScoreAdd(Fsm.character.Name);
     }
 }

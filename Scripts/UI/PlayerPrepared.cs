@@ -1,7 +1,6 @@
 using FreezeThaw.Utils;
 using Godot;
 using System;
-using System.Linq;
 
 public partial class PlayerPrepared : TextureButton
 {
@@ -15,6 +14,11 @@ public partial class PlayerPrepared : TextureButton
             Pressed += PressedHandler;
 			Added = false;
         }
+		var Label_Id = new Label();
+		Label_Id.Position = new Vector2(150, -100);
+		Label_Id.Text = Name;
+		Label_Id.Scale = new Vector2(3, 3);
+        AddChild(Label_Id);
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.

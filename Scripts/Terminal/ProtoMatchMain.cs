@@ -1,6 +1,5 @@
 using FreezeThaw.Utils;
 using Godot;
-using System;
 
 public partial class ProtoMatchMain : Node
 {
@@ -21,16 +20,16 @@ public partial class ProtoMatchMain : Node
         _timerGameOver = new Timer();
         _timerGameOver.Timeout += TimerGameOverTimeOutHandler;
         BigBro.bigBro.AddChild(_timerGameOver);
-        _timerGameOver.Start(300);
+        _timerGameOver.Start(30);
 
         _timerMonsterEnter = new Timer();
         _timerMonsterEnter.Timeout += TimerMonsterEnterTimeOutHandler;
         BigBro.bigBro.AddChild(_timerMonsterEnter);
         _timerMonsterEnter.Start(3);
 
-        var player = PlayerContainer.Players.Find(item=>item.Id == "1");
-        player.Hosting = true;
-        PlayerContainer.Players[0] = player;
+        //var player = PlayerContainer.Players.Find(item=>item.Id == "1");
+        //player.Hosting = true;
+        //PlayerContainer.Players[0] = player;
     }
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -40,6 +39,8 @@ public partial class ProtoMatchMain : Node
 
     private void TimerGameOverTimeOutHandler()
     {
+
+        PlayerContainer.SurviveScoreAdd();
         SceneFSM.PreStateChange(BigBro.SceneFSM, SceneStateEnum.MatchSettlement, true);
     }
 

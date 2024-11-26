@@ -4,7 +4,6 @@ using System;
 
 public abstract partial class Monster : Character
 {
-    private int ATTACK_SCORE = -20;
     public Area2D AttackArea { get; set; }
     public bool Hurting { get; set; }
     // Called when the node enters the scene tree for the first time.
@@ -38,7 +37,7 @@ public abstract partial class Monster : Character
             if (((Survivor)body).GetCurrentState() < CharacterStateEnum.Hurt)
             {
                 ((Survivor)body).Fsm.PreStateChange(CharacterStateEnum.Hurt, false);
-                PlayerControler.PlayerContainer.ChangeScore(body.Name, ATTACK_SCORE);
+                PlayerContainer.TranslateToMonsterSub(body.Name);
             }
         }
     }

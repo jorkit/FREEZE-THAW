@@ -53,12 +53,6 @@ public abstract partial class Bullet : Area2D
         {
             return;
         }
-        var playerContainer = PlayerControler.PlayerContainer;
-        if (playerContainer == null)
-        {
-            LogTool.DebugLogDump("PlayerContainer not found!");
-            return;
-        }
-        playerContainer.ChangeScore(Owner.Name, HitScore);
+        PlayerContainer.AttackScoreAdd(Owner.Name);
     }
 }

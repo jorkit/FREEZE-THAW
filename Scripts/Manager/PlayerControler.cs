@@ -79,23 +79,6 @@ public partial class PlayerControler : Node
         {
             PlayerContainer.Players.Remove(playerInfo);
         }
-        var quittedClient = PlayerContainer.GetNodeOrNull(id.ToString());
-        if (quittedClient == null)
-        {
-            LogTool.DebugLogDump("QuittedClient not found!");
-            return;
-        }
-        quittedClient.Free();
-        /*
-        for (int i = 0; i < PlayerContainer.Players.Count; i++)
-        {
-            if (PlayerContainer.Players[i].Id == id)
-            {
-                PlayerContainer.Players.RemoveAt(i);
-                break;
-            }
-        }
-        */
     }
 
     public static void MonsterEnter(string id)
@@ -120,6 +103,8 @@ public partial class PlayerControler : Node
                 monster.Name = player.Name;
                 monster.Position = player.Position;
                 monster.Hosting = player.Hosting;
+                Players[i] = monster;
+                Monster = monster;
                 if (NetworkControler.IsMultiplayer == false && monster.Name == "1")
                     Player = monster;
             }
@@ -145,6 +130,7 @@ public partial class PlayerControler : Node
                 survivor.Name = Monster.Name;
                 survivor.Position = Monster.Position;
                 survivor.Hosting = Monster.Hosting;
+                Players[i] = survivor;
                 if (NetworkControler.IsMultiplayer == false && survivor.Name == "1")
                     Player = survivor;
             }
@@ -160,6 +146,7 @@ public partial class PlayerControler : Node
                 monster.Name = player.Name;
                 monster.Position = player.Position;
                 monster.Hosting = player.Hosting;
+                Players[i] = monster;
                 if (NetworkControler.IsMultiplayer == false && monster.Name == "1")
                     Player = monster;
             }

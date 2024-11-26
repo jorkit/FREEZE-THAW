@@ -1,7 +1,5 @@
 using FreezeThaw.Utils;
 using Godot;
-using System;
-using System.IO;
 
 public partial class SceneOfWaitingHall : SceneFSMState
 {
@@ -44,6 +42,8 @@ public partial class SceneOfWaitingHall : SceneFSMState
         }
         BigBro.bigBro.AddChild(scene);
         BigBro.bigBro.MoveChild(scene, 0);
+
+        PlayerContainer.TimerStart();
     }
     public override bool ExitCondition()
     {
